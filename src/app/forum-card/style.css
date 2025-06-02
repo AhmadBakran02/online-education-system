@@ -1,0 +1,153 @@
+/* Main container */
+.forum-container {
+  /* max-width: 800px; */
+  margin: 20px auto;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+.empty-icon {
+  width: 60px;
+  height: 60px;
+  color: #6c757d;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: #343a40;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: #6c757d;
+  margin-bottom: 24px;
+}
+
+/* Topic cards styling */
+.topics-list {
+  display: grid;
+  gap: 20px;
+}
+
+.topic-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.topic-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-title {
+  margin: 0;
+  color: #212529;
+  font-size: 1.1rem;
+}
+
+.card-meta {
+  font-size: 0.8rem;
+  color: #6c757d;
+  display: block;
+  margin-top: 4px;
+}
+
+.card-body {
+  padding: 16px;
+  color: #495057;
+  line-height: 1.5;
+}
+
+.card-actions {
+  padding: 8px 16px;
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid #e9ecef;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+/* Answer section */
+.answer-section {
+  /* transform: scale(5); */
+  display: none;
+  
+  background: #f8f9fa;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  transition: 2s;
+}
+.active {
+  display: block;
+  /* height: 100px; */
+}
+
+.answer-input {
+  margin-bottom: 16px;
+}
+
+.answer-input textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 7px;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.answers-list {
+  /* margin-top: -10px; */
+}
+
+.answer {
+  background: white;
+  padding: 12px;
+  border-radius: 7px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+.primary-btn {
+  background: #4351af;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.primary-btn:hover {
+  background: #3b489a;
+}

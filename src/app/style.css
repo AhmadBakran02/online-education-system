@@ -1,0 +1,235 @@
+.all-home {
+  display: grid;
+  grid-template-areas: "header" "home-container";
+  background-color: var(--gray1);
+}
+
+@media (max-width: 767px) {
+  .all-home {
+    grid-template-areas: "header" "home-container home-container";
+    /* grid-template-columns: 30px calc(100%-30px); */
+  }
+  .lessons-container {
+    /* padding: 40px; */
+  }
+}
+@media (min-width: 768px) {
+  .all-home {
+    /* grid-template-columns: 80px 1fr; */
+  }
+}
+/* @media (min-width: 1023px) {
+  .all-home {
+    grid-template-columns: 256px 1fr;
+  }
+} */
+
+.home-container {
+  grid-area: home-container;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  place-self: center;
+  gap: 15px;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+}
+.img-con {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.img-back {
+  width: 100%;
+  height: 550px;
+  background-image: url("/images/pic2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 12px;
+  filter: blur(2px);
+  z-index: 5;
+  overflow: hidden;
+}
+
+.all-text {
+  width: 90%;
+  /* background-color: saddlebrown; */
+  overflow: hidden;
+  position: absolute;
+  text-align: center;
+  /* height: 50%; */
+  top: 110px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.big-text {
+  font-weight: 1000;
+  opacity: 0.8;
+  color: rgb(122, 120, 119);
+  text-transform: uppercase;
+  width: 90%;
+  font-size: 8vw;
+  line-height: 85%;
+  letter-spacing: 0.2cm;
+}
+
+.text {
+  color: var(--color-gray-500);
+  /* background-color: rebeccapurple; */
+  margin-top: 50px;
+  font-size: 15px;
+  width: 70%;
+  background-color: #eee;
+  border-radius: 8px;
+  padding: 20px 30px;
+  text-align: left;
+  /* filter: blur(1px); */
+  opacity: 0.8;
+}
+
+/* .text::after {
+  content: "skjkjkjda";
+  width: 100%;
+  height: 100%;
+} */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--mainBlue);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  z-index: 5;
+}
+
+.content h2 {
+  font-weight: 600;
+  margin-top: 0;
+  color: var(--mainBlue);
+}
+
+.content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--gray4);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.activitiesSection {
+  margin-bottom: 2rem;
+}
+
+.activityCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.activityCard {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid var(--mainBlue);
+}
+
+.activityCard h4 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.activityCard p {
+  color: #666;
+  margin-bottom: 0;
+}
+
+.newsSection {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.newsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.newsControls {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--mainBlue);
+  cursor: pointer;
+}
+
+.calendar {
+  margin-top: 1.5rem;
+}
+
+.calendarHeader {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.calendarGrid {
+  width: 100%;
+  /* background-color: saddlebrown; */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.4rem;
+}
+
+.calendarDay {
+  /* max-width: 250px; */
+  text-align: center;
+  padding: 0.75rem 0;
+  background-color: var(--color-gray-200);
+  border-radius: 4px;
+}
+
+.event {
+  border: 2px solid var(--mainBlue);
+  color: var(--mainBlue);
+}
+
+.diff {
+  color: var(--gray4);
+  background-color: #fafafa;
+}
+
+/* .event::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--mainBlue);
+  color: white;
+  margin-top: -7px;
+  margin-left: .1rem;
+} */

@@ -1,1 +1,7 @@
-<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier"> <title/> <g id="Complete"> <g id="F-File"> <g id="Text"> <g> <path d="M18,22H6a2,2,0,0,1-2-2V4A2,2,0,0,1,6,2h7.1a2,2,0,0,1,1.5.6l4.9,5.2A2,2,0,0,1,20,9.2V20A2,2,0,0,1,18,22Z" fill="none" id="File" stroke="#454545" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.064"/> <line fill="none" stroke="#454545" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.064" x1="7.9" x2="16.1" y1="17.5" y2="17.5"/> <line fill="none" stroke="#454545" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.064" x1="7.9" x2="16.1" y1="13.5" y2="13.5"/> <line fill="none" stroke="#454545" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.064" x1="8" x2="13" y1="9.5" y2="9.5"/> </g> </g> </g> </g> </g>
+</svg>
