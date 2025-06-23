@@ -1,0 +1,192 @@
+import { useEffect, useState } from "react";
+import "./style.css";
+import Image from "next/image";
+import { deletePost } from "./delete-post";
+import { EditPost } from "./Edit-post";
+// import { getFile, streamAndDownloadPdf } from "../api/get-file";
+// import { downloadPdf } from "../services/downloadService";
+import { Post } from "../../interfaces/type";
+// import VideoPlayer from "../show-video/page";
+
+export const PostCard = ({ title, article, _id, photoID }: Post) => {
+  const [message, setMessage] = useState<boolean>(false);
+
+  const [deletePic, setDeletePic] = useState<string>("./delete.svg");
+  const [editPic, setEditPic] = useState<string>("./edit.svg");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [showPost, setShowPost] = useState<boolean>(false);
+  const [editId, setEditId] = useState<string>("");
+  const [deleted, setDeleted] = useState<boolean>(false);
+  const [newTitle, setNewTitle] = useState<string>("");
+  const [newArticle, setNewArticle] = useState<string>("");
+
+  const [result, setResult] = useState<{
+    success?: boolean;
+    message?: string;
+  }>();
+
+  const handleDelete = async () => {
+    console.log(_id);
+    setLoadingDelete(true);
+    const success = await deletePost(_id);
+    if (success) {
+      setDeleted(true);
+      setLoadingDelete(false);
+      // window.location.reload();
+    }
+  };
+
+  useEffect(() => {
+    if (message) {
+      setMessage(true);
+      const timer = setTimeout(() => {
+        setMessage(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  const handleEdit = async () => {
+    setNewTitle(title);
+    setNewArticle(article);
+
+    setEditId(_id);
+    console.log(editId);
+    console.log(result);
+    setIsOpen(true);
+  };
+
+  const handleShow = async () => {
+    setShowPost(true);
+  };
+
+  const handleEditApi = async (e: React.FormEvent) => {
+    setIsLoading(true);
+    e.preventDefault();
+    try {
+      const response = await EditPost(_id, newTitle, newArticle, photoID);
+      setResult(response);
+
+      if (response.success) {
+        // setMessage(true);
+        window.location.reload();
+        console.log("Success:", response.message);
+      } else {
+        console.error("Error:", response.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
+
+  return (
+    <div
+      key={_id}
+      className={`post bg-white rounded-lg overflow-hidden ${
+        deleted ? "hid" : ""
+      }`}
+    >
+      <Image
+        src={`/images/pic2.jpg`}
+        alt={`Event ${_id}`}
+        width={200}
+        height={10}
+        className="object-cover w-full h-48"
+      />
+      <div className="post-body">
+        {/* <Link href={`post/${_id}`}> */}
+        <h3 onClick={handleShow} className="text-lg font-semibold post-title">
+          {title}
+        </h3>
+        {/* </Link> */}
+        <p className="text-sm text-gray-600 post-article">{article}</p>
+
+        <div className="two-button">
+          <button
+            className="edit-button"
+            onClick={() => handleEdit()}
+            onMouseEnter={() => setEditPic("./edit-white.svg")}
+            onMouseLeave={() => setEditPic("./edit.svg")}
+          >
+            <Image src={editPic} width={18} height={18} alt="" />
+            <span> Edit</span>
+          </button>
+          <button
+            onClick={() => handleDelete()}
+            className="delete-button"
+            onMouseEnter={() => setDeletePic("./delete-white.svg")}
+            onMouseLeave={() => setDeletePic("./delete.svg")}
+          >
+            <Image src={deletePic} width={20} height={20} alt="" />
+            <span>{loadingDelete ? "Deleting..." : "Delete"} </span>
+          </button>
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className="modal-overlay">
+          <div className="flow-card">
+            <form>
+              <div className="form-group">
+                <label>Title</label>
+                <input
+                  type="text"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Article</label>
+                <textarea
+                  value={newArticle}
+                  onChange={(e) => setNewArticle(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="button-group">
+                <button type="submit" onClick={handleEditApi}>
+                  {isLoading ? "Updating..." : "Submit"}
+                </button>
+                <button type="button" onClick={() => setIsOpen(false)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showPost && (
+        <div className="modal-overlay">
+          <div className="flow-card">
+            <form>
+              <div className="form-group">
+                <div className="lesson">
+                  <p>Title:</p>
+                  <p>{title}</p>
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="lesson">
+                  <p>article:</p>
+                  <p>{article}</p>
+                </div>
+              </div>
+              <div className="button-group">
+                <button type="button" onClick={() => setShowPost(false)}>
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

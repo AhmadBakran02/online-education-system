@@ -1,0 +1,154 @@
+
+
+
+.add-lesson h1 {
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.add-lesson h2 {
+  color: #3498db;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 15px 0 10px;
+}
+
+.add-lesson h3 {
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 20px 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Divider */
+.add-lesson hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+/* Form Elements */
+.add-lesson .form-group {
+  margin-bottom: 20px;
+}
+
+.add-lesson label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+.add-lesson input[type="text"],
+textarea,
+.file-upload {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d2d2d7;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: white;
+  transition: border-color 0.2s;
+}
+
+.add-lesson input[type="text"]:focus,
+textarea:focus {
+  /* outline: none;
+  border-color: #4351af;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); */
+  outline: 2px solid rgb(0, 0, 0);
+}
+
+.add-lesson textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* File Upload */
+.add-lesson .file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* cursor: pointer; */
+}
+
+.add-lesson .file-upload input[type="file"] {
+  /* display: none; */
+}
+
+.add-lesson .file-upload-text {
+  color: #666;
+}
+
+.file-footer {
+  display: flex;
+  gap: 15px;
+}
+
+.file-upload-button {
+  background-color: #f0f0f5;
+  border: 1px solid #d2d2d7;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.select select {
+  margin: 10px auto;
+  border-radius: 6px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 100%;
+  height: 60px;
+  padding: 9px;
+  font-size: 13px;
+}
+
+.select select:focus {
+  outline: 2px solid rgb(0, 0, 0);
+}
+
+/* Buttons */
+.add-lesson .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.add-lesson .button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 15px;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.add-lesson .button-secondary {
+  background-color: #f0f0f5;
+  color: #2c3e50;
+}
+
+.add-lesson .button-secondary:hover {
+  background-color: #e5e5ea;
+}
+
+.button-primary {
+  background-color: #4351af;
+  color: white;
+}
+
+.add-lesson .button-primary:hover {
+  background-color: #3b489a;
+}
+
+footer {
+  grid-area: footer;
+}

@@ -78,3 +78,40 @@ body {
 .btn:hover {
   background-color: rgb(59, 72, 154);
 }
+.all-x {
+  display: grid;
+  grid-template-areas: "aside header" "aside x-container" "aside footer";
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
+
+.x-container {
+  background-color: #fafafa;
+  grid-area: x-container;
+  padding: 45px;
+  /* min-height: 100vh; */
+}
+footer {
+  grid-area: footer;
+  /* bottom: -100px; */
+}
+
+@media (max-width: 767px) {
+  .all-x {
+    grid-template-areas: "aside header" "x-container x-container" "footer footer";
+    grid-template-columns: 30px calc(100%-30px);
+  }
+  .x-container {
+    padding: 40px;
+  }
+}
+@media (max-width: 1022px) {
+  .all-x {
+    grid-template-columns: 80px 1fr;
+  }
+}
+@media (min-width: 1023px) {
+  .all-x {
+    grid-template-columns: 256px 1fr;
+  }
+}

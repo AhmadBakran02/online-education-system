@@ -1,0 +1,135 @@
+.lessons-container .lessons-header h3 {
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.lessons-container .lessons-header p {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgb(115, 115, 115);
+}
+
+.lessons-container .lessons-search {
+  display: flex;
+  margin-top: 15px;
+  gap: 15px;
+}
+
+/*##################---select-section--##################*/
+
+.lessons-container .select-section ul li:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+}
+
+.lessons-container .lessons-main {
+  width: 100%;
+  display: grid;
+  padding-top: 30px;
+  gap: 15px;
+}
+
+@media (min-width: 0px) and (max-width: 620px) {
+  .lessons-container .lessons-main {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media (min-width: 621px) and (max-width: 767px) {
+  .lessons-container .lessons-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1080px) {
+  .lessons-container .lessons-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1081px) {
+  .lessons-container .lessons-main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.lessons-container .lessons-main h3 {
+  margin-top: 60px;
+  font-weight: 300;
+  color: rgba(115, 115, 115, 0.564);
+}
+
+.select-task {
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+}
+.tabs button {
+  padding: 5px 12px;
+  flex: 0.5;
+  color: rgb(115, 115, 115);
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+@media (max-width: 573px) {
+  .tabs {
+    flex-wrap: wrap;
+  }
+  .tabs button {
+    flex: 1;
+    min-width: 100%;
+  }
+}
+
+.tabs button:hover {
+  background-color: rgb(255, 255, 255);
+}
+.tabs button.active {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+/* HTML: <div class="loader"></div> */
+
+.post {
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+}
+
+.post:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post .post-body {
+  padding: 15px;
+  /* background-color: rebeccapurple; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.post .post-body .post-title {
+  /* background-color: salmon; */
+  margin-top: 0;
+  cursor: pointer;
+}
+.post .post-body .post-article {
+  /* background-color: seagreen; */
+  align-self: self-start;
+}

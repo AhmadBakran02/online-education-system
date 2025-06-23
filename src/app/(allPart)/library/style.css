@@ -1,0 +1,77 @@
+
+/* .library-container {
+  background-color: #fafafa;
+  grid-area: library-container;
+  padding: 15px;
+} */
+
+
+.library-container .resource-tabs h1 {
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.library-container .resource-tabs p {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgb(115, 115, 115);
+}
+
+.library-container .lessons-search input {
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.library-container .lessons-search input::placeholder {
+  font-size: 13px;
+}
+
+.library-container .lessons-search input:focus {
+  outline: 2px solid rgb(0, 0, 0);
+}
+/* Additional styles for the library page */
+
+.books-grid {
+  /* width: 100%; */
+  display: grid;
+  padding-top: 30px;
+  gap: 15px;
+  /* background-color: saddlebrown; */
+  /* grid-template-columns: repeat(3, 1fr); */
+}
+
+@media (min-width: 0px) and (max-width: 620px) {
+  .books-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media (min-width: 621px) and (max-width: 767px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1080px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1081px) {
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.help-section {
+  margin-top: 40px;
+  text-align: center;
+  color: #7f8c8d;
+}
