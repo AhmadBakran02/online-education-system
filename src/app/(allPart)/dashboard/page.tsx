@@ -3,12 +3,12 @@
 import Link from "next/link";
 import "./style.css";
 import { useCallback, useEffect } from "react";
-import { ForumCard } from "../forum-card/forum-card";
+import { ForumCard } from "../../../components/forum-card/forum-card";
 import { useState } from "react";
 
-import { Card } from "../lessons-card/lessons-card";
+import { Card } from "../../../components/lessons-card/lessons-card";
 // import Calendar from "react-calendar";
-import Loading from "../loading/Loading";
+import Loading from "../../../components/loading/Loading";
 import { LessonsType } from "../../interfaces/type";
 
 interface NumPage {

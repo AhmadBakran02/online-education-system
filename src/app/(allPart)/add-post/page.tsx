@@ -1,17 +1,19 @@
 "use client";
 import "./style.css";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import Success from "../Success/success-text";
-import { AddPost } from "../../interfaces/type";
+// import { AddPost } from "../../interfaces/type";
 
 export default function AddPosts() {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/login";
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     window.location.href = "/login";
+  //   }
+  // }, []);
   const [photo, setPhoto] = useState<File | null>(null);
+  const [titleValue, setTitleValue] = useState<string>("");
+  const [articleValue, setArticleValue] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -19,72 +21,18 @@ export default function AddPosts() {
   // const [loading, setLoading] = useState<boolean>(false);
   // const [path, setPath] = useState<string>("");
 
-  const [fileInformation, setFileInformation] = useState<AddPost>({
-    title: "",
-    article: "",
-    photoID: "",
-  });
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setPhoto(e.target.files[0]);
     }
   };
+
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent default form behavior (if inside a form)
-    setFileInformation({
-      title: "",
-      article: "",
-      photoID: "",
-    });
+    setTitleValue("");
+    setArticleValue("");
     setPhoto(null); // Clear selected file (optional)
   };
-
-   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFileInformation((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // const uploadLesson = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "https://online-education-system-quch.onrender.com/lesson/add",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           token: localStorage.getItem("token") || "",
-  //         },
-  //         body: JSON.stringify(fileInformation),
-  //       }
-  //     );
-
-  //     // const data = await response.json();
-  //     const data = await response.json();
-  //     console.log(data.massage);
-  //     if (!response.ok) {
-  //       throw new Error(data.error || "Login failed");
-  //     }
-
-  //     // Handle successful login
-  //     setSuccess(true);
-  //     console.log("ssss");
-  //   } catch (err) {
-  //     // console.log(err);
-  //     setError(err instanceof Error ? err.message : "Sign up failed");
-  //   } finally {
-  //     // console.log("6666");
-  //     setLoading(false);
-  //     setIsUploading(false);
-  //   }
-  // };
 
   const uploadPhoto = async () => {
     if (!photo) {
@@ -139,17 +87,22 @@ export default function AddPosts() {
     setIsUploading(true);
     console.log("start");
     try {
-      // First upload the PDF
+      // First upload the Photo
       const photoUploadSuccess = await uploadPhoto();
-      // console.log(photoUploadSuccess);
-      // console.log(path);
+
       if (photoUploadSuccess == "") return;
-      setFileInformation((prev) => ({
-        ...prev,
-        photoID: photoUploadSuccess,
-      }));
+
+      // setFileInformation((prev) => ({
+      //   ...prev,
+      //   photoID: photoUploadSuccess,
+      // }));
+
       console.log("start-2");
-      // console.log(path);
+      // console.log(photoUploadSuccess);
+      // console.log(fileInformation);
+      console.log(titleValue);
+      console.log(articleValue);
+      console.log(photoUploadSuccess);
       const response = await fetch(
         "https://online-education-system-quch.onrender.com/post",
         {
@@ -158,7 +111,11 @@ export default function AddPosts() {
             "Content-Type": "application/json",
             token: localStorage.getItem("token") || "",
           },
-          body: JSON.stringify(fileInformation),
+          body: JSON.stringify({
+            title: titleValue,
+            article: articleValue,
+            photoID: photoUploadSuccess,
+          }),
         }
       );
 
@@ -201,19 +158,19 @@ export default function AddPosts() {
           type="text"
           id="title"
           name="title"
-          value={fileInformation.title}
-          onChange={handleChange}
+          value={titleValue}
+          onChange={(e) => setTitleValue(e.target.value)}
           placeholder="Enter post title (e.g., 'Math Olympiad Registration Now Open!')"
         />
       </div>
-      {/* --------------- Description --------------- */}
+      {/* --------------- Article --------------- */}
       <div className="form-group">
         <label htmlFor="lesson-description">Article</label>
         <textarea
           name="article"
           id="article"
-          value={fileInformation.article}
-          onChange={(e) => handleChange(e)}
+          value={articleValue}
+          onChange={(e) => setArticleValue(e.target.value)}
           placeholder="Provide details about the events or activities and content"
         ></textarea>
       </div>

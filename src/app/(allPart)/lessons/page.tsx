@@ -1,8 +1,8 @@
 "use client";
 import "./style.css";
-import { Card } from "../lessons-card/lessons-card";
+import { Card } from "../../../components/lessons-card/lessons-card";
 import { useEffect, useState, useCallback } from "react";
-import Loading from "../loading/Loading";
+import Loading from "../../../components/loading/Loading";
 import { LessonsType } from "../../interfaces/type";
 
 interface NumPage {

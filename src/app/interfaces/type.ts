@@ -28,11 +28,12 @@ export interface Post {
   postedBy: string;
   title: string;
   article: string;
+  photoUrl: string;
   photoID: string;
   __v: number;
+  editPost: boolean;
 }
 export interface AddPost {
-
   title: string;
   article: string;
   photoID: string;

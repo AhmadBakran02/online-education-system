@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { BookCard } from "../bookCard/BookCard";
+import { BookCard } from "../../../components/bookCard/BookCard";
 import "./style.css";
 
 export default function Library() {

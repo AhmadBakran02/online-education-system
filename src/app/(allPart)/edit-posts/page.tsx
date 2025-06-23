@@ -1,28 +1,19 @@
 "use client";
 import "./style.css";
-// import { Card } from "../lessons-card/lessons-card";
 import { useEffect, useState, useCallback } from "react";
-import Loading from "../loading/Loading";
-// import { LessonsType } from "../../interfaces/type";
+// import Loading from "@/components/loading/Loading";
 import { GetPost } from "../../interfaces/type";
-// import Image from "next/image";
-// import Link from "next/link";
-import { PostCard } from "../post-card/post-card";
+import { PostCard } from "@/components/post-card/post-card";
 
-// interface NumPage {
-//   page: string;
-//   limit: string;
-// }
-
-export default function DeletePosts() {
-  const [postsItems, setPostsItems] = useState<GetPost[]>([]);
+export default function EditePosts() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({}); // { photoID: url }
+  const [postItems, setPostItems] = useState<GetPost[]>([]);
 
   const handleGetAllPost = useCallback(async () => {
     setLoading(true);
     setError(null);
-    console.log(error);
 
     try {
       const token = localStorage.getItem("token") || "";
@@ -45,8 +36,8 @@ export default function DeletePosts() {
       }
 
       const data = await response.json();
-      setPostsItems(data.posts);
-      return data;
+      setPostItems(data.posts);
+      return data.posts;
     } catch (error) {
       console.error("Request failed:", error);
       setError(error instanceof Error ? error.message : "Request failed");
@@ -54,11 +45,68 @@ export default function DeletePosts() {
     } finally {
       setLoading(false);
     }
-  }, [error]); // Empty dependency array since we don't use any external values
+  }, []);
+
+  // Fetch photo URLs for all posts
+  const fetchPhotoUrls = useCallback(async (posts: GetPost[]) => {
+    try {
+      const token = localStorage.getItem("token") || "";
+      const urls: Record<string, string> = {};
+
+      // Process posts with photoIDs in parallel
+      await Promise.all(
+        posts.map(async (post) => {
+          if (!post.photoID) return;
+
+          try {
+            const response = await fetch(
+              `https://online-education-system-quch.onrender.com/file?fileID=${post.photoID}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  token,
+                },
+              }
+            );
+
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType?.startsWith("image/")) {
+              throw new Error("Received data is not an image");
+            }
+
+            const blob = await response.blob();
+            urls[post.photoID] = URL.createObjectURL(blob);
+            console.log(urls[post.photoID]);
+          } catch (err) {
+            console.error(`Error fetching photo ${post.photoID}:`, err);
+            // Fallback to default image if there's an error
+            urls[post.photoID] = "/images/pic2.jpg";
+          }
+        })
+      );
+
+      setPhotoUrls(urls);
+      console.log(urls);
+    } catch (error) {
+      console.error("Error in fetchPhotoUrls:", error);
+    }
+  }, []);
 
   useEffect(() => {
-    handleGetAllPost();
-  }, [handleGetAllPost]);
+    const fetchData = async () => {
+      try {
+        const posts = await handleGetAllPost();
+        await fetchPhotoUrls(posts);
+      } catch (error) {
+        console.error("Initialization error:", error);
+      }
+    };
+
+    fetchData();
+  }, [handleGetAllPost, fetchPhotoUrls]);
 
   return (
     <div className="lessons-container">
@@ -68,34 +116,36 @@ export default function DeletePosts() {
       </div>
 
       <div className="lessons-main">
-        {loading && <Loading />}
-        {!loading && postsItems.length > 0
-          ? postsItems.map((index) => (
+        {loading &&
+          [1, 2, 3, 4, 5].map((index) => (
+            <PostCard
+              key={index.toString()}
+              _id={index.toString()}
+              postedBy={""}
+              title={"Loading..."}
+              article={"Loading content..."}
+              photoUrl={""}
+              __v={0}
+              editPost={false}
+              photoID={""}
+            />
+          ))}
+        {error && <div className="error-message">{error}</div>}
+        {!loading && postItems.length > 0
+          ? postItems.map((post) => (
               <PostCard
-                key={index._id}
-                _id={index._id}
-                title={index.title}
-                article={index.article}
+                key={post._id}
+                _id={post._id}
+                title={post.title}
+                article={post.article}
                 postedBy={""}
-                photoID={index.photoID}
+                photoUrl={photoUrls[post.photoID]}
                 __v={0}
+                editPost={true}
+                photoID={post.photoID}
               />
             ))
-          : !loading && (
-              <h3>No posts found.</h3>
-            )}
-        {/* {!loading &&
-          postsItems.map((index) => (
-            <PostCard
-              key={index._id}
-              _id={index._id}
-              title={index.title}
-              article={index.article}
-              postedBy={""}
-              photoID={index.photoID}
-              __v={0}
-            />
-          ))} */}
+          : !loading && <h3>No posts found.</h3>}
       </div>
     </div>
   );

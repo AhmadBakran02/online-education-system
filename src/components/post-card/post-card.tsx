@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./style.css";
 import Image from "next/image";
 import { deletePost } from "./delete-post";
 import { EditPost } from "./Edit-post";
-// import { getFile, streamAndDownloadPdf } from "../api/get-file";
-// import { downloadPdf } from "../services/downloadService";
-import { Post } from "../../interfaces/type";
-// import VideoPlayer from "../show-video/page";
+import { Post } from "@/app/interfaces/type";
 
-export const PostCard = ({ title, article, _id, photoID }: Post) => {
-  const [message, setMessage] = useState<boolean>(false);
-
+export const PostCard = ({
+  title,
+  article,
+  _id,
+  photoID,
+  photoUrl,
+  editPost,
+}: Post) => {
   const [deletePic, setDeletePic] = useState<string>("./delete.svg");
   const [editPic, setEditPic] = useState<string>("./edit.svg");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,17 +39,6 @@ export const PostCard = ({ title, article, _id, photoID }: Post) => {
       // window.location.reload();
     }
   };
-
-  useEffect(() => {
-    if (message) {
-      setMessage(true);
-      const timer = setTimeout(() => {
-        setMessage(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
 
   const handleEdit = async () => {
     setNewTitle(title);
@@ -81,9 +72,15 @@ export const PostCard = ({ title, article, _id, photoID }: Post) => {
       setIsLoading(false);
     }
   };
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
-
+  function isValidUrl(string: string) {
+    try {
+      new URL(string);
+      return true;
+    } catch  {
+      return false;
+    }
+  }
+  console.log(photoUrl);
   return (
     <div
       key={_id}
@@ -92,40 +89,43 @@ export const PostCard = ({ title, article, _id, photoID }: Post) => {
       }`}
     >
       <Image
-        src={`/images/pic2.jpg`}
+        src={photoUrl && isValidUrl(photoUrl) ? photoUrl : "/images/pic2.jpg"}
         alt={`Event ${_id}`}
         width={200}
-        height={10}
+        height={200}
         className="object-cover w-full h-48"
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = "/images/pic2.jpg";
+        }}
       />
       <div className="post-body">
-        {/* <Link href={`post/${_id}`}> */}
         <h3 onClick={handleShow} className="text-lg font-semibold post-title">
           {title}
         </h3>
-        {/* </Link> */}
         <p className="text-sm text-gray-600 post-article">{article}</p>
 
-        <div className="two-button">
-          <button
-            className="edit-button"
-            onClick={() => handleEdit()}
-            onMouseEnter={() => setEditPic("./edit-white.svg")}
-            onMouseLeave={() => setEditPic("./edit.svg")}
-          >
-            <Image src={editPic} width={18} height={18} alt="" />
-            <span> Edit</span>
-          </button>
-          <button
-            onClick={() => handleDelete()}
-            className="delete-button"
-            onMouseEnter={() => setDeletePic("./delete-white.svg")}
-            onMouseLeave={() => setDeletePic("./delete.svg")}
-          >
-            <Image src={deletePic} width={20} height={20} alt="" />
-            <span>{loadingDelete ? "Deleting..." : "Delete"} </span>
-          </button>
-        </div>
+        {editPost && (
+          <div className="two-button">
+            <button
+              className="edit-button"
+              onClick={() => handleEdit()}
+              onMouseEnter={() => setEditPic("./edit-white.svg")}
+              onMouseLeave={() => setEditPic("./edit.svg")}
+            >
+              <Image src={editPic} width={18} height={18} alt="" />
+              <span> Edit</span>
+            </button>
+            <button
+              onClick={() => handleDelete()}
+              className="delete-button"
+              onMouseEnter={() => setDeletePic("./delete-white.svg")}
+              onMouseLeave={() => setDeletePic("./delete.svg")}
+            >
+              <Image src={deletePic} width={20} height={20} alt="" />
+              <span>{loadingDelete ? "Deleting..." : "Delete"} </span>
+            </button>
+          </div>
+        )}
       </div>
 
       {isOpen && (
@@ -167,19 +167,39 @@ export const PostCard = ({ title, article, _id, photoID }: Post) => {
           <div className="flow-card">
             <form>
               <div className="form-group">
-                <div className="lesson">
-                  <p>Title:</p>
+                <p className="image-post-show">
+                  <Image
+                    src={
+                      photoUrl && isValidUrl(photoUrl)
+                        ? photoUrl
+                        : "/images/pic2.jpg"
+                    }
+                    alt={`Event ${_id}`}
+                    width={200}
+                    height={200}
+                    className="image-show object-cover w-full h-48"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/images/pic2.jpg";
+                    }}
+                  />
+                </p>
+                <div className="post-title-show">
+                  {/* <p>Title:</p> */}
                   <p>{title}</p>
                 </div>
               </div>
               <div className="form-group">
-                <div className="lesson">
-                  <p>article:</p>
+                <div className="post-article-show">
+                  {/* <p>article:</p> */}
                   <p>{article}</p>
                 </div>
               </div>
               <div className="button-group">
-                <button type="button" onClick={() => setShowPost(false)}>
+                <button
+                  className="button-show"
+                  type="button"
+                  onClick={() => setShowPost(false)}
+                >
                   Close
                 </button>
               </div>

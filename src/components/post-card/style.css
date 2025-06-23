@@ -1,23 +1,47 @@
-.card {
-  background-color: #ffffff;
-  min-width: 250px;
-  height: 130px;
-  border-radius: 8px;
+.post {
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  transition: 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+}
+
+.post:hover {
+  /* transform: translateY(-4px); */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post .post-body {
   padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  flex: 1;
-  transition: transform 0.2s;
+  height: 100%;
+}
+.post .post-body .post-title {
+  margin-top: -5px;
+  color: var(--mainBlue);
+  cursor: pointer;
+}
+.post .post-body .post-title:hover {
+  text-decoration: underline;
 }
 
-/* .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-} */
+.post .post-body .post-article {
+  text-align: left;
+
+  width: 100%;
+  height: 40px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Number of lines before truncation */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .header-card {
   width: 100%;
@@ -48,21 +72,20 @@
   display: none;
 }
 
-.card h2 {
+/* .post h2 {
   align-self: start;
   font-weight: 500;
   color: black;
   max-height: 30px;
   max-width: 100%;
-  /* background-color: saddlebrown; */
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1; /* Number of lines before truncation */
+  line-clamp: 1; 
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
-.card button {
+.post button {
   color: #454545;
   background-color: #f0f0f0;
   cursor: pointer;
@@ -71,7 +94,7 @@
   height: 35px;
   border-radius: 6px;
   font-size: 14px;
-  transition: 0.3s background-color;
+  transition: 0.4s background-color, color;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,26 +102,11 @@
   cursor: pointer;
 }
 
-.card .edit-button:hover {
+.post .edit-button:hover {
   background-color: #e6e6e6;
 }
-.card .add:hover {
+.post .delete-button:hover {
   background-color: #e6e6e6;
-}
-.card .delete-button:hover {
-  background-color: #e6e6e6;
-}
-.card .show-lesson:hover {
-  background-color: #e6e6e6;
-}
-
-.card .is-in::after {
-  content: "This lesson on your library";
-  display: block;
-  position: absolute;
-  background-color: #f0f0f0;
-  width: 150px;
-  cursor: not-allowed;
 }
 
 .two-button {
@@ -137,7 +145,7 @@
 
 /* edit */
 
-@import "tailwindcss";
+/* @import "tailwindcss"; */
 
 /* Container */
 .flow-container {
@@ -181,8 +189,15 @@
   padding: 20px;
   border-radius: 8px;
   width: 100%;
+  /* min-height: 400px; */
   max-width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flow-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .flow-card h3 {
@@ -255,4 +270,23 @@
   /* color: red; */
   font-weight: bold;
   font-size: 18px;
+}
+
+.image-show {
+  border-radius: 6px;
+}
+.post-title-show {
+  /* background-color: #454545; */
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+.post-article-show {
+  color: var(--gray4);
+  margin-bottom: 15px;
+}
+
+.button-show:hover {
+  background-color: #dfdfdf;
 }

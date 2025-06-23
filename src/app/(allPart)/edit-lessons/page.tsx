@@ -1,9 +1,9 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import "./style.css";
-import { Card } from "../lessons-card/lessons-card";
-import Loading from "../loading/Loading";
-import {  NumPage } from "../../interfaces/type";
+import { Card } from "../../../components/lessons-card/lessons-card";
+import Loading from "../../../components/loading/Loading";
+import { NumPage } from "../../interfaces/type";
 import { getAllLessons } from "../../api/lesson-get-my";
 
 export default function Edit() {

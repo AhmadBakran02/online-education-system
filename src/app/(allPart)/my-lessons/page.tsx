@@ -1,8 +1,8 @@
 "use client";
-import { Card } from "../lessons-card/lessons-card";
+import { Card } from "../../../components/lessons-card/lessons-card";
 import "./style.css";
 import { useEffect, useState, useCallback } from "react";
-import Loading from "../loading/Loading";
+import Loading from "../../../components/loading/Loading";
 import { LessonsType, NumPage } from "../../interfaces/type";
 
 export default function MyLessons() {

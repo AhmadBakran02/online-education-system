@@ -6,7 +6,7 @@ import DeleteFormMyLessons from "./delete-lessos";
 import { EditLesson } from "./EditLesson";
 // import { getFile, streamAndDownloadPdf } from "../api/get-file";
 // import { downloadPdf } from "../services/downloadService";
-import { TypeOfParamsCard } from "../../interfaces/type";
+import { TypeOfParamsCard } from "../../app/interfaces/type";
 // import VideoPlayer from "../show-video/page";
 
 export const Card = ({

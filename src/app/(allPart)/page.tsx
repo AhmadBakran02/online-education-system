@@ -8,16 +8,18 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useEffect, useState, useCallback } from "react";
 import { GetPost } from "./../interfaces/type";
+import { PostCard } from "@/components/post-card/post-card";
 
 export default function Home() {
-  const [postsItems, setPostsItems] = useState<GetPost[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [postItems, setPostItems] = useState<GetPost[]>([]);
+  // const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({}); // { photoID: url }
 
+  // Fetch all posts
   const handleGetAllPost = useCallback(async () => {
     setLoading(true);
-    setError(null);
-    console.log(error);
+    // setError(null);
 
     try {
       const token = localStorage.getItem("token") || "";
@@ -40,25 +42,82 @@ export default function Home() {
       }
 
       const data = await response.json();
-      setPostsItems(data.posts);
-      return data;
+      setPostItems(data.posts);
+      return data.posts;
     } catch (error) {
       console.error("Request failed:", error);
-      setError(error instanceof Error ? error.message : "Request failed");
+      // setError(error instanceof Error ? error.message : "Request failed");
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [error]); // Empty dependency array since we don't use any external values
+  }, []);
+
+  // Fetch photo URLs for all posts
+  const fetchPhotoUrls = useCallback(async (posts: GetPost[]) => {
+    try {
+      const token = localStorage.getItem("token") || "";
+      const urls: Record<string, string> = {};
+
+      // Process posts with photoIDs in parallel
+      await Promise.all(
+        posts.map(async (post) => {
+          if (!post.photoID) return;
+
+          try {
+            const response = await fetch(
+              `https://online-education-system-quch.onrender.com/file?fileID=${post.photoID}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  token,
+                },
+              }
+            );
+
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType?.startsWith("image/")) {
+              throw new Error("Received data is not an image");
+            }
+
+            const blob = await response.blob();
+            urls[post.photoID] = URL.createObjectURL(blob);
+            console.log(urls[post.photoID]);
+          } catch (err) {
+            console.error(`Error fetching photo ${post.photoID}:`, err);
+            // Fallback to default image if there's an error
+            urls[post.photoID] = "/images/pic2.jpg";
+          }
+        })
+      );
+
+      setPhotoUrls(urls);
+      console.log(urls);
+    } catch (error) {
+      console.error("Error in fetchPhotoUrls:", error);
+    }
+  }, []);
 
   useEffect(() => {
-    handleGetAllPost();
-  }, [handleGetAllPost]);
+    const fetchData = async () => {
+      try {
+        const posts = await handleGetAllPost();
+        await fetchPhotoUrls(posts);
+        // console.log(photoUrls);
+      } catch (error) {
+        console.error("Initialization error:", error);
+      }
+    };
+
+    fetchData();
+  }, [handleGetAllPost, fetchPhotoUrls]);
 
   return (
     <div className="all-home">
       <div className="headd"></div>
-      {/* <main className="home-container"> */}
       <div className="min-h-screen bg-gray-50 text-gray-900">
         {/* Hero Section */}
         <section className="relative h-[500px] w-full">
@@ -92,62 +151,69 @@ export default function Home() {
                 breakpoints={{
                   320: { slidesPerView: 1 },
                   640: { slidesPerView: 2 },
-                  1024: { slidesPerView: 3 },
+                  1024: { slidesPerView: 2 },
                 }}
               >
                 {!loading &&
-                  postsItems.map((index) => (
-                    <SwiperSlide key={index._id}>
-                      <div
-                        key={index._id}
-                        className="bg-white rounded-lg overflow-hidden"
-                      >
+                  postItems.map((post) => (
+                    <SwiperSlide key={post._id}>
+                      {/* <div className="bg-white rounded-lg overflow-hidden">
                         <Image
-                          src={`/images/pic2.jpg`}
-                          alt={`Event ${index}`}
+                          src={
+                            post.photoID
+                              ? photoUrls[post.photoID] || "/images/pic2.jpg"
+                              : "/images/pic2.jpg"
+                          }
+                          alt={`Event ${post.title}`}
                           width={600}
                           height={400}
                           className="object-cover w-full h-48"
                         />
                         <div className="p-4">
                           <h3 className="text-lg font-semibold mb-2">
-                            {index.title}
+                            {post.title}
                           </h3>
                           <p className="text-sm text-gray-600">
-                            {index.article}
+                            {post.article}
                           </p>
                         </div>
-                      </div>
+                      </div> */}
+                      <PostCard
+                        _id={post._id}
+                        postedBy={""}
+                        title={post.title}
+                        article={post.article}
+                        photoUrl={photoUrls[post.photoID]}
+                        __v={0}
+                        editPost={false}
+                        photoID={post.photoID}
+                      />
                     </SwiperSlide>
                   ))}
 
                 {loading &&
                   [1, 2, 3, 4, 5].map((index) => (
                     <SwiperSlide key={index}>
-                      <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md overflow-hidden"
-                      >
-                        <Image
-                          src={`/images/pic2.jpg`}
-                          alt={`Event ${index}`}
-                          width={600}
-                          height={400}
-                          className="object-cover w-full h-48"
-                        />
-                        <div className="p-4">
-                          <h3 className="text-lg font-semibold mb-2">
-                            {index}
-                          </h3>
-                          <p className="text-sm text-gray-600">{index}</p>
-                        </div>
-                      </div>
+                      <PostCard
+                        key={index.toString()}
+                        _id={index.toString()}
+                        postedBy={""}
+                        title={"Loading..."}
+                        article={"Loading content..."}
+                        photoUrl={""}
+                        __v={0}
+                        editPost={false}
+                        photoID={""}
+                      />
                     </SwiperSlide>
                   ))}
               </Swiper>
             </div>
           </div>
         </section>
+
+        {/* Rest of your existing calendar and news sections */}
+        {/* ... */}
 
         {/* School Calendar */}
         <section className="py-12 px-4 md:px-16 bg-gray-100">

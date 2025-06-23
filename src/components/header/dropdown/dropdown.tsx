@@ -21,6 +21,7 @@ export default function UserDropdown() {
     setName(localStorage.getItem("name") || "name");
     setEmail(localStorage.getItem("email") || "email");
   }, []);
+  
   useEffect(() => {
     const fetchPhoto = async () => {
       // setLoading(true);
@@ -73,82 +74,7 @@ export default function UserDropdown() {
     };
   }, [photoID, photoUrl, error]); // Only these dependencies are needed now
 
-  // const fetchPhoto = useCallback(async () => {
-  //   setLoading(true);
-  //   setError("");
-  //   console.log(loading);
-  //   try {
-  //     const token = localStorage.getItem("token") || "";
-
-  //     if (!photoID) {
-  //       throw new Error("No photo ID provided");
-  //     }
-
-  //     const response = await fetch(
-  //       `https://online-education-system-quch.onrender.com/file?fileID=${photoID}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           token,
-  //         },
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`Error: ${response.status}`);
-  //     }
-
-  //     const contentType = response.headers.get("content-type");
-  //     if (!contentType?.startsWith("image/")) {
-  //       throw new Error("Received data is not an image");
-  //     }
-
-  //     const blob = await response.blob();
-  //     const url = URL.createObjectURL(blob);
-  //     setPhotoUrl(url);
-  //   } catch (err) {
-  //     setError(err instanceof Error ? err.message : "Failed to fetch photo");
-  //     console.error("Error fetching photo:", err, error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [photoID, error, loading]);
-
-  // useEffect(() => {
-  //   fetchPhoto();
-
-  //   return () => {
-  //     if (photoUrl.startsWith("blob:")) {
-  //       URL.revokeObjectURL(photoUrl);
-  //     }
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const url = photoUrl; // Capture current value
-
-  //   const loadPhoto = async () => {
-  //     try {
-  //       await fetchPhoto();
-  //     } catch (error) {
-  //       if (isMounted) {
-  //         // Handle error
-  //       }
-  //     }
-  //   };
-
-  //   loadPhoto();
-
-  //   return () => {
-  //     isMounted = false;
-  //     if (url.startsWith("blob:")) {
-  //       URL.revokeObjectURL(url);
-  //     }
-  //   };
-  // }, [fetchPhoto]);
-
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

@@ -1,7 +1,7 @@
 "use client";
 // import { formatDate } from "react-calendar/dist/esm/shared/dateFormatter.js";
 import "./style.css";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import Success from "../Success/success-text";
 import { AddLesson } from "../../interfaces/type";
 
@@ -64,49 +64,6 @@ export default function AddLessons() {
     setVideo(null); // Clear selected video (optional)
   };
 
-  // const uploadPDF = async () => {
-
-  //   if (!file) {
-  //     setMessage("Please select a file first");
-  //     return;
-  //   }
-
-  //   setIsUploading(true);
-  //   setMessage("");
-  //   setProgress(0);
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-
-  //     const response = await fetch(
-  //       "https://online-education-system-quch.onrender.com/file/upload",
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           token: localStorage.getItem("token") || "",
-  //         },
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await response.json();
-  //     if (!response.ok) {
-  //       throw new Error(data.message || "Upload failed");
-  //     }
-
-  //     setPath(data.path);
-
-  //     setMessage("File uploaded successfully!");
-  //   } catch (err) {
-  //     setError(err instanceof Error ? err.message : "Sign up failed");
-  //   }
-
-  //   console.log(fileInformation);
-
-  //   setSuccess(false);
-
-  //   console.log(fileInformation);
-  // };
   const uploadVideo = async () => {
     if (video) {
       try {
@@ -146,39 +103,6 @@ export default function AddLessons() {
       }
     } else return "?";
   };
-  // const uploadLesson = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "https://online-education-system-quch.onrender.com/lesson/add",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           token: localStorage.getItem("token") || "",
-  //         },
-  //         body: JSON.stringify(fileInformation),
-  //       }
-  //     );
-
-  //     // const data = await response.json();
-  //     const data = await response.json();
-  //     console.log(data.massage);
-  //     if (!response.ok) {
-  //       throw new Error(data.error || "Login failed");
-  //     }
-
-  //     // Handle successful login
-  //     setSuccess(true);
-  //     console.log("ssss");
-  //   } catch (err) {
-  //     // console.log(err);
-  //     setError(err instanceof Error ? err.message : "Sign up failed");
-  //   } finally {
-  //     // console.log("6666");
-  //     setLoading(false);
-  //     setIsUploading(false);
-  //   }
-  // };
 
   const uploadPDF = async () => {
     if (!file) {
@@ -222,9 +146,7 @@ export default function AddLessons() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
       return "";
-    } finally {
-      setIsUploading(false);
-    }
+    } 
   };
 
   const submitLesson = async () => {
@@ -234,18 +156,11 @@ export default function AddLessons() {
       // First upload the PDF
       const pdfUploadSuccess = await uploadPDF();
       const videoUploadSuccess = await uploadVideo();
-      // console.log("pdf", pdfUploadSuccess);
-      // console.log("video", videoUploadSuccess);
+      console.log("pdf", pdfUploadSuccess);
+      console.log("video", videoUploadSuccess);
       // console.log("path", path);
       if (pdfUploadSuccess == "" || videoUploadSuccess == "") return;
-      setFileInformation((prev) => ({
-        ...prev,
-        pdfID: pdfUploadSuccess,
-      }));
-      setFileInformation((prev) => ({
-        ...prev,
-        videoIDID: videoUploadSuccess,
-      }));
+
       const response = await fetch(
         "https://online-education-system-quch.onrender.com/lesson",
         {
@@ -254,13 +169,18 @@ export default function AddLessons() {
             "Content-Type": "application/json",
             token: localStorage.getItem("token") || "",
           },
-          body: JSON.stringify(fileInformation),
+          body: JSON.stringify({
+            title: fileInformation.title,
+            description: fileInformation.description,
+            category: fileInformation.category,
+            videoID: pdfUploadSuccess,
+            pdfID: videoUploadSuccess,
+          }),
         }
       );
-
-      // const data = await response.json();
       const data = await response.json();
       console.log(data.massage);
+
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
       }
@@ -269,42 +189,17 @@ export default function AddLessons() {
       setSuccess(true);
       console.log("ssss");
     } catch (err) {
-      // console.log(err);
       setError(err instanceof Error ? err.message : "Sign up failed");
     } finally {
-      // console.log("6666");
       // setLoading(false);
       setIsUploading(false);
     }
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     submitLesson();
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/login";
-    }
-  }, []);
-
-  // const handleUpload = async () => {
-  //   setIsUploading(true);
-  //   try {
-  //     await uploadPDF(); // Waits to complete (or fail) before moving on
-  //     await uploadVideo();
-  //     // console.log(path); // Only runs if uploadPDF() succeeds
-  //     await uploadPath();
-  //     await uploadLesson(); // Only runs if both previous functions succeed
-  //   } catch (error) {
-  //     console.error("Upload failed:", error);
-  //     // Handle error (show toast, etc.)
-  //   } finally {
-  //     console.log(fileInformation);
-  //     setIsUploading(false); // Always runs, even if there's an error
-  //   }
-  // };
 
   return (
     <div className="add-lesson">
@@ -423,6 +318,7 @@ export default function AddLessons() {
           {isUploading ? "Uploading..." : "Publish Lesson"}
         </button>
       </div>
+
       {success && <Success text={"The lesson has been added successfully."} />}
       {error && (
         <div className="text-red-400 border-solid border-red-400 border rounded-sm my-5 text-center bg-red-50">
