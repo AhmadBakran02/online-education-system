@@ -110,7 +110,7 @@ export const Card = ({
   const [error, setError] = useState<string | null>(null);
 
   const handleDownload = async () => {
-    setLoading(true);
+    setIsLoading(true);
     setError(null);
     console.log(pdfID);
     console.log(id);
@@ -159,6 +159,7 @@ export const Card = ({
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
+      setIsLoading(false);
     } catch (err) {
       console.error("Download error:", err);
       setError(err instanceof Error ? err.message : "Failed to download PDF");
@@ -275,27 +276,20 @@ export const Card = ({
       {showLesson && (
         <div className="modal-overlay">
           <div className="flow-card">
-            {/* <h3>Create New Item</h3> */}
             <form>
               <div className="form-group">
-                <div className="lesson">
-                  <p>Title:</p>
-                  <p>{title}</p>
+                <div className="lesson-title-show flex">
+                  {/* <p className="font-bold">Title:</p> */}
+                  <h2 className="font-bold">{title}</h2>
                 </div>
               </div>
               <div className="form-group">
-                <div className="lesson">
-                  <p>Description:</p>
-                  <p>{description}</p>
+                <div className="lesson-des-show ">
+                  <p className="font-bold">Description:</p>
+                  <h3>{description}</h3>
                 </div>
               </div>
 
-              <div className="form-group">
-                <div className="lesson">
-                  <p>Description:</p>
-                  <p>{description}</p>
-                </div>
-              </div>
               {/* <VideoPlayer viID={videoID} /> */}
               <div className="button-group">
                 <button type="button" onClick={handleDownload}>

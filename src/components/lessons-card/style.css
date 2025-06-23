@@ -78,6 +78,9 @@
   gap: 10px;
   cursor: pointer;
 }
+.modal-overlay .button-group button:hover {
+  background-color: #e6e6e6;
+}
 
 .card .edit-button:hover {
   background-color: #e6e6e6;
@@ -138,7 +141,7 @@
 
 /* edit */
 
-@import "tailwindcss";
+/* @import "tailwindcss"; */
 
 /* Container */
 .flow-container {
@@ -241,19 +244,21 @@
   cursor: pointer;
 }
 
-.lesson {
+/* .lesson {
   display: flex;
   gap: 5px;
-  /* justify-content: center; */
   align-items: center;
 }
 
 .lesson p:nth-child(1) {
   color: var(--color-gray-500);
-  /* font-weight: bold; */
 }
 .lesson p:nth-child(2) {
-  /* color: red; */
   font-weight: bold;
   font-size: 18px;
+} */
+
+.form-group .lesson-title-show {
+  /* display: flex; */
+  background-color: saddlebrown;
 }

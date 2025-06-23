@@ -76,7 +76,7 @@ export const PostCard = ({
     try {
       new URL(string);
       return true;
-    } catch  {
+    } catch {
       return false;
     }
   }
@@ -98,7 +98,11 @@ export const PostCard = ({
           (e.target as HTMLImageElement).src = "/images/pic2.jpg";
         }}
       />
-      <div className="post-body">
+      <div
+        className={`post-body ${
+          editPost ? "justify-between" : "justify-evenly gap-6"
+        }`}
+      >
         <h3 onClick={handleShow} className="text-lg font-semibold post-title">
           {title}
         </h3>
