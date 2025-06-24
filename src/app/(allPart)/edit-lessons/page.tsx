@@ -74,8 +74,6 @@ export default function Edit() {
                     description={item.description}
                     id={item._id}
                     action={"edit"}
-                    pdfID={""}
-                    videoID={""}
                   />
                 ))
               : !loading && (

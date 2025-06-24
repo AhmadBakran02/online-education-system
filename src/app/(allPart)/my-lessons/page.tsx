@@ -4,6 +4,7 @@ import "./style.css";
 import { useEffect, useState, useCallback } from "react";
 import Loading from "../../../components/loading/Loading";
 import { LessonsType, NumPage } from "../../interfaces/type";
+import { apiUrl } from "@/components/url";
 
 export default function MyLessons() {
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
@@ -27,7 +28,7 @@ export default function MyLessons() {
     try {
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        `https://online-education-system-quch.onrender.com/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
+        apiUrl+`/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
         {
           method: "GET",
           headers: {

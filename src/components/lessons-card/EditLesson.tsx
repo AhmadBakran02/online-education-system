@@ -1,3 +1,5 @@
+import { apiUrl } from "../url";
+
 interface Lesson {
   lessonID: string;
   title: string;
@@ -21,17 +23,14 @@ export const EditLesson = async (
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(
-      "https://online-education-system-quch.onrender.com/lesson",
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          token: token,
-        },
-        body: JSON.stringify(lesson),
-      }
-    );
+    const response = await fetch(apiUrl + `/lesson`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify(lesson),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

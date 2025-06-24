@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, KeyboardEvent, useCallback } from "react";
 import styles from "./VerifyCodePage.module.css";
 import "./style.css";
 import Image from "next/image";
+import { apiUrl } from "@/components/url";
 
 // interface VerifyCodeData {
 //   email: string;
@@ -103,19 +104,16 @@ export default function VerifyCodePage() {
 
       try {
         const verificationCode = code.join("");
-        const response = await fetch(
-          "https://online-education-system-quch.onrender.com/auth/verify-email",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: emailValue,
-              code: verificationCode,
-            }),
-          }
-        );
+        const response = await fetch(`${apiUrl}/auth/verify-email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: emailValue,
+            code: verificationCode,
+          }),
+        });
 
         const data = await response.json();
 
@@ -147,19 +145,16 @@ export default function VerifyCodePage() {
       setResendTimer(30);
 
       try {
-        const response = await fetch(
-          "https://online-education-system-quch.onrender.com/auth/send-code",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: emailValue,
-              typeCode: "verify",
-            }),
-          }
-        );
+        const response = await fetch(apiUrl + `/auth/send-code`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: emailValue,
+            typeCode: "verify",
+          }),
+        });
 
         const data = await response.json();
 

@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import { useEffect, useState, useCallback } from "react";
 import { GetPost } from "./../interfaces/type";
 import { PostCard } from "@/components/post-card/post-card";
+import { apiUrl } from "@/components/url";
 
 export default function Home() {
   const [postItems, setPostItems] = useState<GetPost[]>([]);
@@ -23,16 +24,13 @@ export default function Home() {
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(
-        `https://online-education-system-quch.onrender.com/post/all?limit=10&page=1`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-        }
-      );
+      const response = await fetch(apiUrl + `/post/all?limit=10&page=1`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -66,7 +64,7 @@ export default function Home() {
 
           try {
             const response = await fetch(
-              `https://online-education-system-quch.onrender.com/file?fileID=${post.photoID}`,
+              apiUrl + `/file?fileID=${post.photoID}`,
               {
                 method: "GET",
                 headers: {

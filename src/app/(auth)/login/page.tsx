@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Link from "next/link";
+import { apiUrl } from "@/components/url";
 
 interface LoginData {
   email: string;
@@ -52,16 +53,13 @@ export default function Login() {
 
     try {
       console.log(loginData);
-      const response = await fetch(
-        "https://online-education-system-quch.onrender.com/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginData),
-        }
-      );
+      const response = await fetch(`${apiUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
       const data = await response.json();
 

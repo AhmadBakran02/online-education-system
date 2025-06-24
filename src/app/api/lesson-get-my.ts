@@ -1,20 +1,22 @@
 // services/lessonService.ts
 
+import { apiUrl } from "@/components/url";
+
 // Define proper interfaces for your lesson data
 interface Lesson {
-    _id: string;
-    title: string;
-    description: string;
-    teacherID: string;
-    category: string;
-    studentsEnrolled: string[]; // or any[] if the enrolled students might have more complex data
-    videoID: string;
-    pdfID: string;
-    createdAt: string; // or Date if you'll convert it
-    updatedAt: string; // or Date if you'll convert it
-    __v: number;
-    isInLibrary: boolean;
-  }
+  _id: string;
+  title: string;
+  description: string;
+  teacherID: string;
+  category: string;
+  studentsEnrolled: string[]; // or any[] if the enrolled students might have more complex data
+  videoID: string;
+  pdfID: string;
+  createdAt: string; // or Date if you'll convert it
+  updatedAt: string; // or Date if you'll convert it
+  __v: number;
+  isInLibrary: boolean;
+}
 
 interface LessonResponse {
   lessons: Lesson[];
@@ -37,7 +39,7 @@ export const getAllLessons = async (
     }
 
     const response = await fetch(
-      `https://online-education-system-quch.onrender.com/lesson/my/all?page=${numPage.page}&limit=${numPage.limit}`,
+      apiUrl + `/lesson/my/all?page=${numPage.page}&limit=${numPage.limit}`,
       {
         method: "GET",
         headers: {

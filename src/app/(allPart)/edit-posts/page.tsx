@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 // import Loading from "@/components/loading/Loading";
 import { GetPost } from "../../interfaces/type";
 import { PostCard } from "@/components/post-card/post-card";
+import { apiUrl } from "@/components/url";
 
 export default function EditePosts() {
   const [error, setError] = useState<string | null>(null);
@@ -17,16 +18,13 @@ export default function EditePosts() {
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(
-        `https://online-education-system-quch.onrender.com/post/all?limit=10&page=1`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-        }
-      );
+      const response = await fetch(apiUrl + `/post/all?limit=10&page=1`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -60,7 +58,7 @@ export default function EditePosts() {
 
           try {
             const response = await fetch(
-              `https://online-education-system-quch.onrender.com/file?fileID=${post.photoID}`,
+              apiUrl + `/file?fileID=${post.photoID}`,
               {
                 method: "GET",
                 headers: {

@@ -10,6 +10,7 @@ import { Card } from "../../../components/lessons-card/lessons-card";
 // import Calendar from "react-calendar";
 import Loading from "../../../components/loading/Loading";
 import { LessonsType } from "../../interfaces/type";
+import { apiUrl } from "@/components/url";
 
 interface NumPage {
   page: string;
@@ -40,7 +41,8 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://online-education-system-quch.onrender.com/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
+        apiUrl +
+          `/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
         {
           method: "GET",
           headers: {
@@ -122,8 +124,6 @@ export default function Dashboard() {
                         description={item.description}
                         id={item._id}
                         action={"remove"}
-                        pdfID={""}
-                        videoID={""}
                       />
                     ))
                   : !loading && (

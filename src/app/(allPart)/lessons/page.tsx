@@ -4,6 +4,7 @@ import { Card } from "../../../components/lessons-card/lessons-card";
 import { useEffect, useState, useCallback } from "react";
 import Loading from "../../../components/loading/Loading";
 import { LessonsType } from "../../interfaces/type";
+import { apiUrl } from "@/components/url";
 
 interface NumPage {
   page: string;
@@ -24,14 +25,6 @@ export default function Lessons() {
   const [numberOfLessons, setNumberOfLessons] = useState<number>(0);
 
   // Check authentication
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        window.location.href = "/login";
-      }
-    }
-  }, []);
 
   const handleGetNumber = useCallback(async () => {
     setLoading(true);
@@ -40,16 +33,13 @@ export default function Lessons() {
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(
-        `https://online-education-system-quch.onrender.com/lesson/number-of-lessons`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-        }
-      );
+      const response = await fetch(apiUrl + "/lesson/number-of-lessons", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -68,7 +58,7 @@ export default function Lessons() {
     } finally {
       setLoading(false);
     }
-  }, [error]); // Removed error from dependencies since we're using local variable
+  }, []); // Removed error from dependencies since we're using local variable
 
   const handleGetAllLessons = useCallback(async () => {
     setLoading(true);
@@ -77,9 +67,9 @@ export default function Lessons() {
     try {
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        `https://online-education-system-quch.onrender.com/lesson/all?page=${
-          numPage.page
-        }&limit=${numberOfLessons || numPage.limit}`,
+        `${apiUrl}/lesson/all?page=${numPage.page}&limit=${
+          numberOfLessons || numPage.limit
+        }`,
         {
           method: "GET",
           headers: {
@@ -116,7 +106,7 @@ export default function Lessons() {
       await handleGetAllLessons();
     };
     fetchData();
-  }, [handleGetNumber, handleGetAllLessons]);
+  }, []);
 
   const filteredTasks = lessonsItems.filter((task) => {
     return activeTab === "all" || task.category === activeTab;
@@ -187,8 +177,6 @@ export default function Lessons() {
                 id={item._id}
                 action={"add"}
                 isIn={item.isInLibrary}
-                pdfID={item.pdfID}
-                videoID={item.videoID}
               />
             ))
           : !loading && (

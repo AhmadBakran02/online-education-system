@@ -1,9 +1,10 @@
 "use client";
 // import { formatDate } from "react-calendar/dist/esm/shared/dateFormatter.js";
 import "./style.css";
-import {  useState } from "react";
+import { useState } from "react";
 import Success from "../Success/success-text";
 import { AddLesson } from "../../interfaces/type";
+import { apiUrl } from "@/components/url";
 
 export default function AddLessons() {
   const [file, setFile] = useState<File | null>(null);
@@ -70,16 +71,13 @@ export default function AddLessons() {
         const formData = new FormData();
         formData.append("file", video);
 
-        const response = await fetch(
-          "https://online-education-system-quch.onrender.com/file",
-          {
-            method: "PUT",
-            headers: {
-              token: localStorage.getItem("token") || "",
-            },
-            body: formData,
-          }
-        );
+        const response = await fetch(`${apiUrl}/file`, {
+          method: "PUT",
+          headers: {
+            token: localStorage.getItem("token") || "",
+          },
+          body: formData,
+        });
 
         const data = await response.json();
         // console.log(data.path);
@@ -118,16 +116,13 @@ export default function AddLessons() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(
-        "https://online-education-system-quch.onrender.com/file",
-        {
-          method: "PUT",
-          headers: {
-            token: localStorage.getItem("token") || "",
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch(`${apiUrl}/file`, {
+        method: "PUT",
+        headers: {
+          token: localStorage.getItem("token") || "",
+        },
+        body: formData,
+      });
 
       const data = await response.json();
       if (!response.ok) {
@@ -146,7 +141,7 @@ export default function AddLessons() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
       return "";
-    } 
+    }
   };
 
   const submitLesson = async () => {
@@ -161,23 +156,20 @@ export default function AddLessons() {
       // console.log("path", path);
       if (pdfUploadSuccess == "" || videoUploadSuccess == "") return;
 
-      const response = await fetch(
-        "https://online-education-system-quch.onrender.com/lesson",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token") || "",
-          },
-          body: JSON.stringify({
-            title: fileInformation.title,
-            description: fileInformation.description,
-            category: fileInformation.category,
-            videoID: pdfUploadSuccess,
-            pdfID: videoUploadSuccess,
-          }),
-        }
-      );
+      const response = await fetch(apiUrl + "/lesson", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("token") || "",
+        },
+        body: JSON.stringify({
+          title: fileInformation.title,
+          description: fileInformation.description,
+          category: fileInformation.category,
+          videoID: videoUploadSuccess,
+          pdfID: pdfUploadSuccess,
+        }),
+      });
       const data = await response.json();
       console.log(data.massage);
 

@@ -1,3 +1,5 @@
+import { apiUrl } from "../url";
+
 interface Post {
   postID: string;
   title: string;
@@ -24,17 +26,14 @@ export const EditPost = async (
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(
-      "https://online-education-system-quch.onrender.com/post",
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          token: token,
-        },
-        body: JSON.stringify(post),
-      }
-    );
+    const response = await fetch(apiUrl + `/post`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify(post),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

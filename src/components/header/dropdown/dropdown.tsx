@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
+import { apiUrl } from "@/components/url";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,13 +16,14 @@ export default function UserDropdown() {
   // const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Initialize client-side state after mount
+  // Set default value
   useEffect(() => {
     setPhotoID(localStorage.getItem("photoID") || "685580b136f272c1888f9be3");
     setName(localStorage.getItem("name") || "name");
     setEmail(localStorage.getItem("email") || "email");
   }, []);
-  
+
+  // Get photo
   useEffect(() => {
     const fetchPhoto = async () => {
       // setLoading(true);
@@ -33,16 +35,13 @@ export default function UserDropdown() {
           throw new Error("No photo ID provided");
         }
 
-        const response = await fetch(
-          `https://online-education-system-quch.onrender.com/file?fileID=${photoID}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              token,
-            },
-          }
-        );
+        const response = await fetch(apiUrl + `/file?fileID=${photoID}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token,
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
@@ -72,9 +71,9 @@ export default function UserDropdown() {
         URL.revokeObjectURL(photoUrl);
       }
     };
-  }, [photoID, photoUrl, error]); // Only these dependencies are needed now
-
+  }, []); // Only these dependencies are needed now
   
+  // Handle Get photo
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -98,7 +97,6 @@ export default function UserDropdown() {
     localStorage.removeItem("photoID");
     localStorage.removeItem("role");
   };
-
   return (
     <div className="user-dropdown" ref={dropdownRef}>
       <div className="user-trigger" onClick={() => setIsOpen(!isOpen)}>

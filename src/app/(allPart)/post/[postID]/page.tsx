@@ -7,6 +7,7 @@ import Loading from "../../../../components/loading/Loading";
 import { GetPost } from "../../../interfaces/type";
 import Image from "next/image";
 import Link from "next/link";
+import { apiUrl } from "@/components/url";
 
 // interface NumPage {
 //   page: string;
@@ -25,16 +26,13 @@ export default function Post() {
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(
-        `https://online-education-system-quch.onrender.com/post/all?limit=10&page=1`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-        }
-      );
+      const response = await fetch(apiUrl + `/post/all?limit=10&page=1`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

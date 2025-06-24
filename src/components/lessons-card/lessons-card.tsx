@@ -7,6 +7,9 @@ import { EditLesson } from "./EditLesson";
 // import { getFile, streamAndDownloadPdf } from "../api/get-file";
 // import { downloadPdf } from "../services/downloadService";
 import { TypeOfParamsCard } from "../../app/interfaces/type";
+// import { Linefont } from "next/font/google";
+import Link from "next/link";
+// import LessonId from "@/app/(allPart)/lessons/[lessonId]/page";
 // import VideoPlayer from "../show-video/page";
 
 export const Card = ({
@@ -15,8 +18,6 @@ export const Card = ({
   id,
   action,
   isIn,
-  pdfID,
-  videoID,
 }: TypeOfParamsCard) => {
   const [message, setMessage] = useState<boolean>(false);
   const [addButton, setAddButton] = useState<boolean>(false);
@@ -25,7 +26,7 @@ export const Card = ({
   const [editPic, setEditPic] = useState<string>("./delete.svg");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [showLesson, setShowLesson] = useState<boolean>(false);
+  // const [showLesson, setShowLesson] = useState<boolean>(false);
   const [editId, setEditId] = useState<string>("");
   const [newTitle, setNewTitle] = useState<string>("");
   const [newdDescription, setNewDescription] = useState<string>("");
@@ -84,10 +85,6 @@ export const Card = ({
     setIsOpen(true);
   };
 
-  const handleShow = async () => {
-    setShowLesson(true);
-  };
-
   const handleEditApi = async (e: React.FormEvent) => {
     setIsLoading(true);
     e.preventDefault();
@@ -106,79 +103,25 @@ export const Card = ({
       setIsLoading(false);
     }
   };
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleDownload = async () => {
-    setIsLoading(true);
-    setError(null);
-    console.log(pdfID);
-    console.log(id);
-    console.log(loading);
-    try {
-      // 1. Get token from localStorage
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No authentication token found");
-      }
-
-      // 3. Make the API call
-      const response = await fetch(
-        `https://online-education-system-quch.onrender.com/file?fileID=${videoID}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-        }
-      );
-
-      // 4. Handle errors
-      if (!response.ok) {
-        console.log(error);
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Failed to download PDF");
-      }
-      console.log("sss");
-
-      // 5. Extract filename from headers or use default
-      const contentDisposition = response.headers.get("content-disposition");
-      const filenameMatch = contentDisposition?.match(
-        /filename="?(.+?)"?(;|$)/
-      );
-      const filename = filenameMatch?.[1] || "document.pdf";
-
-      // 6. Create and trigger download
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-      setIsLoading(false);
-    } catch (err) {
-      console.error("Download error:", err);
-      setError(err instanceof Error ? err.message : "Failed to download PDF");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="card" key={id}>
       {action === "add" && (
         <div className="header-card">
-          <p className="title">{title}</p>
+          <Link href={`/lessons/${id}`}>
+            <p className="title">{title}</p>
+          </Link>
           <p className={`success ${message ? "" : "hid"}`}>
             Lesson Added Successfully
           </p>
         </div>
       )}
-      {action !== "add" && <p className="title">{title}</p>}
+      {action !== "remove" && action !== "add" && (
+        <Link href={`/lessons/${id}`}>
+          <p className="title">{title}</p>
+        </Link>
+      )}
+      {action == "remove" && <p className="title">{title}</p>}
       <h2 className="subject-name">{description}</h2>
       {action == "add" && (
         <button
@@ -199,9 +142,10 @@ export const Card = ({
 
       {action == "remove" && (
         <div className="two-button">
-          <button className="show-lesson" onClick={() => handleShow()}>
-            {/* <Image src={"./delete.svg"} width={20} height={20} alt="" /> */}
-            <span> Show Lesson</span>
+          <button className="show-lesson">
+            <Link href={`/lessons/${id}`}>
+              <span> Show Lesson</span>
+            </Link>
           </button>
           <button
             onClick={() => handleDelete()}
@@ -210,7 +154,6 @@ export const Card = ({
             onMouseLeave={() => setDeletePic("./delete.svg")}
           >
             <Image src={deletePic} width={20} height={20} alt="" />
-            {/* <span> Delete</span> */}
           </button>
         </div>
       )}
@@ -273,13 +216,13 @@ export const Card = ({
         </div>
       )}
 
-      {showLesson && (
+      {/* {showLesson && (
         <div className="modal-overlay">
           <div className="flow-card">
             <form>
+              {id}
               <div className="form-group">
                 <div className="lesson-title-show flex">
-                  {/* <p className="font-bold">Title:</p> */}
                   <h2 className="font-bold">{title}</h2>
                 </div>
               </div>
@@ -290,7 +233,7 @@ export const Card = ({
                 </div>
               </div>
 
-              {/* <VideoPlayer viID={videoID} /> */}
+              {videoID && <Link href={""}></Link>}
               <div className="button-group">
                 <button type="button" onClick={handleDownload}>
                   {isLoading ? "Downloading..." : "Download PDF File"}
@@ -302,7 +245,7 @@ export const Card = ({
             </form>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

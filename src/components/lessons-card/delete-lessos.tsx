@@ -1,9 +1,11 @@
+import { apiUrl } from "../url";
+
 interface Lesson {
   lessonID: string;
 }
 
 export const deleteLessonFromMyLibrary = async (
-  id: string,
+  id: string
 ): Promise<boolean> => {
   const lesson: Lesson = {
     lessonID: id,
@@ -15,17 +17,14 @@ export const deleteLessonFromMyLibrary = async (
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(
-      "https://online-education-system-quch.onrender.com/lesson/library",
-      {
-        method: "DELETE", // Fixed typo from "DELET" to "DELETE"
-        headers: {
-          "Content-Type": "application/json",
-          token,
-        },
-        body: JSON.stringify(lesson),
-      }
-    );
+    const response = await fetch(apiUrl + `/lesson/library`, {
+      method: "DELETE", // Fixed typo from "DELET" to "DELETE"
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(lesson),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

@@ -8,6 +8,21 @@ export interface LessonsType {
   videoID: string;
 }
 
+export interface Lesson {
+  _id: string;
+  title: string;
+  description: string;
+  teacherID: string;
+  category: string;
+  studentsEnrolled: [];
+  videoID: string;
+  pdfID: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  isInLibrary: boolean;
+}
+
 export interface GetPost {
   _id: string;
   postedBy: string;
@@ -54,6 +69,4 @@ export interface TypeOfParamsCard {
   id: string;
   action: string;
   isIn?: boolean;
-  pdfID: string;
-  videoID: string;
 }

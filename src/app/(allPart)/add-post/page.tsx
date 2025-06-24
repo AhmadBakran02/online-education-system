@@ -1,7 +1,8 @@
 "use client";
 import "./style.css";
-import {  useState } from "react";
+import { useState } from "react";
 import Success from "../Success/success-text";
+import { apiUrl } from "@/components/url";
 // import { AddPost } from "../../interfaces/type";
 
 export default function AddPosts() {
@@ -47,16 +48,13 @@ export default function AddPosts() {
       const formData = new FormData();
       formData.append("file", photo);
 
-      const response = await fetch(
-        "https://online-education-system-quch.onrender.com/file",
-        {
-          method: "PUT",
-          headers: {
-            token: localStorage.getItem("token") || "",
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch("${apiUrl}/file", {
+        method: "PUT",
+        headers: {
+          token: localStorage.getItem("token") || "",
+        },
+        body: formData,
+      });
 
       const data = await response.json();
       if (!response.ok) {
@@ -103,21 +101,18 @@ export default function AddPosts() {
       console.log(titleValue);
       console.log(articleValue);
       console.log(photoUploadSuccess);
-      const response = await fetch(
-        "https://online-education-system-quch.onrender.com/post",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token") || "",
-          },
-          body: JSON.stringify({
-            title: titleValue,
-            article: articleValue,
-            photoID: photoUploadSuccess,
-          }),
-        }
-      );
+      const response = await fetch(apiUrl + `/post`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("token") || "",
+        },
+        body: JSON.stringify({
+          title: titleValue,
+          article: articleValue,
+          photoID: photoUploadSuccess,
+        }),
+      });
 
       // const data = await response.json();
       const data = await response.json();
