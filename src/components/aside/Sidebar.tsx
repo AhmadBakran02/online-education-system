@@ -25,7 +25,7 @@ const Sidebar = () => {
 
   const sidebarLinks = [
     { name: "dashboard", icon: "./dashboard.svg", href: "/dashboard" },
-    { name: "quizzes", icon: "@/public/task.svg", href: "/quizzes" },
+    { name: "quizzes", icon: "./task.svg", href: "/quizzes" },
     { name: "Question Bank", icon: "./question.svg", href: "/question-bank" },
     {
       name: "Learning Resources",
