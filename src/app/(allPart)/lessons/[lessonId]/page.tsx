@@ -1,10 +1,11 @@
 "use client"; // Required since we're using client-side hooks
 
-import { Lesson } from "@/app/interfaces/type";
+import { Lesson } from "@/types/type";
 import { apiUrl } from "@/components/url";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import "./lesson-id-style.css";
+import Loading from "@/components/loading/Loading";
 export default function LessonId() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -15,13 +16,6 @@ export default function LessonId() {
   const [lessonItems, setLessonItems] = useState<Lesson | null>(null);
 
   useEffect(() => {
-    // Full URL construction
-    // const url = `${window.location.origin}${pathname}${
-    //   searchParams.toString() ? `?${searchParams.toString()}` : ""
-    // }`;
-
-    // console.log("Current URL:", url);
-
     // If you just need the path and query
     const pathWithQuery = `${pathname}${
       searchParams.toString() ? `?${searchParams.toString()}` : ""
@@ -67,11 +61,10 @@ export default function LessonId() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // await handleGetNumber();
       await handleGetLesson();
     };
     fetchData();
-  }, [lessonId]);
+  }, [lessonId, handleGetLesson]);
 
   const handleDownload = async () => {
     if (lessonItems?.pdfID == "") return;
@@ -142,7 +135,7 @@ export default function LessonId() {
     if (lessonItems?.videoID == "") return;
 
     const fetchVideo = async () => {
-      setLoading(true);
+      // setLoading(true);
       setError("");
       try {
         const token = localStorage.getItem("token") || "";
@@ -178,7 +171,7 @@ export default function LessonId() {
         setError(err instanceof Error ? err.message : "Failed to fetch video");
         console.error("Error fetching video:", err);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     if (lessonItems?.videoID) {
@@ -191,7 +184,7 @@ export default function LessonId() {
         URL.revokeObjectURL(videoUrl);
       }
     };
-  }, [lessonItems?.videoID]);
+  }, [lessonItems?.videoID, videoUrl]);
 
   return (
     <div className="post-page">
@@ -208,7 +201,7 @@ export default function LessonId() {
               borderRadius: "8px",
               width: "100%",
               maxWidth: "800px",
-              aspectRatio: "16/9", // Standard video aspect ratio
+              aspectRatio: "16/9",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -217,12 +210,7 @@ export default function LessonId() {
               overflow: "hidden",
             }}
           >
-            {loading && (
-              <div className="loading-indicator">
-                <div className="spinner"></div>
-                <p>Loading video...</p>
-              </div>
-            )}
+            {loading && <Loading />}
 
             {error && (
               <div className="error-message">

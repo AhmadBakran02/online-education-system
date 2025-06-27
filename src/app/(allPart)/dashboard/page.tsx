@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Card } from "../../../components/lessons-card/lessons-card";
 // import Calendar from "react-calendar";
 import Loading from "../../../components/loading/Loading";
-import { LessonsType } from "../../interfaces/type";
+import { LessonsType } from "../../../types/type";
 import { apiUrl } from "@/components/url";
 
 interface NumPage {
@@ -161,7 +161,17 @@ export default function Dashboard() {
             <div className="news-back null-lessons-announcements">
               {/* <p>No forum activity yet </p> */}
               <div className="topics-exist">
-                <ForumCard show={false} />
+                <ForumCard
+                  show={false}
+                  title={""}
+                  article={""}
+                  category={""}
+                  createdAt={""}
+                  id={""}
+                  name={""}
+                  role={""}
+                  edit={false}
+                />
               </div>
             </div>
           </div>

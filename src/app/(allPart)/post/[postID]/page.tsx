@@ -1,32 +1,47 @@
 "use client";
 import "./style.css";
 // import { Card } from "../lessons-card/lessons-card";
-import { useEffect, useState, useCallback } from "react";
-import Loading from "../../../../components/loading/Loading";
-// import { LessonsType } from "../../interfaces/type";
-import { GetPost } from "../../../interfaces/type";
-import Image from "next/image";
-import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { OnePost } from "../../../../types/type";
+import { usePathname } from "next/navigation";
 import { apiUrl } from "@/components/url";
-
-// interface NumPage {
-//   page: string;
-//   limit: string;
-// }
+import Image from "next/image";
+import Loading from "@/components/loading/Loading";
 
 export default function Post() {
-  const [postsItems, setPostsItems] = useState<GetPost[]>([]);
+  // const [postsItems, setPostsItems] = useState<GetPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [url, setUrl] = useState<string>("/images/pic2.jpg");
+  // const [photoUrl, setPhotoUrl] = useState<Record<string, string>>({});
+  const [postItems, setPostItems] = useState<OnePost>({
+    _id: "685985e93a6ce92e99a654b2",
+    postedBy: "6855b2861b2eec2da05b4415",
+    title: "Loading...",
+    article: "Loading...",
+    photoID: "",
+    __v: 0,
+  });
+  const [id, setId] = useState<string | null>(null);
 
-  const handleGetAllPost = useCallback(async () => {
+  const pathname = usePathname();
+
+  // 1. Get ID from URL path
+  useEffect(() => {
+    const newId = pathname.split("/")[2];
+    setId(newId);
+  }, [pathname]);
+
+  // 2. Fetch post data when ID changes
+  const handleGetPost = useCallback(async () => {
+    if (!id) return;
+
     setLoading(true);
     setError(null);
-    console.log(error);
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(apiUrl + `/post/all?limit=10&page=1`, {
+      const response = await fetch(`${apiUrl}/post?postID=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -42,49 +57,101 @@ export default function Post() {
       }
 
       const data = await response.json();
-      setPostsItems(data.posts);
-      return data;
-    } catch (error) {
-      console.error("Request failed:", error);
-      setError(error instanceof Error ? error.message : "Request failed");
-      throw error;
+      setPostItems(data.post);
+      return data.post._id;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError(errorMessage);
+      console.error("Request failed:", errorMessage);
     } finally {
       setLoading(false);
     }
-  }, [error]); // Empty dependency array since we don't use any external values
+  }, [id]);
 
+  // 3. Fetch photo URL when post data changes
+  const fetchPhotoUrl = useCallback(async () => {
+    if (!postItems.photoID) return;
+
+    try {
+      const response = await fetch(
+        `${apiUrl}/file?fileID=${postItems.photoID}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token: localStorage.getItem("token") || "",
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType?.startsWith("image/")) {
+        throw new Error("Received data is not an image");
+      }
+
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      // setPhotoUrl((prev) => ({ ...prev, [postItems.photoID]: objectUrl }));
+      setUrl(objectUrl);
+    } catch (err) {
+      console.error(`Error fetching photo ${postItems.photoID}:`, err);
+      setUrl("/images/pic2.jpg");
+    }
+  }, [postItems.photoID]);
+
+  // Main effect to sequence the operations
   useEffect(() => {
-    handleGetAllPost();
-  }, [handleGetAllPost]);
+    const fetchData = async () => {
+      try {
+        await handleGetPost();
+        await fetchPhotoUrl();
+      } catch (error) {
+        console.error("Error in data fetching sequence:", error);
+      }
+    };
 
+    fetchData();
+  }, [handleGetPost, fetchPhotoUrl]);
+
+  console.log(postItems);
+  // console.log(postItems._id);
+  function isValidUrl(string: string) {
+    try {
+      new URL(string);
+      return true;
+    } catch {
+      return false;
+    }
+  }
   return (
-    <div className="lessons-main">
-      {loading && <Loading />}
-      {!loading &&
-        postsItems.map((index) => (
-          <div
-            key={index._id}
-            className="post bg-white rounded-lg overflow-hidden"
-          >
-            <Image
-              src={`/images/pic2.jpg`}
-              alt={`Event ${index}`}
-              width={200}
-              height={10}
-              className="object-cover w-full h-48"
-            />
-            <div className="post-body">
-              <Link href={`post/${index._id}`}>
-                <h3 className="text-lg font-semibold post-title">
-                  {index.title}
-                </h3>
-              </Link>
-              <p className="text-sm text-gray-600 post-article">
-                {index.article}
-              </p>
-            </div>
-          </div>
-        ))}
-    </div>
+    <>
+      {loading || (error && <Loading />)}
+      <div
+        key={postItems._id}
+        className={`post bg-white rounded-lg overflow-hidden show-full-post`}
+      >
+        <Image
+          src={url && isValidUrl(url) ? url : "/images/pic2.jpg"}
+          alt={`Event ${postItems._id}`}
+          width={200}
+          height={200}
+          className="object-cover w-full h-48"
+        />
+        <div
+          className={`post-body "justify-evenly gap-6"
+        `}
+        >
+          <h3 className="text-lg font-semibold post-title">
+            {postItems.title}
+          </h3>
+          <p className={`text-sm text-gray-600 show-full my-5`}>
+            {postItems.article}
+          </p>
+        </div>
+      </div>
+    </>
   );
 }

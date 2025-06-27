@@ -3,7 +3,7 @@ import "./style.css";
 import { Card } from "../../../components/lessons-card/lessons-card";
 import { useEffect, useState, useCallback } from "react";
 import Loading from "../../../components/loading/Loading";
-import { LessonsType } from "../../interfaces/type";
+import { LessonsType } from "../../../types/type";
 import { apiUrl } from "@/components/url";
 
 interface NumPage {
@@ -29,7 +29,6 @@ export default function Lessons() {
   const handleGetNumber = useCallback(async () => {
     setLoading(true);
     setError(null);
-    console.log(error);
 
     try {
       const token = localStorage.getItem("token") || "";
@@ -106,7 +105,7 @@ export default function Lessons() {
       await handleGetAllLessons();
     };
     fetchData();
-  }, []);
+  }, [handleGetAllLessons, handleGetNumber]);
 
   const filteredTasks = lessonsItems.filter((task) => {
     return activeTab === "all" || task.category === activeTab;
@@ -166,8 +165,8 @@ export default function Lessons() {
           </button>
         </div>
       </div>
+      {loading && <Loading />}
       <div className="lessons-main">
-        {loading && <Loading />}
         {filteredTasks.length > 0
           ? filteredTasks.map((item) => (
               <Card
@@ -183,6 +182,7 @@ export default function Lessons() {
               <h3>No lessons found matching your search criteria.</h3>
             )}
       </div>
+      {error && !error && <h1>{error}</h1>}
     </div>
   );
 }

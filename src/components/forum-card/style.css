@@ -54,6 +54,8 @@
 .card-header {
   padding: 16px;
   border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
 }
 
 .card-title {
@@ -97,7 +99,7 @@
 .answer-section {
   /* transform: scale(5); */
   display: none;
-  
+
   background: #f8f9fa;
   padding: 16px;
   border-top: 1px solid #e9ecef;
@@ -127,14 +129,6 @@
   /* margin-top: -10px; */
 }
 
-.answer {
-  background: white;
-  padding: 12px;
-  border-radius: 7px;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-}
-
 /* Buttons */
 .primary-btn {
   background: #4351af;
@@ -150,4 +144,29 @@
 
 .primary-btn:hover {
   background: #3b489a;
+}
+
+.edit-blog {
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.edit-delete {
+  display: flex;
+  gap: 15px;
+}
+
+.hid {
+  display: none;
+}
+
+.no-comments {
+  margin: 0 auto;
+  text-align: center;
+  color: #495057;
+  border-top: 1px solid #ced4da;
+  padding-top: 5px;
+  width: 80%;
+  /* border-radius: 6px; */
+  /* background-color: #e9ecef; */
 }

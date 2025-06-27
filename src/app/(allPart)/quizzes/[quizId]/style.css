@@ -1,0 +1,26 @@
+.back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 35px;
+  margin-top: -10px;
+}
+
+.all-questions {
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.submitted-button {
+  /* position: absolute; */
+  background-color: var(--mainBlue);
+  margin: 0 auto;
+  color: #fff;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  float: right;
+}

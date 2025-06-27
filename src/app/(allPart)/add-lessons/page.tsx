@@ -3,7 +3,7 @@
 import "./style.css";
 import { useState } from "react";
 import Success from "../Success/success-text";
-import { AddLesson } from "../../interfaces/type";
+import { AddLesson } from "../../../types/type";
 import { apiUrl } from "@/components/url";
 
 export default function AddLessons() {
@@ -311,7 +311,11 @@ export default function AddLessons() {
         </button>
       </div>
 
-      {success && <Success text={"The lesson has been added successfully."} />}
+      {success && (
+        <div className="mt-3.5">
+          <Success text={"The lesson has been added successfully."} />
+        </div>
+      )}
       {error && (
         <div className="text-red-400 border-solid border-red-400 border rounded-sm my-5 text-center bg-red-50">
           {error} {message}

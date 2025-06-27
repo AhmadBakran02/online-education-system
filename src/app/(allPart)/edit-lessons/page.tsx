@@ -3,8 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 import "./style.css";
 import { Card } from "../../../components/lessons-card/lessons-card";
 import Loading from "../../../components/loading/Loading";
-import { NumPage } from "../../interfaces/type";
-import { getAllLessons } from "../../api/lesson-get-my";
+import { NumPage } from "../../../types/type";
+import { getAllLessons } from "@/app/api/lesson-get-my";
+// import { getAllLessons } from "../../api/lesson-get-my";
 
 export default function Edit() {
   useEffect(() => {
@@ -63,26 +64,33 @@ export default function Edit() {
       </div>
 
       <div className="my-lessons">
-        <div className="lesson-cards">
-          {loading && <Loading />}
-          <ul>
-            {lessonsItems.length > 0
-              ? lessonsItems.map((item) => (
-                  <Card
-                    key={item._id}
-                    title={item.title}
-                    description={item.description}
-                    id={item._id}
-                    action={"edit"}
-                  />
-                ))
-              : !loading && (
-                  <div className="no-tasks">
-                    <p>No tasks found matching your criteria</p>
-                  </div>
-                )}
-          </ul>
-        </div>
+        {loading && (
+          <div className="loading-cards">
+            <Loading />
+          </div>
+        )}
+        {!loading && lessonsItems.length < 1 && (
+          <div className="no-task-card">
+            <div className="no-tasks">
+              <p>No Lessons Available Yet</p>
+            </div>
+          </div>
+        )}
+        {lessonsItems.length > 0 && (
+          <div className="lesson-cards">
+            <ul>
+              {lessonsItems.map((item) => (
+                <Card
+                  key={item._id}
+                  title={item.title}
+                  description={item.description}
+                  id={item._id}
+                  action={"edit"}
+                />
+              ))}
+            </ul>
+          </div>
+        )}
         {/* <div className="help-section">
             <p>
               Need help? <a href="#">View Support Center →</a>

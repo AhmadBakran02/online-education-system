@@ -1,0 +1,42 @@
+.question-box {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 25px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+.question {
+  font-size: 20px;
+  color: #454545;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.answer .choice {
+  display: flex;
+  gap: 15px;
+  user-select: none;
+}
+
+.answer .choice .input-choice {
+  cursor: pointer;
+  width: 18px;
+}
+
+.answer .choice .input-choice:checked {
+  background-color: var(--mainBlue);
+  border-color: var(--color-gray-800);
+}
+
+.answer .choice label {
+  /* background-color: saddlebrown; */
+  cursor: pointer;
+  text-transform: capitalize;
+}

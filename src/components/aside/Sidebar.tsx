@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
+// import "../../../public/"
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,7 +25,7 @@ const Sidebar = () => {
 
   const sidebarLinks = [
     { name: "dashboard", icon: "./dashboard.svg", href: "/dashboard" },
-    { name: "Assignments", icon: "./task.svg", href: "/tasks" },
+    { name: "quizzes", icon: "@/public/task.svg", href: "/quizzes" },
     { name: "Question Bank", icon: "./question.svg", href: "/question-bank" },
     {
       name: "Learning Resources",
@@ -36,6 +37,8 @@ const Sidebar = () => {
     { name: "Edit Lessons", icon: "./edit.svg", href: "/edit-lessons" },
     { name: "Add Post", icon: "./article.svg", href: "/add-post" },
     { name: "Edit Posts", icon: "./edit.svg", href: "/edit-posts" },
+    { name: "Users", icon: "./users.svg", href: "/users" },
+    { name: "Add Quiz", icon: "./task-add.svg", href: "/add-quiz" },
   ];
 
   return (

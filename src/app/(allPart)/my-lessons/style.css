@@ -52,6 +52,14 @@
   align-items: start;
   justify-content: center;
 }
+.my-lessons .loading-cards {
+  background-color: rgb(240, 240, 240);
+  border-radius: 9px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .my-lessons .lesson-cards ul {
   list-style: none;
   width: 100%;

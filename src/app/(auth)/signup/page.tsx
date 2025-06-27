@@ -14,7 +14,6 @@ interface LoginData {
   email: string;
   name: string;
   gender: string;
-  role: string;
   password: string;
 }
 
@@ -42,7 +41,6 @@ export default function Login() {
     email: "",
     name: "",
     gender: "",
-    role: "student",
     password: "",
   });
 
@@ -104,7 +102,7 @@ export default function Login() {
   };
 
   // ####################################
-
+  console.log(loginData);
   return (
     <div className="login-body">
       <div className="container">
@@ -152,7 +150,6 @@ export default function Login() {
           </div>
           <div className="In">
             <label>Gender</label>
-
             <div className="radio-option">
               <input
                 type="radio"

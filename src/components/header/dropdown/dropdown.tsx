@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import "./style.css";
 import Image from "next/image";
@@ -9,25 +8,21 @@ import { apiUrl } from "@/components/url";
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [photoID, setPhotoID] = useState("685580b136f272c1888f9be3");
-  const [name, setName] = useState("name");
+  const [userName, setUserName] = useState("name");
   const [email, setEmail] = useState("email");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [photoUrl, setPhotoUrl] = useState("/images/pic2.jpg");
-  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   // Set default value
   useEffect(() => {
     setPhotoID(localStorage.getItem("photoID") || "685580b136f272c1888f9be3");
-    setName(localStorage.getItem("name") || "name");
+    setUserName(localStorage.getItem("name") || "loading..");
     setEmail(localStorage.getItem("email") || "email");
   }, []);
 
-  // Get photo
   useEffect(() => {
     const fetchPhoto = async () => {
-      // setLoading(true);
-      // setError("");
       try {
         const token = localStorage.getItem("token") || "";
 
@@ -54,26 +49,31 @@ export default function UserDropdown() {
 
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
+
+        // Clean up previous URL if it was a blob
+        if (photoUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(photoUrl);
+        }
+
         setPhotoUrl(url);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch photo");
         console.error("Error fetching photo:", err);
-      } finally {
-        if (error) console.log(error);
-        // setLoading(false);
+        setPhotoUrl("/images/pic2.jpg");
       }
     };
 
     fetchPhoto();
 
+    // Cleanup function
     return () => {
       if (photoUrl.startsWith("blob:")) {
         URL.revokeObjectURL(photoUrl);
       }
     };
-  }, []); // Only these dependencies are needed now
-  
-  // Handle Get photo
+  }, [photoID]);
+
+  // Handle click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -97,6 +97,7 @@ export default function UserDropdown() {
     localStorage.removeItem("photoID");
     localStorage.removeItem("role");
   };
+
   return (
     <div className="user-dropdown" ref={dropdownRef}>
       <div className="user-trigger" onClick={() => setIsOpen(!isOpen)}>
@@ -108,7 +109,7 @@ export default function UserDropdown() {
           className="user-avatar pic"
           priority
         />
-        <span className="user-name">{name}</span>
+        <span className="user-name">{userName}</span>
         <svg
           className={`dropdown-icon ${isOpen ? "open" : ""}`}
           viewBox="0 0 20 20"
@@ -121,7 +122,6 @@ export default function UserDropdown() {
           />
         </svg>
       </div>
-
       {isOpen && (
         <div className="dropdown-menu">
           <div className="dropdown-header">
@@ -134,7 +134,7 @@ export default function UserDropdown() {
               priority
             />
             <div className="user-info">
-              <div className="user-fullname">{name}</div>
+              <div className="user-fullname">{userName}</div>
               <div className="user-email">{email}</div>
             </div>
           </div>
@@ -162,6 +162,7 @@ export default function UserDropdown() {
           </Link>
         </div>
       )}
+      {error && !error && <p>{error}</p>}
     </div>
   );
 }

@@ -4,9 +4,7 @@ interface Lesson {
   lessonID: string;
 }
 
-export const deleteLessonFromMyLibrary = async (
-  id: string
-): Promise<boolean> => {
+export const DeleteLesson = async (id: string): Promise<boolean> => {
   const lesson: Lesson = {
     lessonID: id,
   };
@@ -17,8 +15,8 @@ export const deleteLessonFromMyLibrary = async (
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(apiUrl + `/lesson/library`, {
-      method: "DELETE", // Fixed typo from "DELET" to "DELETE"
+    const response = await fetch(apiUrl + `/lesson`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         token,
@@ -40,4 +38,4 @@ export const deleteLessonFromMyLibrary = async (
   }
 };
 
-export default deleteLessonFromMyLibrary;
+export default DeleteLesson;

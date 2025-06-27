@@ -24,7 +24,7 @@ export const EditLesson = async (
     }
 
     const response = await fetch(apiUrl + `/lesson`, {
-      method: "DELETE",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         token: token,

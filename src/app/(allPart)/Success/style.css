@@ -4,6 +4,8 @@
   background-color: var(--color-green-50);
   border-radius: 6px;
   padding: 5px;
-  margin-top: 15px;
+  height: 40px;
+  align-items: center;
+  /* margin-top: 15px; */
   text-align: center;
 }

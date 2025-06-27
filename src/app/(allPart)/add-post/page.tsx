@@ -6,12 +6,6 @@ import { apiUrl } from "@/components/url";
 // import { AddPost } from "../../interfaces/type";
 
 export default function AddPosts() {
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     window.location.href = "/login";
-  //   }
-  // }, []);
   const [photo, setPhoto] = useState<File | null>(null);
   const [titleValue, setTitleValue] = useState<string>("");
   const [articleValue, setArticleValue] = useState<string>("");
@@ -83,24 +77,14 @@ export default function AddPosts() {
 
   const submitLesson = async () => {
     setIsUploading(true);
-    console.log("start");
     try {
       // First upload the Photo
       const photoUploadSuccess = await uploadPhoto();
 
       if (photoUploadSuccess == "") return;
 
-      // setFileInformation((prev) => ({
-      //   ...prev,
-      //   photoID: photoUploadSuccess,
-      // }));
-
       console.log("start-2");
-      // console.log(photoUploadSuccess);
-      // console.log(fileInformation);
-      console.log(titleValue);
-      console.log(articleValue);
-      console.log(photoUploadSuccess);
+
       const response = await fetch(apiUrl + `/post`, {
         method: "PUT",
         headers: {
@@ -114,21 +98,18 @@ export default function AddPosts() {
         }),
       });
 
-      // const data = await response.json();
       const data = await response.json();
-      // console.log(data.massage);
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
       }
 
       // Handle successful login
       setSuccess(true);
-      console.log("ssss");
+      console.log("successful ");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       console.log(error);
     } finally {
-      console.log("6666");
       // setLoading(false);
       setIsUploading(false);
     }
@@ -209,7 +190,11 @@ export default function AddPosts() {
           {isUploading ? "Uploading..." : "Publish Lesson"}
         </button>
       </div>
-      {success && <Success text={"The lesson has been added successfully."} />}
+      {success && (
+        <div className="mt-3.5">
+          <Success text={"The lesson has been added successfully."} />
+        </div>
+      )}
       {error && (
         <div className="text-red-500 border-solid border-red-500 border rounded-sm my-5 text-center">
           {error} {message}

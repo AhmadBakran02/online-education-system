@@ -133,3 +133,6 @@
   /* background-color: seagreen; */
   align-self: self-start;
 }
+.show-full-post {
+  height: 100%;
+}

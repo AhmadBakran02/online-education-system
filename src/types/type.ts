@@ -47,6 +47,7 @@ export interface Post {
   photoID: string;
   __v: number;
   editPost: boolean;
+  showFull: boolean;
 }
 export interface AddPost {
   title: string;
@@ -69,4 +70,58 @@ export interface TypeOfParamsCard {
   id: string;
   action: string;
   isIn?: boolean;
+}
+
+export interface BlogsType {
+  title: string;
+  category: string;
+  article: string;
+}
+export interface getBlogsType {
+  _id: string;
+  title: string;
+  BlogedBy: string;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  role: string;
+  __v: number;
+}
+
+export interface Users {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  gender: string;
+  isVerified: boolean;
+  isBlocked: boolean;
+  photoID: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface GetComments {
+  _id: string;
+  userID: string;
+  blogID: string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  name: string;
+  role: string;
+  photoID: string;
+}
+
+export interface OnePost {
+  _id: string;
+  postedBy: string;
+  title: string;
+  article: string;
+  photoID: string;
+  __v: number;
 }

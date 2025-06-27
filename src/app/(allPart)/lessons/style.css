@@ -1,4 +1,3 @@
-
 .lessons-container .lessons-header h3 {
   font-weight: 600;
   font-size: 25px;
@@ -100,6 +99,7 @@
   display: grid;
   padding-top: 30px;
   gap: 15px;
+  /* background-color: saddlebrown; */
 }
 
 @media (min-width: 0px) and (max-width: 620px) {

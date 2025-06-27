@@ -2,15 +2,11 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import Image from "next/image";
 import AddToMyLessons from "./add-lesson";
-import DeleteFormMyLessons from "./delete-lessos";
+import DeleteFormMyLessons from "./delete-lesson-library";
 import { EditLesson } from "./EditLesson";
-// import { getFile, streamAndDownloadPdf } from "../api/get-file";
-// import { downloadPdf } from "../services/downloadService";
-import { TypeOfParamsCard } from "../../app/interfaces/type";
-// import { Linefont } from "next/font/google";
+import { TypeOfParamsCard } from "../../types/type";
 import Link from "next/link";
-// import LessonId from "@/app/(allPart)/lessons/[lessonId]/page";
-// import VideoPlayer from "../show-video/page";
+import { DeleteLesson } from "./delete-lesson";
 
 export const Card = ({
   title,
@@ -21,6 +17,7 @@ export const Card = ({
 }: TypeOfParamsCard) => {
   const [message, setMessage] = useState<boolean>(false);
   const [addButton, setAddButton] = useState<boolean>(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
 
   const [deletePic, setDeletePic] = useState<string>("./delete.svg");
   const [editPic, setEditPic] = useState<string>("./delete.svg");
@@ -55,12 +52,20 @@ export const Card = ({
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeleteLibrary = async () => {
     const f = action === "edit";
     console.log(f);
     const success = await DeleteFormMyLessons(id);
     if (success) {
-      window.location.reload();
+      setDeleted(true);
+    }
+  };
+  const handleDelete = async () => {
+    const f = action === "edit";
+    console.log(f);
+    const success = await DeleteLesson(id);
+    if (success) {
+      setDeleted(true);
     }
   };
 
@@ -105,7 +110,7 @@ export const Card = ({
   };
 
   return (
-    <div className="card" key={id}>
+    <div key={id} className={`card ${deleted ? "hid" : ""}`}>
       {action === "add" && (
         <div className="header-card">
           <Link href={`/lessons/${id}`}>
@@ -123,6 +128,7 @@ export const Card = ({
       )}
       {action == "remove" && <p className="title">{title}</p>}
       <h2 className="subject-name">{description}</h2>
+
       {action == "add" && (
         <button
           onClick={handleAddToLessons}
@@ -148,7 +154,7 @@ export const Card = ({
             </Link>
           </button>
           <button
-            onClick={() => handleDelete()}
+            onClick={() => handleDeleteLibrary()}
             className="delete"
             onMouseEnter={() => setDeletePic("./delete-white.svg")}
             onMouseLeave={() => setDeletePic("./delete.svg")}
@@ -184,7 +190,6 @@ export const Card = ({
       {isOpen && (
         <div className="modal-overlay">
           <div className="flow-card">
-            <h3>Create New Item</h3>
             <form>
               <div className="form-group">
                 <label>Title</label>
@@ -215,37 +220,6 @@ export const Card = ({
           </div>
         </div>
       )}
-
-      {/* {showLesson && (
-        <div className="modal-overlay">
-          <div className="flow-card">
-            <form>
-              {id}
-              <div className="form-group">
-                <div className="lesson-title-show flex">
-                  <h2 className="font-bold">{title}</h2>
-                </div>
-              </div>
-              <div className="form-group">
-                <div className="lesson-des-show ">
-                  <p className="font-bold">Description:</p>
-                  <h3>{description}</h3>
-                </div>
-              </div>
-
-              {videoID && <Link href={""}></Link>}
-              <div className="button-group">
-                <button type="button" onClick={handleDownload}>
-                  {isLoading ? "Downloading..." : "Download PDF File"}
-                </button>
-                <button type="button" onClick={() => setShowLesson(false)}>
-                  Close
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

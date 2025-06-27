@@ -3,7 +3,7 @@ import { Card } from "../../../components/lessons-card/lessons-card";
 import "./style.css";
 import { useEffect, useState, useCallback } from "react";
 import Loading from "../../../components/loading/Loading";
-import { LessonsType, NumPage } from "../../interfaces/type";
+import { LessonsType, NumPage } from "../../../types/type";
 import { apiUrl } from "@/components/url";
 
 export default function MyLessons() {
@@ -28,7 +28,8 @@ export default function MyLessons() {
     try {
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        apiUrl+`/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
+        apiUrl +
+          `/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
         {
           method: "GET",
           headers: {
@@ -68,19 +69,21 @@ export default function MyLessons() {
         <input type="search" placeholder="Search by Id coures" />
         <button className="btn">Search</button>
       </div>
-
+      {loading && (
+        <div className="loading-cards">
+          {" "}
+          <Loading />
+        </div>
+      )}
       <div className="lesson-cards">
-        {loading && <Loading />}
         <ul>
-          {Array.isArray(lessonsItems) && lessonsItems.length > 0
+          {!loading && Array.isArray(lessonsItems) && lessonsItems.length > 0
             ? lessonsItems.map((item) => (
                 <Card
                   key={item._id}
                   title={item.title}
                   description={item.description}
                   id={item._id}
-                  pdfID={item.pdfID}
-                  videoID={item.videoID}
                   action={"remove"}
                 />
               ))

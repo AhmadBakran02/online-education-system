@@ -3,7 +3,8 @@ import "./style.css";
 import Image from "next/image";
 import { deletePost } from "./delete-post";
 import { EditPost } from "./Edit-post";
-import { Post } from "@/app/interfaces/type";
+import { Post } from "@/types/type";
+import { redirect } from "next/navigation";
 
 export const PostCard = ({
   title,
@@ -12,6 +13,7 @@ export const PostCard = ({
   photoID,
   photoUrl,
   editPost,
+  showFull,
 }: Post) => {
   const [deletePic, setDeletePic] = useState<string>("./delete.svg");
   const [editPic, setEditPic] = useState<string>("./edit.svg");
@@ -33,10 +35,10 @@ export const PostCard = ({
     console.log(_id);
     setLoadingDelete(true);
     const success = await deletePost(_id);
+
     if (success) {
       setDeleted(true);
       setLoadingDelete(false);
-      // window.location.reload();
     }
   };
 
@@ -51,7 +53,10 @@ export const PostCard = ({
   };
 
   const handleShow = async () => {
-    setShowPost(true);
+    if (editPost) setShowPost(true);
+    else {
+      redirect(`/post/${_id}`);
+    }
   };
 
   const handleEditApi = async (e: React.FormEvent) => {
@@ -72,6 +77,7 @@ export const PostCard = ({
       setIsLoading(false);
     }
   };
+
   function isValidUrl(string: string) {
     try {
       new URL(string);
@@ -80,13 +86,14 @@ export const PostCard = ({
       return false;
     }
   }
+
   console.log(photoUrl);
   return (
     <div
       key={_id}
       className={`post bg-white rounded-lg overflow-hidden ${
         deleted ? "hid" : ""
-      }`}
+      }  ${showFull ? "show-full-post" : "dont-show-full-post"}`}
     >
       <Image
         src={photoUrl && isValidUrl(photoUrl) ? photoUrl : "/images/pic2.jpg"}
@@ -106,7 +113,13 @@ export const PostCard = ({
         <h3 onClick={handleShow} className="text-lg font-semibold post-title">
           {title}
         </h3>
-        <p className="text-sm text-gray-600 post-article">{article}</p>
+        <p
+          className={`text-sm text-gray-600 ${
+            showFull ? "show-full" : "post-article"
+          }`}
+        >
+          {article}
+        </p>
 
         {editPost && (
           <div className="two-button">

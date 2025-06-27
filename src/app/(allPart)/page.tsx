@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useEffect, useState, useCallback } from "react";
-import { GetPost } from "./../interfaces/type";
+import { GetPost } from "../../types/type";
 import { PostCard } from "@/components/post-card/post-card";
 import { apiUrl } from "@/components/url";
 
@@ -185,6 +185,7 @@ export default function Home() {
                         __v={0}
                         editPost={false}
                         photoID={post.photoID}
+                        showFull={false}
                       />
                     </SwiperSlide>
                   ))}
@@ -202,6 +203,7 @@ export default function Home() {
                         __v={0}
                         editPost={false}
                         photoID={""}
+                        showFull={false}
                       />
                     </SwiperSlide>
                   ))}

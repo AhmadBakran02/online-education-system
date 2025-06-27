@@ -44,6 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 55px;
 }
 
@@ -55,6 +56,10 @@
   width: 90%;
   height: 90%;
   border-radius: 6px;
+}
+
+.video-container {
+  /* background-color: saddlebrown; */
 }
 
 .pdf-body {
