@@ -20,6 +20,7 @@ interface TypeOfValue {
   name: string;
   role: string;
   edit: boolean;
+  commentNumber: string;
 }
 export const ForumCard = ({
   title,
@@ -31,6 +32,7 @@ export const ForumCard = ({
   role,
   name,
   edit,
+  commentNumber,
 }: TypeOfValue) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
@@ -256,7 +258,8 @@ export const ForumCard = ({
             <Image src="./like.svg" width={20} height={20} alt="" /> 5
           </button>
           <button onClick={() => answer()} className="icon-btn">
-            <Image src="./comment.svg" width={21} height={21} alt="" /> 3
+            <Image src="./comment.svg" width={21} height={21} alt="" />{" "}
+            {commentNumber}
           </button>
         </div>
       )}

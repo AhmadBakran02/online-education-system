@@ -75,6 +75,7 @@ export default function BlogArchive() {
             name={item.name}
             role={item.role}
             edit={true}
+            commentNumber={"5"}
           />
         ))}
       {error && !error && <h1>{error}</h1>}

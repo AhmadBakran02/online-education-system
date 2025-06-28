@@ -4,4 +4,11 @@
   border-radius: 7px;
   margin-bottom: 8px;
   font-size: 0.9rem;
+  display: flex;
+  gap: 5px;
+  /* text-transform: capitalize; */
+}
+
+.answer::first-letter {
+  text-transform: capitalize;
 }

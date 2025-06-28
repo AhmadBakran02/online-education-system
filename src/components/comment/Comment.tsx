@@ -10,9 +10,8 @@ export default function Comment({ role, name, comment }: Comment) {
   return (
     <div className="answer">
       <strong>
-        {role}: {""}
+        ({role}) <span>{name}:</span>
       </strong>
-      <span>{name}</span>
       <p>{comment}</p>
     </div>
     // <div className="answer">
