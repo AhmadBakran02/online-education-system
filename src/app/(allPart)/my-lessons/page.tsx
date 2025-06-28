@@ -11,7 +11,7 @@ export default function MyLessons() {
   const [loading, setLoading] = useState<boolean>(true);
   const [numPage] = useState<NumPage>({
     page: "1",
-    limit: "20",
+    limit: "120",
   });
 
   // Check authentication

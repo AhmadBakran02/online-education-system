@@ -32,7 +32,7 @@ export default function Lessons() {
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(apiUrl + "/lesson/number-of-lessons", {
+      const response = await fetch(apiUrl + "/lesson/number", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

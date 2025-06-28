@@ -18,7 +18,7 @@ export default function QuizListPage() {
       try {
         const token = localStorage.getItem("token") || "";
         const response = await fetch(
-          apiUrl + "/quiz/get/all?page=1&limit=100",
+          apiUrl + "/quiz/get/all?page=1&limit=800",
           {
             method: "POST",
             headers: {

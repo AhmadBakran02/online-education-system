@@ -243,22 +243,3 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
-/* .lesson {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-
-.lesson p:nth-child(1) {
-  color: var(--color-gray-500);
-}
-.lesson p:nth-child(2) {
-  font-weight: bold;
-  font-size: 18px;
-} */
-
-.form-group .lesson-title-show {
-  /* display: flex; */
-  /* background-color: saddlebrown; */
-}

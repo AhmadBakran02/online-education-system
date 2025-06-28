@@ -42,7 +42,7 @@ export default function AddPosts() {
       const formData = new FormData();
       formData.append("file", photo);
 
-      const response = await fetch("${apiUrl}/file", {
+      const response = await fetch(`${apiUrl}/file`, {
         method: "PUT",
         headers: {
           token: localStorage.getItem("token") || "",

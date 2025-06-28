@@ -1,38 +1,29 @@
-import { apiUrl } from "../url";
+import { apiUrl } from "@/components/url";
 
-interface Blog {
-  blogID: string;
-  title: string;
-  article: string;
-  category: string;
+interface Name {
+  name: string;
 }
 
-export const EditBlog = async (
-  blogID: string,
-  title: string,
-  article: string,
-  category: string
+export const EditName = async (
+  name: string
 ): Promise<{ success: boolean; message?: string }> => {
-  const blog: Blog = {
-    blogID: blogID,
-    title: title,
-    article: article,
-    category: category,
+  const userName: Name = {
+    name: name,
   };
-  // console.log(blogID);
+
   try {
     const token = localStorage.getItem("token");
     if (!token) {
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(apiUrl + `/blog`, {
+    const response = await fetch(apiUrl + `/user/change/name`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         token: token,
       },
-      body: JSON.stringify(blog),
+      body: JSON.stringify(userName),
     });
 
     if (!response.ok) {
@@ -43,7 +34,7 @@ export const EditBlog = async (
     }
 
     const data = await response.json();
-    console.log("Edit successfully!");
+    console.log("File uploaded successfully!");
 
     return { success: true, message: data.message };
   } catch (error) {
@@ -56,4 +47,4 @@ export const EditBlog = async (
   }
 };
 
-export default EditBlog;
+export default EditName;

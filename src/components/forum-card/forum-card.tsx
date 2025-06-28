@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useState } from "react";
 import "./style.css";
-// import "./../../app/globals.css";
 
 import Image from "next/image";
 import { apiUrl } from "../url";
@@ -9,6 +8,7 @@ import EditBlog from "./EditBlog";
 import deleteBlog from "./delete-blog";
 import { GetComments } from "@/types/type";
 import Comment from "../comment/Comment";
+import Loading2 from "../loading2/loading2";
 
 interface TypeOfValue {
   title: string;
@@ -134,7 +134,7 @@ export const ForumCard = ({
     } finally {
       setCommentsLoading(false);
     }
-  }, [id]); // Dependencies that affect the API call
+  }, [id]);
 
   // Initial data fetch
   const handelAddComment = async (e: React.FormEvent) => {
@@ -146,16 +146,11 @@ export const ForumCard = ({
     }
   };
 
-  // const handelGetComment = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   getAllComments();
-  // };
-
   const handleEditApi = async (e: React.FormEvent) => {
     setIsLoading(true);
     e.preventDefault();
     try {
-      const response = await EditBlog(id, title, article, category);
+      const response = await EditBlog(id, newTitle, newArticle, category);
       setResult(response);
 
       if (response.success) {
@@ -170,14 +165,6 @@ export const ForumCard = ({
     }
   };
 
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //       // await handleGetNumber();
-  //       await getAllComments();
-  //       // setBlogs(tt);
-  //     };
-  //     fetchData();
-  //   }, []);
   const handleEdit = async () => {
     setNewTitle(title);
     setNewArticle(article);
@@ -300,8 +287,10 @@ export const ForumCard = ({
                   <p>No comments yet. Leave the first one!</p>
                 </div>
               )}
+          {commentsLoading && <Loading2 />}
         </div>
       </div>
+
       {showEdit && (
         <div className="modal-overlay">
           <div className="flow-card">
@@ -323,7 +312,7 @@ export const ForumCard = ({
                   required
                 />
               </div>
-              <div className="button-group">
+              <div className="button-group-blog">
                 <button type="submit" onClick={handleEditApi}>
                   {isLoading ? "Updating..." : "Submit"}
                 </button>

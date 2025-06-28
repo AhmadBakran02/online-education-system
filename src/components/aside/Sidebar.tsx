@@ -29,16 +29,18 @@ const Sidebar = () => {
     { name: "Question Bank", icon: "./question.svg", href: "/question-bank" },
     {
       name: "Learning Resources",
-      icon: "./book.svg",
+      icon: "./book5.svg",
       href: "/learning-resources",
     },
-    { name: "Discussions", icon: "./message.svg", href: "/discussions" },
+    { name: "Discussions", icon: "./message3.svg", href: "/discussions" },
     { name: "Add Lessons", icon: "./book3.svg", href: "/add-lessons" },
     { name: "Edit Lessons", icon: "./edit.svg", href: "/edit-lessons" },
     { name: "Add Post", icon: "./article.svg", href: "/add-post" },
     { name: "Edit Posts", icon: "./edit.svg", href: "/edit-posts" },
     { name: "Users", icon: "./users.svg", href: "/users" },
     { name: "Add Quiz", icon: "./task-add.svg", href: "/add-quiz" },
+    { name: "Blog Archive", icon: "./message-edit.svg", href: "/blog-archive" },
+    { name: "Edit Quiz", icon: "./quiz-edit.svg", href: "/edit-quizzes" },
   ];
 
   return (

@@ -6,13 +6,13 @@ import Link from "next/link";
 import { apiUrl } from "@/components/url";
 
 export default function UserDropdown() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [photoID, setPhotoID] = useState("685580b136f272c1888f9be3");
-  const [userName, setUserName] = useState("name");
-  const [email, setEmail] = useState("email");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [photoID, setPhotoID] = useState<string>("685580b136f272c1888f9be3");
+  const [userName, setUserName] = useState<string>("name");
+  const [email, setEmail] = useState<string>("email");
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [photoUrl, setPhotoUrl] = useState("/images/pic2.jpg");
-  const [error, setError] = useState("");
+  const [photoUrl, setPhotoUrl] = useState<string>("/images/user.svg");
+  const [error, setError] = useState<string>("");
 
   // Set default value
   useEffect(() => {

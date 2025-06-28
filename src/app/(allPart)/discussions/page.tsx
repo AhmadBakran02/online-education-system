@@ -185,7 +185,7 @@ export default function Discussions() {
                     id={item._id}
                     name={item.name}
                     role={item.role}
-                    edit={true}
+                    edit={false}
                   />
                 ))
               : !loading && (
