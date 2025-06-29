@@ -1,8 +1,4 @@
-// app/quizzes/[quizId]/page.tsx
-
-///quiz/AI/generate
 "use client";
-import "../../../globals.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
@@ -26,27 +22,42 @@ export default function QuizPage() {
   const [score, setScore] = useState<number>(0);
   const router = useRouter();
   const pathname = usePathname();
-  const [id, setId] = useState<string>("");
+  // const [id, setId] = useState<string>("");
+
+  // const getLessonID = () => {
+  //   const newId = pathname.split("/")[2];
+  //   setId(newId);
+  //   console.log(newId);
+  //   return newId;
+  // };
+
+  // useEffect(() => {
+  //   const newId = pathname.split("/")[2];
+  //   setId(newId);
+  //   console.log(newId);
+  // }, [pathname]);
 
   useEffect(() => {
-    const newId = pathname.split("/")[2];
-    setId(newId);
-  }, [pathname]);
+    // console.log(id);
 
-  useEffect(() => {
     const fetchQuiz = async () => {
+      // const lID = getLessonID();
+      // if (!lID) return;
+
       try {
         const token = localStorage.getItem("token") || "";
-        const quizId = params.quizId as string; // Type assertion
+        // const quizId = params.quizId as string; // Type assertion
 
-        const response = await fetch(apiUrl + `/quiz/get`, {
-          method: "POST", // Changed to POST since you're sending body
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-          body: JSON.stringify({ quizID: quizId }),
-        });
+        const response = await fetch(
+          apiUrl + `/quiz/AI/generate?lessonID=${pathname.split("/")[2]}`,
+          {
+            method: "GET", // Changed to POST since you're sending body
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          }
+        );
 
         if (!response.ok) throw new Error("Failed to fetch quiz");
 
@@ -61,7 +72,7 @@ export default function QuizPage() {
     };
 
     fetchQuiz();
-  }, [params.quizId]);
+  }, [params.quizId, pathname]);
 
   const answersArray: number[] = Object.keys(userAnswers)
     .sort((a, b) => parseInt(a) - parseInt(b))
@@ -73,6 +84,7 @@ export default function QuizPage() {
     try {
       console.log("start-2");
       console.log(answersArray);
+      console.log(quiz?._id);
       const response = await fetch(apiUrl + `/quiz/submit-solution`, {
         method: "POST",
         headers: {
@@ -81,7 +93,7 @@ export default function QuizPage() {
         },
         body: JSON.stringify({
           answers: answersArray,
-          quizID: id,
+          quizID: quiz?._id,
         }),
       });
 
@@ -185,36 +197,6 @@ export default function QuizPage() {
       >
         {!submiting ? "Submit Answers" : "Submiting..."}
       </button>
-
-      {/* {!submitted ? (
-        <button
-          onClick={handleSubmit}
-          disabled={Object.keys(userAnswers).length !== quiz.questions.length}
-          className={`mt-6 px-6 py-3 rounded-lg text-white font-medium w-full ${
-            Object.keys(userAnswers).length === quiz.questions.length
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Submit Answers
-        </button>
-      ) : (
-        <div className="mt-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
-          <h3 className="text-xl font-semibold text-center mb-2">
-            Quiz Results
-          </h3>
-          <div className="text-3xl font-bold text-center mb-4">
-            {calculateScore()} / {quiz.questions.length}
-          </div>
-          <p className="text-center text-gray-600">
-            {calculateScore() === quiz.questions.length
-              ? "Perfect score! 🎉"
-              : calculateScore() >= quiz.questions.length / 2
-              ? "Good job! 👍"
-              : "Keep practicing! 💪"}
-          </p>
-        </div>
-      )} */}
     </div>
   );
 }

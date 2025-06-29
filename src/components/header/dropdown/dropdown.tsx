@@ -16,7 +16,7 @@ export default function UserDropdown() {
 
   // Set default value
   useEffect(() => {
-    setPhotoID(localStorage.getItem("photoID") || "685580b136f272c1888f9be3");
+    setPhotoID(localStorage.getItem("photoID") || "");
     setUserName(localStorage.getItem("name") || "loading..");
     setEmail(localStorage.getItem("email") || "email");
   }, []);
@@ -27,6 +27,7 @@ export default function UserDropdown() {
         const token = localStorage.getItem("token") || "";
 
         if (!photoID) {
+          return;
           throw new Error("No photo ID provided");
         }
 

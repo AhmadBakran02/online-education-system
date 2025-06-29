@@ -60,6 +60,7 @@ export const Card = ({
       setDeleted(true);
     }
   };
+  
   const handleDelete = async () => {
     const f = action === "edit";
     console.log(f);

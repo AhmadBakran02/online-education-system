@@ -254,3 +254,7 @@
 .swiper-pagination-bullet {
   background-color: rgba(255, 0, 0, 0.5);
 }
+
+.image-home {
+  border-radius: 6px;
+}

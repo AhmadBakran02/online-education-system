@@ -1,14 +1,18 @@
 "use client";
-import { useEffect, useState, useCallback, FormEvent } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import "./style.css";
 import Image from "next/image";
 import EditName from "../users/Edit-name";
 import { apiUrl } from "@/components/url";
+import styles from "./VerifyCodePage.module.css";
+import { KeyboardEvent } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function Settings() {
-  const [currentPassword, setCurrentPassword] = useState<string>("");
+  // const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  // const [confirmPassword, setConfirmPassword] = useState<string>("");
   // const [profileImage, setProfileImage] = useState<string>("/images/pic2.jpg");
   const [message, setMessage] = useState<string>("");
   const [newName, setNewName] = useState<string>("");
@@ -17,12 +21,22 @@ export default function Settings() {
   const [photoUrl, setPhotoUrl] = useState("/images/user.svg");
   const [error, setError] = useState<string>("");
   const [photo, setPhoto] = useState<File | null>(null);
+  const [showIcon, setIcon] = useState(faEye);
+  const [passType, setType] = useState("password");
 
+  function showPass() {
+    if (showIcon === faEye) {
+      setIcon(faEyeSlash);
+      setType("text");
+    } else {
+      setIcon(faEye);
+      setType("password");
+    }
+  }
   useEffect(() => {
     setNewName(localStorage.getItem("name") || "");
     setPhotoID(localStorage.getItem("photoID") || "685580b136f272c1888f9be3");
   }, []);
-
   // const handleChangeImageApi = async (e: React.FormEvent) => {
   //   e.preventDefault();
   //   setIsLoading(true);
@@ -61,20 +75,20 @@ export default function Settings() {
     }
   };
 
-  const handlePasswordChange = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
-      if (newPassword !== confirmPassword) {
-        setMessage("Passwords do not match!");
-        return;
-      }
-      setMessage("Password updated successfully!");
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-    },
-    [newPassword, confirmPassword]
-  );
+  // const handlePasswordChange = useCallback(
+  //   (e: FormEvent) => {
+  //     e.preventDefault();
+  //     if (newPassword !== confirmPassword) {
+  //       setMessage("Passwords do not match!");
+  //       return;
+  //     }
+  //     setMessage("Password updated successfully!");
+  //     setCurrentPassword("");
+  //     setNewPassword("");
+  //     setConfirmPassword("");
+  //   },
+  //   [newPassword, confirmPassword]
+  // );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -199,7 +213,151 @@ export default function Settings() {
         URL.revokeObjectURL(photoUrl);
       }
     };
-  }, [photoID]);
+  }, [photoID, photoUrl]);
+  const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
+  // const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);
+  // const [resendTimer, setResendTimer] = useState<number>(30);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [emailValue, setEmailValue] = useState<string>("");
+
+  // Error and loading states
+  // const [error, setError] = useState<string | null>(null);
+  // const [resendError, setResendError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const [resendLoading, setResendLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+
+  // Initialize email from localStorage
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setEmailValue(storedEmail);
+    }
+  }, []);
+
+  // Handle input change
+  const handleChange = useCallback((index: number, value: string) => {
+    if (/^\d?$/.test(value)) {
+      setCode((prev) => {
+        const newCode = [...prev];
+        newCode[index] = value;
+        return newCode;
+      });
+
+      if (value && index < 5) {
+        inputRefs.current[index + 1]?.focus();
+      }
+    }
+  }, []);
+
+  // Handle backspace
+  const handleKeyDown = useCallback(
+    (index: number, e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Backspace" && !code[index] && index > 0) {
+        inputRefs.current[index - 1]?.focus();
+      }
+    },
+    [code]
+  );
+
+  // Handle paste
+  const handlePaste = useCallback(
+    (e: React.ClipboardEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      const pasteData = e.clipboardData
+        .getData("text/plain")
+        .replace(/\D/g, "")
+        .substring(0, 6);
+
+      if (pasteData.length === 6) {
+        const newCode = pasteData.split("");
+        setCode(newCode);
+        inputRefs.current[5]?.focus();
+      }
+    },
+    []
+  );
+
+  const isSubmitDisabled = code.some((digit) => !digit);
+
+  // Verify code submission
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      setError("");
+      setSuccess(false);
+
+      try {
+        const verificationCode = code.join("");
+        const response = await fetch(`${apiUrl}/auth/reset-password`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: emailValue,
+            code: verificationCode,
+            password: newPassword,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Verification failed");
+        }
+
+        setSuccess(true);
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
+        window.location.href = "/login";
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Verification failed");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [code, emailValue, newPassword]
+  );
+
+  // Resend verification code
+  // const handleResend = useCallback(
+  //   async (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //     setResendLoading(true);
+  //     setResendError(null);
+  //     setIsResendDisabled(true);
+  //     setResendTimer(30);
+
+  //     try {
+  //       const response = await fetch(apiUrl + `/auth/send-code`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           email: emailValue,
+  //           typeCode: "verify",
+  //         }),
+  //       });
+
+  //       const data = await response.json();
+
+  //       if (!response.ok) {
+  //         throw new Error(data.error || "Failed to resend code");
+  //       }
+  //     } catch (err) {
+  //       setResendError(
+  //         err instanceof Error ? err.message : "Failed to resend code"
+  //       );
+  //     } finally {
+  //       setResendLoading(false);
+  //     }
+  //   },
+  //   [emailValue]
+  // );
 
   return (
     <div className="profile-container">
@@ -208,7 +366,7 @@ export default function Settings() {
         <p>Manage your account settings and preferences.</p>
 
         {message && <div className="message">{message}</div>}
-
+        {success && <></>}
         <div className="settings-section">
           <div className="settings-card">
             <h3>Change Profile Picture</h3>
@@ -257,7 +415,7 @@ export default function Settings() {
 
           <div className="settings-card">
             <h3>Change Password</h3>
-            <form onSubmit={handlePasswordChange}>
+            {/* <form onSubmit={handlePasswordChange}>
               <div className="form-group">
                 <label htmlFor="current-password">Current Password</label>
                 <input
@@ -291,7 +449,83 @@ export default function Settings() {
               <button type="submit" className="save-button">
                 Change Password
               </button>
-            </form>
+            </form> */}
+            <div className="formAndResend">
+              <form onSubmit={handleSubmit} className="form">
+                <label>Enter the 6-digit code sent to {emailValue}</label>
+                <div className={styles.codeContainer}>
+                  {code.map((digit, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
+                      onPaste={handlePaste}
+                      ref={(el) => {
+                        if (el) {
+                          inputRefs.current[index] = el;
+                        }
+                      }}
+                      className={styles.codeInput}
+                      inputMode="numeric"
+                      autoFocus={index === 0}
+                    />
+                  ))}
+                </div>
+                {/* <div className="In">
+                  <label htmlFor="pass">Password</label>
+                  <div className="pass-icon" onClick={() => showPass()}>
+                    <FontAwesomeIcon
+                      icon={showIcon}
+                      className={` ${showIcon}`}
+                    ></FontAwesomeIcon>
+                    <input
+                      type={passType}
+                      className="input"
+                      name="password"
+                      id="pass"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                      placeholder="Enter your password"
+                    />
+                  </div>
+                </div> */}
+                <div className="reset-password">
+                  <label htmlFor="pass">Password</label>
+
+                  <div className="pass-icon" onClick={() => showPass()}>
+                    <FontAwesomeIcon
+                      icon={showIcon}
+                      className={` ${showIcon}`}
+                    ></FontAwesomeIcon>
+                  </div>
+
+                  <input
+                    type={passType}
+                    className="input"
+                    name="password"
+                    id="pass"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                    placeholder="Enter new password"
+                  />
+                </div>
+
+                <button
+                  className={`${styles.submitButton} ${
+                    isSubmitDisabled ? styles.disabled : ""
+                  }`}
+                  type="submit"
+                  disabled={loading || isSubmitDisabled}
+                >
+                  {loading ? "Verifying..." : "Verify"}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </main>

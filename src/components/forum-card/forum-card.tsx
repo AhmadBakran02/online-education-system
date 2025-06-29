@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./style.css";
 
 import Image from "next/image";
@@ -20,7 +20,6 @@ interface TypeOfValue {
   name: string;
   role: string;
   edit: boolean;
-  commentNumber: string;
 }
 export const ForumCard = ({
   title,
@@ -32,10 +31,10 @@ export const ForumCard = ({
   role,
   name,
   edit,
-  commentNumber,
 }: TypeOfValue) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
+  const [commentNumber, setCommentNumber] = useState<string>("0");
   const [success, setSuccess] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
   const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -94,12 +93,9 @@ export const ForumCard = ({
   };
 
   const handleDelete = async () => {
-    // const f = action === "edit";
-    // console.log(f);
     const success = await deleteBlog(id);
     if (success) {
       setDeleted(true);
-      // window.location.reload();
     }
   };
 
@@ -138,6 +134,40 @@ export const ForumCard = ({
     }
   }, [id]);
 
+  const getNumberOfComments = useCallback(async () => {
+    setCommentsLoading(true);
+    console.log("get comments");
+    try {
+      const token = localStorage.getItem("token") || "";
+      const response = await fetch(
+        apiUrl + `/blog/comment/number?blogID=${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setCommentNumber(data.numberOfComments);
+    } catch (error) {
+      console.error("Request failed:", error);
+      throw error;
+    } finally {
+      setCommentsLoading(false);
+    }
+  }, [id]);
+
   // Initial data fetch
   const handelAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,6 +177,9 @@ export const ForumCard = ({
       getAllComments();
     }
   };
+  useEffect(() => {
+    getNumberOfComments();
+  }, [getNumberOfComments]);
 
   const handleEditApi = async (e: React.FormEvent) => {
     setIsLoading(true);

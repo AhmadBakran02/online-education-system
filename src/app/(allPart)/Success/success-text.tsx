@@ -1,8 +1,8 @@
 import "./style.css";
-import React from 'react';
+import React from "react";
 
 interface SuccessProps {
-  text: string;
+  text: string | number;
 }
 
 const Success: React.FC<SuccessProps> = ({ text }) => {

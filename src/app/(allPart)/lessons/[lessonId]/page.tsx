@@ -4,14 +4,18 @@ import { Lesson } from "@/types/type";
 import { apiUrl } from "@/components/url";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import "./lesson-id-style.css";
+import "./style.css";
 import Loading from "@/components/loading/Loading";
+import Link from "next/link";
+
 export default function LessonId() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [lessonId, setLessonId] = useState<string>("");
+  // const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  // const [isUploading, setIsUploading] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
   const [lessonItems, setLessonItems] = useState<Lesson | null>(null);
 
@@ -124,6 +128,7 @@ export default function LessonId() {
       setLoading(false);
     }
   };
+
   console.log(lessonItems);
 
   const [videoUrl, setVideoUrl] = useState("");
@@ -132,7 +137,7 @@ export default function LessonId() {
 
   useEffect(() => {
     console.log(lessonItems?.videoID);
-    if (lessonItems?.videoID == "") return;
+    if (lessonItems?.videoID.length || 0 < 10) return;
 
     const fetchVideo = async () => {
       // setLoading(true);
@@ -185,6 +190,10 @@ export default function LessonId() {
       }
     };
   }, [lessonItems?.videoID, videoUrl]);
+
+  // const handleCreateQuiz = async () => {
+
+  // };
 
   return (
     <div className="post-page">
@@ -244,6 +253,19 @@ export default function LessonId() {
           >
             {downloading ? "Downloading..." : "Download"}
           </button>
+        </div>
+        <div className="ai-body">
+          <p className="ai-text">Give me practice questions by</p>
+          <Link href={`${lessonId}/ai-quiz`}>
+            <div className="ai-text-animation">
+              <span className="letter">G</span>
+              <span className="letter">e</span>
+              <span className="letter">m</span>
+              <span className="letter">i</span>
+              <span className="letter">n</span>
+              <span className="letter">i</span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

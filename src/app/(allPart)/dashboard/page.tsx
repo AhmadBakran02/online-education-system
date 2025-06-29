@@ -171,7 +171,6 @@ export default function Dashboard() {
                   name={""}
                   role={""}
                   edit={false}
-                  commentNumber={""}
                 />
               </div>
             </div>

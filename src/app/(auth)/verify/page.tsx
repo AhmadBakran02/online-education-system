@@ -6,16 +6,6 @@ import "./style.css";
 import Image from "next/image";
 import { apiUrl } from "@/components/url";
 
-// interface VerifyCodeData {
-//   email: string;
-//   code: string;
-// }
-
-// interface ResendCodeData {
-//   email: string;
-//   typeCode: string;
-// }
-
 export default function VerifyCodePage() {
   const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
   const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);

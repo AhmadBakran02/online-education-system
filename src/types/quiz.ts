@@ -43,7 +43,6 @@ export interface QuizApiResponse {
   limit?: number;
 }
 
-// types/quiz.ts
 export interface Quiz {
   _id: string;
   title: string;

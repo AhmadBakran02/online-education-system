@@ -1,0 +1,57 @@
+.codeContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.codeInput {
+  width: 100%;
+  height: 3.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  margin: 15px auto;
+}
+
+.codeInput:focus {
+  border-color: var(--mainBlue);
+}
+
+.submitButton {
+  color: rgb(255, 255, 255);
+  width: 100%;
+  background-color: var(--mainBlue);
+  border-radius: 6px;
+  height: 45px;
+  transition: 0.2s;
+  cursor: pointer;
+  margin-top: 5px;
+  font-size: 15px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--hoverBlue);
+}
+
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+}
+
+.resendButton:disabled {
+  color: #999;
+  cursor: not-allowed;
+}

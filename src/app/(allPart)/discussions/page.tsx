@@ -186,7 +186,7 @@ export default function Discussions() {
                     name={item.name}
                     role={item.role}
                     edit={false}
-                    commentNumber={"4"}
+                    // commentNumber={"4"}
                   />
                 ))
               : !loading && (

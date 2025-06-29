@@ -1,0 +1,185 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+.post-page {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  padding: 25px 35px;
+}
+
+.post-page h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: var(--mainBlue);
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.eight h1 {
+  text-align: center;
+
+  text-transform: uppercase;
+  font-size: 26px;
+  letter-spacing: 1px;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 16px 0;
+  grid-gap: 22px;
+}
+
+.eight h1:after,
+.eight h1:before {
+  content: " ";
+  display: block;
+  border-bottom: 2px solid var(--mainBlue);
+}
+
+.post-page .post-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 55px;
+}
+
+.lesson-description {
+  color: var(--color-gray-800);
+}
+
+.lesson-video {
+  width: 90%;
+  height: 90%;
+  border-radius: 6px;
+}
+
+.video-container {
+  /* background-color: saddlebrown; */
+}
+
+.pdf-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.pdf-text {
+  color: var(--color-gray-800);
+}
+
+.download-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: 0.5s;
+  color: #454545;
+}
+
+.download-button:hover {
+  background-color: #e6e6e6;
+  /* color: white; */
+}
+
+.ai-body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+  height: 60px;
+  justify-content: space-evenly;
+}
+
+.ai-text-animation:hover {
+  font-size: 2.5rem;
+}
+.ai-text {
+  color: #454545;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.ai-text-animation {
+  cursor: pointer;
+  transition: 0.3s;
+  cursor: pointer;
+  float: right;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  gap: 0.5rem;
+  display: flex;
+  gap: 0;
+}
+
+.letter {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  color: #439ddf;
+  animation: colorChange 9s ease infinite;
+}
+
+.letter:nth-child(1) {
+  animation-delay: 0s;
+}
+.letter:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.letter:nth-child(3) {
+  animation-delay: 1s;
+}
+.letter:nth-child(4) {
+  animation-delay: 1.5s;
+}
+.letter:nth-child(5) {
+  animation-delay: 2s;
+}
+.letter:nth-child(6) {
+  animation-delay: 2.5s;
+}
+
+@keyframes colorChange {
+  0% {
+    color: #439ddf; /* Blue */
+  }
+  10% {
+    color: #4f87ed; /* Lighter Blue */
+  }
+  20% {
+    color: #8a78cb; /* Purple */
+  }
+  30% {
+    color: #bc688e; /* Pink */
+  }
+  40% {
+    color: #d6645d; /* Red */
+  }
+  50% {
+    color: #d6645d; /* Red */
+  }
+  60% {
+    color: #bc688e; /* Pink */
+  }
+  70% {
+    color: #8a78cb; /* Purple */
+  }
+  80% {
+    color: #4f87ed; /* Lighter Blue */
+  }
+  90% {
+    color: #439ddf; /* Blue */
+  }
+}
