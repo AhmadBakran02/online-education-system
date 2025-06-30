@@ -5,6 +5,8 @@ import { apiUrl } from "@/components/url";
 import { getBlogsType } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
 import "./../../globals.css";
+import "./style.css"
+
 export default function BlogArchive() {
   const [blogs, setBlogs] = useState<getBlogsType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

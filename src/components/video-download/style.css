@@ -1,0 +1,60 @@
+.download-video {
+  position: relative;
+  width: 100px;
+  height: 16px;
+}
+.download-video:before,
+.download-video:after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--mainBlue);
+  box-shadow: 32px 0 var(--mainBlue);
+  left: 0;
+  top: 0;
+  animation: ballMoveX 2s linear infinite;
+}
+.download-video:after {
+  box-shadow: none;
+  transform: translateX(64px) scale(1);
+  z-index: 2;
+  animation: none;
+  animation: trfLoader 2s linear infinite;
+}
+
+@keyframes trfLoader {
+  0%,
+  5% {
+    transform: translateX(64px) scale(1);
+    background: #fff;
+  }
+  10% {
+    transform: translateX(64px) scale(1);
+    background: var(--color-gray-800);
+  }
+  40% {
+    transform: translateX(32px) scale(1.5);
+    background: var(--color-gray-800);
+  }
+  90%,
+  95% {
+    transform: translateX(0px) scale(1);
+    background: var(--color-gray-800);
+  }
+  100% {
+    transform: translateX(0px) scale(1);
+    background: var(--mainBlue);
+  }
+}
+@keyframes ballMoveX {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  90%,
+  100% {
+    transform: translateX(32px);
+  }
+}

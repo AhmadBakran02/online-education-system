@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .main-content h1 {
   font-weight: 600;
   font-size: 25px;
@@ -59,7 +61,7 @@
   margin-bottom: 20px;
   background-color: #e8f5e9;
   color: #2e7d32;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .settings-section {
@@ -100,7 +102,7 @@
   background-color: var(--mainBlue);
   color: white;
   padding: 8px 15px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 15px;
   cursor: pointer;
   display: inline-block;
@@ -128,7 +130,7 @@
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .save-button {
@@ -136,7 +138,7 @@
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 15px;
   cursor: pointer;
 }
@@ -204,4 +206,98 @@
   top: 24px;
   left: 90%;
   width: 22px;
+}
+
+.change-password-button {
+  background-color: var(--mainBlue);
+  padding: 0 15px;
+  border-radius: 6px;
+  color: #fff;
+  transition: 0.3s;
+  cursor: pointer;
+  height: 45px;
+}
+
+.change-password-button:hover {
+  background-color: var(--hoverBlue);
+}
+
+.codeContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.codeInput {
+  width: 100%;
+  height: 3.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  margin: 15px auto;
+}
+
+.codeInput:focus {
+  border-color: var(--mainBlue);
+}
+
+.submitButton {
+  color: rgb(255, 255, 255);
+  width: 100%;
+  background-color: var(--mainBlue);
+  border-radius: 6px;
+  height: 45px;
+  transition: 0.2s;
+  cursor: pointer;
+  margin-top: 5px;
+  font-size: 15px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--hoverBlue);
+}
+
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+}
+
+.resendButton:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.success-message {
+  background-color: var(--color-green-50);
+  color: var(--color-green-400);
+  border-radius: 6px;
+  border: 1px solid var(--color-green-400);
+  padding: 5px;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.error-message {
+  background-color: var(--color-red-50);
+  color: var(--color-red-400);
+  border-radius: 6px;
+  border: 1px solid var(--color-red-400);
+  padding: 5px;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
 }

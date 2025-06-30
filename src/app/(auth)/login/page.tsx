@@ -64,6 +64,8 @@ export default function Login() {
       const data = await response.json();
 
       if (!response.ok) {
+      console.log(data.message);
+
         throw new Error(data.error || "Login failed");
       }
 
@@ -81,6 +83,7 @@ export default function Login() {
       // Redirect using window.location instead of router
       window.location.href = "/dashboard";
     } catch (err) {
+      console.log(err);
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
@@ -106,11 +109,6 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div className="In">
             <label htmlFor="uname">Email</label>
-            {/* <input
-              type="text"
-              name=""
-              id="uname"
-              /> */}
             <input
               autoFocus
               type="email"
@@ -125,7 +123,7 @@ export default function Login() {
           </div>
           <div className="In">
             <label htmlFor="pass">Password</label>
-            <Link className="forget" href="">
+            <Link className="forget" href="/find-email">
               forget password?
             </Link>
             <div className="pass-icon" onClick={() => showPass()}>

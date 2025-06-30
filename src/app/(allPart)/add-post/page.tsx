@@ -1,7 +1,7 @@
 "use client";
 import "./style.css";
 import { useState } from "react";
-import Success from "../Success/success-text";
+import Success from "../../../components/Success/success-text";
 import { apiUrl } from "@/components/url";
 // import { AddPost } from "../../interfaces/type";
 
@@ -26,7 +26,10 @@ export default function AddPosts() {
     e.preventDefault(); // Prevent default form behavior (if inside a form)
     setTitleValue("");
     setArticleValue("");
-    setPhoto(null); // Clear selected file (optional)
+    setPhoto(null);
+    setMessage("");
+    setError("");
+    setSuccess(false);
   };
 
   const uploadPhoto = async () => {
@@ -52,6 +55,7 @@ export default function AddPosts() {
 
       const data = await response.json();
       if (!response.ok) {
+        console.log(data.message);
         throw new Error(data.message || "Upload failed");
       }
 
@@ -63,7 +67,7 @@ export default function AddPosts() {
       //   photoID: path,
       // }));
 
-      setMessage("File uploaded successfully!");
+      // setMessage("File uploaded successfully!");
       console.log("successfully");
       // console.log(fileInformation.photoID);
       return data.fileID; // Return true if upload succeeds
@@ -79,6 +83,7 @@ export default function AddPosts() {
     setIsUploading(true);
     try {
       // First upload the Photo
+      setSuccess(false);
       const photoUploadSuccess = await uploadPhoto();
 
       if (photoUploadSuccess == "") return;
@@ -117,7 +122,12 @@ export default function AddPosts() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submitLesson();
+    if (titleValue == "" || articleValue == "" || photo == null) {
+      setMessage("All fields are required. Please check and try again.");
+      return;
+    } else {
+      submitLesson();
+    }
   };
 
   return (
@@ -195,11 +205,12 @@ export default function AddPosts() {
           <Success text={"The lesson has been added successfully."} />
         </div>
       )}
-      {error && (
+      {/* {error && (
         <div className="text-red-500 border-solid border-red-500 border rounded-sm my-5 text-center">
           {error} {message}
         </div>
-      )}
+      )} */}
+      {message && <div className="message-error">{message}</div>}
     </div>
   );
 }

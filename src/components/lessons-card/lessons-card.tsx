@@ -191,7 +191,7 @@ export const Card = ({
       {isOpen && (
         <div className="modal-overlay">
           <div className="flow-card">
-            <form>
+            <form onSubmit={handleEditApi}>
               <div className="form-group">
                 <label>Title</label>
                 <input
@@ -210,7 +210,7 @@ export const Card = ({
                 />
               </div>
               <div className="button-group">
-                <button type="submit" onClick={handleEditApi}>
+                <button type="submit" >
                   {isLoading ? "Updating..." : "Submit"}
                 </button>
                 <button type="button" onClick={() => setIsOpen(false)}>

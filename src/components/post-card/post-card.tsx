@@ -148,7 +148,7 @@ export const PostCard = ({
       {isOpen && (
         <div className="modal-overlay">
           <div className="flow-card">
-            <form>
+            <form onSubmit={handleEditApi}>
               <div className="form-group">
                 <label>Title</label>
                 <input
@@ -167,7 +167,7 @@ export const PostCard = ({
                 />
               </div>
               <div className="button-group">
-                <button type="submit" onClick={handleEditApi}>
+                <button type="submit">
                   {isLoading ? "Updating..." : "Submit"}
                 </button>
                 <button type="button" onClick={() => setIsOpen(false)}>

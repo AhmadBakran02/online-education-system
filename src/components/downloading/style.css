@@ -1,0 +1,40 @@
+.download-pdf {
+  width: 28px;
+  height: 5px;
+  background: var(--mainBlue);
+  margin-top: 30px;
+  display: inline-block;
+  position: relative;
+}
+.download-pdf::after {
+  content: "";
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
+  position: absolute;
+  border: 10px solid transparent;
+  border-top-color: var(--mainBlue);
+  box-sizing: border-box;
+  animation: bump 0.4s ease-in-out infinite alternate;
+}
+.download-pdf::before {
+  content: "";
+  left: 50%;
+  bottom: 18px;
+  transform: translate(-50%, 0);
+  position: absolute;
+  width: 7.5px;
+  height: 15px;
+  background: var(--mainBlue);
+  box-sizing: border-box;
+  animation: bump 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes bump {
+  0% {
+    transform: translate(-50%, 5px);
+  }
+  100% {
+    transform: translate(-50%, -5px);
+  }
+}

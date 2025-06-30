@@ -2,22 +2,19 @@
 // import { formatDate } from "react-calendar/dist/esm/shared/dateFormatter.js";
 import "./style.css";
 import { useState } from "react";
-import Success from "../Success/success-text";
+import Success from "../../../components/Success/success-text";
 import { AddLesson } from "../../../types/type";
 import { apiUrl } from "@/components/url";
 
 export default function AddLessons() {
   const [file, setFile] = useState<File | null>(null);
   const [video, setVideo] = useState<File | null>(null);
-  // const [progress, setProgress] = useState(0);
-  // const [path, setPath] = useState("");
-  // const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
-  const [fileInformation, setFileInformation] = useState<AddLesson>({
+  const [lessonInforamtion, setLessonInforamtion] = useState<AddLesson>({
     title: "",
     description: "",
     category: "",
@@ -45,7 +42,7 @@ export default function AddLessons() {
     >
   ) => {
     const { name, value } = e.target;
-    setFileInformation((prev) => ({
+    setLessonInforamtion((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -53,16 +50,18 @@ export default function AddLessons() {
 
   // Reset form
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent default form behavior (if inside a form)
-    setFileInformation({
+    e.preventDefault();
+    setLessonInforamtion({
       title: "",
       description: "",
       category: "",
       videoID: "",
       pdfID: "",
     });
-    setFile(null); // Clear selected file (optional)
-    setVideo(null); // Clear selected video (optional)
+    setFile(null);
+    setVideo(null);
+    setMessage("");
+    setSuccess(false);
   };
 
   const uploadVideo = async () => {
@@ -83,7 +82,7 @@ export default function AddLessons() {
         // console.log(data.path);
         // setVideo(data.fileID);
 
-        // setFileInformation((prev) => ({
+        // setLessonInforamtion((prev) => ({
         //   ...prev,
         //   videoPath: data.fileID,
         // }));
@@ -129,9 +128,9 @@ export default function AddLessons() {
         throw new Error(data.message || "Upload failed");
       }
 
-      // Update both path state and fileInformation
+      // Update both path state and lessonInforamtion
       console.log(data.fileID);
-      setFileInformation((prev) => ({
+      setLessonInforamtion((prev) => ({
         ...prev,
         pdfID: data.fileID,
       }));
@@ -149,12 +148,24 @@ export default function AddLessons() {
     console.log("start");
     try {
       // First upload the PDF
+      if (
+        !lessonInforamtion.category ||
+        !lessonInforamtion.title ||
+        !lessonInforamtion.description ||
+        lessonInforamtion.category == "null"
+      ) {
+        setMessage("Please fill in all required fields");
+        setIsUploading(false);
+
+        return;
+      }
       const pdfUploadSuccess = await uploadPDF();
       const videoUploadSuccess = await uploadVideo();
       console.log("pdf", pdfUploadSuccess);
       console.log("video", videoUploadSuccess);
       // console.log("path", path);
       if (pdfUploadSuccess == "" || videoUploadSuccess == "") return;
+      setMessage("");
 
       const response = await fetch(apiUrl + "/lesson", {
         method: "PUT",
@@ -163,9 +174,9 @@ export default function AddLessons() {
           token: localStorage.getItem("token") || "",
         },
         body: JSON.stringify({
-          title: fileInformation.title,
-          description: fileInformation.description,
-          category: fileInformation.category,
+          title: lessonInforamtion.title,
+          description: lessonInforamtion.description,
+          category: lessonInforamtion.category,
           videoID: videoUploadSuccess,
           pdfID: pdfUploadSuccess,
         }),
@@ -190,7 +201,11 @@ export default function AddLessons() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage("");
+    setSuccess(false);
     submitLesson();
+
+    if (error) console.log(error);
   };
 
   return (
@@ -212,9 +227,10 @@ export default function AddLessons() {
           type="text"
           id="title"
           name="title"
-          value={fileInformation.title}
+          value={lessonInforamtion.title}
           onChange={handleChange}
           placeholder="Enter lesson title (e.g., 'Introduction to Algebra')"
+          required
         />
       </div>
       {/* --------------- Description --------------- */}
@@ -223,9 +239,10 @@ export default function AddLessons() {
         <textarea
           name="description"
           id="description"
-          value={fileInformation.description}
+          value={lessonInforamtion.description}
           onChange={handleChange}
           placeholder="Provide details about the lesson objectives and content"
+          required
         ></textarea>
       </div>
       {/* --------------- File --------------- */}
@@ -281,11 +298,12 @@ export default function AddLessons() {
       <div className="select">
         <label htmlFor="gender">Category</label>
         <select
-          value={fileInformation.category}
+          value={lessonInforamtion.category}
           id="category"
           name="category"
           onChange={handleChange}
           className="signup-select"
+          required
         >
           <option value="null">Select Topic</option>
           <option value="programming">Programming</option>
@@ -297,10 +315,14 @@ export default function AddLessons() {
 
       {/* --------------- Button --------------- */}
       <div className="button-group">
+        {success && (
+          <div className="">
+            <Success text={"The lesson has been added successfully."} />
+          </div>
+        )}
         <button className="button button-secondary" onClick={handleCancel}>
           Cancel
         </button>
-        <button className="button button-secondary">Save Draft</button>
         <button
           type="button"
           onClick={handleSubmit}
@@ -310,17 +332,13 @@ export default function AddLessons() {
           {isUploading ? "Uploading..." : "Publish Lesson"}
         </button>
       </div>
+      {message && <div className="message-error">{message}</div>}
 
-      {success && (
-        <div className="mt-3.5">
-          <Success text={"The lesson has been added successfully."} />
-        </div>
-      )}
-      {error && (
+      {/* {error && (
         <div className="text-red-400 border-solid border-red-400 border rounded-sm my-5 text-center bg-red-50">
           {error} {message}
         </div>
-      )}
+      )} */}
 
       <div className="tips">
         <h4>Tips for Effective Lessons</h4>

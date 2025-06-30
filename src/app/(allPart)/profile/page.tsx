@@ -15,14 +15,15 @@ export default function Settings() {
   // const [confirmPassword, setConfirmPassword] = useState<string>("");
   // const [profileImage, setProfileImage] = useState<string>("/images/pic2.jpg");
   const [message, setMessage] = useState<string>("");
+  const [passwordMessage, setPasswordMessage] = useState<string>("");
   const [newName, setNewName] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [photoID, setPhotoID] = useState("685580b136f272c1888f9be3");
+  const [photoID, setPhotoID] = useState<string>("");
   const [photoUrl, setPhotoUrl] = useState("/images/user.svg");
   const [error, setError] = useState<string>("");
   const [photo, setPhoto] = useState<File | null>(null);
   const [showIcon, setIcon] = useState(faEye);
-  const [passType, setType] = useState("password");
+  const [passType, setType] = useState<string>("password");
 
   function showPass() {
     if (showIcon === faEye) {
@@ -35,7 +36,7 @@ export default function Settings() {
   }
   useEffect(() => {
     setNewName(localStorage.getItem("name") || "");
-    setPhotoID(localStorage.getItem("photoID") || "685580b136f272c1888f9be3");
+    setPhotoID(localStorage.getItem("photoID") || "");
   }, []);
   // const handleChangeImageApi = async (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -121,7 +122,7 @@ export default function Settings() {
 
       setMessage("successfully");
       console.log("successfully");
-      localStorage.setItem("photoId", data.fileID);
+      localStorage.setItem("photoID", data.fileID);
       return data.fileID;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -170,17 +171,20 @@ export default function Settings() {
       try {
         const token = localStorage.getItem("token") || "";
 
-        if (!photoID) {
+        if (!localStorage.getItem("photoID")) {
           throw new Error("No photo ID provided");
         }
 
-        const response = await fetch(apiUrl + `/file?fileID=${photoID}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-        });
+        const response = await fetch(
+          apiUrl + `/file?fileID=${localStorage.getItem("photoID")}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              token,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
@@ -213,18 +217,12 @@ export default function Settings() {
         URL.revokeObjectURL(photoUrl);
       }
     };
-  }, [photoID, photoUrl]);
+  }, [photoID]);
+
   const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
-  // const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);
-  // const [resendTimer, setResendTimer] = useState<number>(30);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [emailValue, setEmailValue] = useState<string>("");
-
-  // Error and loading states
-  // const [error, setError] = useState<string | null>(null);
-  // const [resendError, setResendError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  // const [resendLoading, setResendLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
   // Initialize email from localStorage
@@ -298,7 +296,7 @@ export default function Settings() {
           body: JSON.stringify({
             email: emailValue,
             code: verificationCode,
-            password: newPassword,
+            newPassword: newPassword,
           }),
         });
 
@@ -312,7 +310,8 @@ export default function Settings() {
         if (data.token) {
           localStorage.setItem("token", data.token);
         }
-        window.location.href = "/login";
+        setPasswordMessage("Reset Password Successfully!");
+        // window.location.href = "/login";
       } catch (err) {
         setError(err instanceof Error ? err.message : "Verification failed");
       } finally {
@@ -322,43 +321,36 @@ export default function Settings() {
     [code, emailValue, newPassword]
   );
 
-  // Resend verification code
-  // const handleResend = useCallback(
-  //   async (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     setResendLoading(true);
-  //     setResendError(null);
-  //     setIsResendDisabled(true);
-  //     setResendTimer(30);
+  //Resend verification code
+  const handleResend = useCallback(async () => {
+    try {
+      const response = await fetch(apiUrl + `/auth/send-code`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailValue,
+          typeCode: "reset-password",
+        }),
+      });
 
-  //     try {
-  //       const response = await fetch(apiUrl + `/auth/send-code`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           email: emailValue,
-  //           typeCode: "verify",
-  //         }),
-  //       });
+      const data = await response.json();
 
-  //       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to resend code");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to resend code");
+    }
+  }, [emailValue]);
 
-  //       if (!response.ok) {
-  //         throw new Error(data.error || "Failed to resend code");
-  //       }
-  //     } catch (err) {
-  //       setResendError(
-  //         err instanceof Error ? err.message : "Failed to resend code"
-  //       );
-  //     } finally {
-  //       setResendLoading(false);
-  //     }
-  //   },
-  //   [emailValue]
-  // );
+  const [changePassword, setChangePassword] = useState<boolean>(false);
 
+  const handleChangePassword = () => {
+    setChangePassword(true);
+    handleResend();
+  };
   return (
     <div className="profile-container">
       <main className="main-content">
@@ -403,6 +395,7 @@ export default function Settings() {
                   type="text"
                   id="username"
                   value={newName}
+                  placeholder="Enter your new username"
                   onChange={(e) => setNewName(e.target.value)}
                   required
                 />
@@ -450,31 +443,43 @@ export default function Settings() {
                 Change Password
               </button>
             </form> */}
-            <div className="formAndResend">
-              <form onSubmit={handleSubmit} className="form">
-                <label>Enter the 6-digit code sent to {emailValue}</label>
-                <div className={styles.codeContainer}>
-                  {code.map((digit, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleChange(index, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(index, e)}
-                      onPaste={handlePaste}
-                      ref={(el) => {
-                        if (el) {
-                          inputRefs.current[index] = el;
-                        }
-                      }}
-                      className={styles.codeInput}
-                      inputMode="numeric"
-                      autoFocus={index === 0}
-                    />
-                  ))}
-                </div>
-                {/* <div className="In">
+            {!changePassword && (
+              <button
+                className="change-password-button"
+                onClick={handleChangePassword}
+              >
+                Send code to change password
+              </button>
+            )}
+
+            {changePassword && (
+              <div className="formAndResend">
+                <form onSubmit={handleSubmit} className="form">
+                  <label className="text-gray-600 text-xs">
+                    Enter the 6-digit code sent to {emailValue}
+                  </label>
+                  <div className={styles.codeContainer}>
+                    {code.map((digit, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(index, e)}
+                        onPaste={handlePaste}
+                        ref={(el) => {
+                          if (el) {
+                            inputRefs.current[index] = el;
+                          }
+                        }}
+                        className={styles.codeInput}
+                        inputMode="numeric"
+                        autoFocus={index === 0}
+                      />
+                    ))}
+                  </div>
+                  {/* <div className="In">
                   <label htmlFor="pass">Password</label>
                   <div className="pass-icon" onClick={() => showPass()}>
                     <FontAwesomeIcon
@@ -493,39 +498,46 @@ export default function Settings() {
                     />
                   </div>
                 </div> */}
-                <div className="reset-password">
-                  <label htmlFor="pass">Password</label>
+                  <div className="reset-password">
+                    <div className="pass-icon" onClick={() => showPass()}>
+                      <FontAwesomeIcon
+                        icon={showIcon}
+                        className={` ${showIcon}`}
+                      ></FontAwesomeIcon>
+                    </div>
 
-                  <div className="pass-icon" onClick={() => showPass()}>
-                    <FontAwesomeIcon
-                      icon={showIcon}
-                      className={` ${showIcon}`}
-                    ></FontAwesomeIcon>
+                    <input
+                      type={passType}
+                      className="input"
+                      name="password"
+                      id="pass"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                      placeholder="Enter new password"
+                    />
                   </div>
 
-                  <input
-                    type={passType}
-                    className="input"
-                    name="password"
-                    id="pass"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                    placeholder="Enter new password"
-                  />
-                </div>
-
-                <button
-                  className={`${styles.submitButton} ${
-                    isSubmitDisabled ? styles.disabled : ""
-                  }`}
-                  type="submit"
-                  disabled={loading || isSubmitDisabled}
-                >
-                  {loading ? "Verifying..." : "Verify"}
-                </button>
-              </form>
-            </div>
+                  <button
+                    className={`${styles.submitButton} ${
+                      isSubmitDisabled ? styles.disabled : ""
+                    }`}
+                    type="submit"
+                    disabled={loading || isSubmitDisabled || !newPassword}
+                  >
+                    {loading ? "Verifying..." : "Change Password"}
+                  </button>
+                </form>
+                {passwordMessage && (
+                  <div className="success-message">{passwordMessage}</div>
+                )}
+                {error && (
+                  <div className="error-message">
+                    Something went wrong. Please try again later.
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </main>

@@ -10,7 +10,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { apiUrl } from "@/components/url";
 
-interface LoginData {
+interface signupData {
   email: string;
   name: string;
   gender: string;
@@ -37,7 +37,7 @@ export default function Login() {
 
   // ################################
 
-  const [loginData, setLoginData] = useState<LoginData>({
+  const [signupData, setsignupData] = useState<signupData>({
     email: "",
     name: "",
     gender: "",
@@ -52,7 +52,7 @@ export default function Login() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setLoginData((prev) => ({
+    setsignupData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -63,19 +63,23 @@ export default function Login() {
     setLoading(true);
     setError(null);
     setSuccess(false);
-    localStorage.setItem("email", loginData.email);
-
-    console.log(loginData.email);
-    console.log(loginData.name);
-    console.log(loginData.gender);
-    console.log(loginData.password);
+    localStorage.setItem("email", signupData.email);
+    if (signupData.gender == "") {
+      setError("Please select your gender");
+      setLoading(false);
+      return;
+    }
+    // console.log(signupData.email);
+    // console.log(signupData.name);
+    // console.log(signupData.gender);
+    // console.log(signupData.password);
     try {
       const response = await fetch(apiUrl + "/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginData),
+        body: JSON.stringify(signupData),
       });
 
       const data = await response.json();
@@ -102,7 +106,7 @@ export default function Login() {
   };
 
   // ####################################
-  console.log(loginData);
+  console.log(signupData);
   return (
     <div className="login-body">
       <div className="container">
@@ -116,11 +120,9 @@ export default function Login() {
           />
           <h1>Educational Academy</h1>
           <p>Create your account</p>
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">create successful!</div>}
         </div>
         {/* ********* ---------- Form -------------- ********** */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="signup-form">
           <div className="In">
             <label htmlFor="uname">Email</label>
             <input
@@ -129,7 +131,7 @@ export default function Login() {
               name="email"
               className="input"
               id="uname"
-              value={loginData.email}
+              value={signupData.email}
               onChange={handleChange}
               placeholder="Enter your email"
               required
@@ -142,7 +144,7 @@ export default function Login() {
               name="name"
               className="input"
               id="name"
-              value={loginData.name}
+              value={signupData.name}
               onChange={handleChange}
               placeholder="Enter your name"
               required
@@ -190,7 +192,7 @@ export default function Login() {
             </div>
           </div> */}
           {/* <select
-              value={loginData.gender}
+              value={signupData.gender}
               id="gender"
               name="gender"
               onChange={(e) => handleChange(e)}
@@ -215,7 +217,7 @@ export default function Login() {
               name="password"
               id="pass"
               className="input"
-              value={loginData.password}
+              value={signupData.password}
               onChange={handleChange}
               required
               placeholder="Enter your password"
@@ -224,6 +226,13 @@ export default function Login() {
           <button className="sigin" type="submit" disabled={loading}>
             {loading ? "Please Wait..." : "Sign up"}
           </button>
+          {error && <div className="error-message">{error}</div>}
+          {success && (
+            <div className="success-message">
+              The account has been created successfully!
+            </div>
+          )}
+
           <div className="have-account">
             Already Have Account?
             <Link href="/login">Login</Link>

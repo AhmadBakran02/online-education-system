@@ -10,6 +10,8 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   padding: 25px 35px;
+  /* font-size: 16px; */
+  height: 100%;
 }
 
 .post-page h1 {
@@ -17,32 +19,29 @@
   padding: 0;
   margin: 0;
   font-family: "Raleway", sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 40px;
-  color: var(--mainBlue);
+  color: var(--color-gray-800);
   -webkit-transition: all 0.4s ease 0s;
   -o-transition: all 0.4s ease 0s;
   transition: all 0.4s ease 0s;
 }
 
-.eight h1 {
+.lesson-title h1 {
   text-align: center;
-
   text-transform: uppercase;
   font-size: 26px;
   letter-spacing: 1px;
-
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   grid-template-rows: 16px 0;
   grid-gap: 22px;
 }
 
-.eight h1:after,
-.eight h1:before {
-  content: " ";
+.lesson-title h1:after,
+.lesson-title h1:before {
+  content: "  ";
   display: block;
-  border-bottom: 2px solid var(--mainBlue);
 }
 
 .post-page .post-body {
@@ -52,21 +51,26 @@
   align-items: center;
   gap: 55px;
 }
-
+/* -----------Description----------- */
 .lesson-description {
   color: var(--color-gray-800);
+  /* border: 1px solid red; */
+  min-width: 300px;
+  min-height: 100px;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 2px;
 }
 
+/* -----------Video----------- */
 .lesson-video {
   width: 90%;
   height: 90%;
   border-radius: 6px;
 }
 
-.video-container {
-  /* background-color: saddlebrown; */
-}
-
+/* -----------PDF----------- */
 .pdf-body {
   display: flex;
   justify-content: center;
@@ -87,10 +91,29 @@
   color: #454545;
 }
 
+.downloading-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .download-button:hover {
   background-color: #e6e6e6;
   /* color: white; */
 }
+
+@media (max-width: 507px) {
+  .pdf-body {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .pdf-text {
+    font-size: 14px;
+  }
+}
+/* -----------AI----------- */
 
 .ai-body {
   display: flex;
@@ -99,15 +122,70 @@
   transition: 0.3s;
   height: 60px;
   justify-content: space-evenly;
+  border-radius: 6px;
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.ai-text-animation:hover {
-  font-size: 2.5rem;
+.ai-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  padding: 2px; /* Border thickness */
+  background: conic-gradient(
+    #439ddf,
+    #4f87ed,
+    #8a78cb,
+    #bc688e,
+    #d6645d,
+    #bc688e,
+    #8a78cb,
+    #4f87ed,
+    #439ddf
+  );
+
+  background-size: 400% 400%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotateGradient 5s linear infinite;
 }
+
+@keyframes rotateGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Rest of your existing CSS remains unchanged */
 .ai-text {
   color: #454545;
   font-size: 18px;
   font-weight: 500;
+  z-index: 2;
+}
+
+@media (max-width: 529px) {
+  .ai-body {
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
+    text-align: center;
+    height: auto;
+    gap: 5px;
+  }
+  .ai-text {
+    font-size: 15px;
+  }
+}
+.ai-text-animation:hover {
+  font-size: 2.5rem;
 }
 
 .ai-text-animation {
@@ -121,15 +199,16 @@
   gap: 0.5rem;
   display: flex;
   gap: 0;
+  z-index: 2;
 }
 
 .letter {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 600;
+  font-weight: 700;
   font-style: normal;
   color: #439ddf;
-  animation: colorChange 9s ease infinite;
+  animation: colorChange 8s ease infinite;
 }
 
 .letter:nth-child(1) {
@@ -181,5 +260,37 @@
   }
   90% {
     color: #439ddf; /* Blue */
+  }
+}
+@keyframes borderColorChange {
+  0% {
+    border-color: #439ddf;
+  }
+  10% {
+    border-color: #4f87ed;
+  }
+  20% {
+    border-color: #8a78cb;
+  }
+  30% {
+    border-color: #bc688e;
+  }
+  40% {
+    border-color: #d6645d;
+  }
+  50% {
+    border-color: #d6645d;
+  }
+  60% {
+    border-color: #bc688e;
+  }
+  70% {
+    border-color: #8a78cb;
+  }
+  80% {
+    border-color: #4f87ed;
+  }
+  90% {
+    border-color: #439ddf;
   }
 }

@@ -1,6 +1,3 @@
-// app/quizzes/[quizId]/page.tsx
-
-///quiz/AI/generate
 "use client";
 import "../../../globals.css";
 import { useState, useEffect } from "react";
@@ -10,9 +7,7 @@ import { Quiz } from "@/types/quiz";
 import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
-// import QuestionCard from "@/components/question-card/QuestionCard";
 import "./style.css";
-// import Success from "../../Success/success-text";
 
 export default function QuizPage() {
   const params = useParams(); // Get params from useParams hook
@@ -150,7 +145,9 @@ export default function QuizPage() {
             <p className={`score ${score > 59 ? "good-score" : "bad-score"}`}>
               {score}%
             </p>
-            {score > 59 ? <p>Good job! 👍</p> : <p>Keep practicing! 💪</p>}
+            <p className="score-message">
+              {score > 59 ? "Good job! 👍" : "Keep practicing! 💪"}
+            </p>
           </div>
         )}
       </div>

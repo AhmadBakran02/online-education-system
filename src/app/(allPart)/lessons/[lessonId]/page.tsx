@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from "react";
 import "./style.css";
 import Loading from "@/components/loading/Loading";
 import Link from "next/link";
+import Downloading from "@/components/downloading/downloading";
+import VideoDownload from "@/components/video-download/VideoDownload";
 
 export default function LessonId() {
   const pathname = usePathname();
@@ -15,6 +17,7 @@ export default function LessonId() {
   // const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [videoLoading, setVideoLoading] = useState<boolean>(false);
   // const [isUploading, setIsUploading] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
   const [lessonItems, setLessonItems] = useState<Lesson | null>(null);
@@ -61,7 +64,7 @@ export default function LessonId() {
     } finally {
       setLoading(false);
     }
-  }, [lessonId]); // Added numberOfLessons to dependencies
+  }, [lessonId]); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,18 +132,14 @@ export default function LessonId() {
     }
   };
 
-  console.log(lessonItems);
-
   const [videoUrl, setVideoUrl] = useState("");
-  // const [error, setError] = useState("");
-  // const videoRef = useRef(null);
 
   useEffect(() => {
-    console.log(lessonItems?.videoID);
+    // console.log(lessonItems?.videoID);
+    setVideoLoading(true);
     if (lessonItems?.videoID.length || 0 < 10) return;
 
     const fetchVideo = async () => {
-      // setLoading(true);
       setError("");
       try {
         const token = localStorage.getItem("token") || "";
@@ -176,7 +175,7 @@ export default function LessonId() {
         setError(err instanceof Error ? err.message : "Failed to fetch video");
         console.error("Error fetching video:", err);
       } finally {
-        // setLoading(false);
+        setVideoLoading(false);
       }
     };
     if (lessonItems?.videoID) {
@@ -191,42 +190,38 @@ export default function LessonId() {
     };
   }, [lessonItems?.videoID, videoUrl]);
 
-  // const handleCreateQuiz = async () => {
-
-  // };
-
   return (
     <div className="post-page">
       <div className="post-body">
-        <div className="eight">
+        <div className="lesson-title">
           <h1>{lessonItems?.title}</h1>
         </div>
         <p className="lesson-description">{lessonItems?.description}</p>
-        {lessonItems?.videoID != "" && (
+        {loading && <Loading />}
+        {(lessonItems?.videoID.length || 0) > 1 && !loading && (
           <div
-            className="video-container"
-            style={{
-              border: "2px solid #ddd",
-              borderRadius: "8px",
-              width: "100%",
-              maxWidth: "800px",
-              aspectRatio: "16/9",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#f5f5f5",
-              position: "relative",
-              overflow: "hidden",
-            }}
+          className="video-container"
+          style={{
+            border: "2px solid #ddd",
+            borderRadius: "8px",
+            width: "100%",
+            maxWidth: "800px",
+            aspectRatio: "16/9",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#f5f5f5",
+            position: "relative",
+            overflow: "hidden",
+          }}
           >
-            {loading && <Loading />}
-
             {error && (
               <div className="error-message">
                 <p>Error: {error}</p>
               </div>
             )}
 
+            {videoLoading && <VideoDownload />}
             {videoUrl && (
               <video
                 controls
@@ -248,15 +243,24 @@ export default function LessonId() {
           <p className="pdf-text">You can download the PDF File from here</p>
           <button
             type="button"
+            name="download-button"
             className="download-button"
             onClick={handleDownload}
           >
-            {downloading ? "Downloading..." : "Download"}
+            {downloading ? (
+              <div className="downloading-button">
+                Downloading
+                <Downloading />
+              </div>
+            ) : (
+              "Download"
+            )}
           </button>
         </div>
-        <div className="ai-body">
-          <p className="ai-text">Give me practice questions by</p>
-          <Link href={`${lessonId}/ai-quiz`}>
+
+        <Link href={`${lessonId}/ai-quiz`}>
+          <div className="ai-body">
+            <p className="ai-text">Give me practice questions by</p>
             <div className="ai-text-animation">
               <span className="letter">G</span>
               <span className="letter">e</span>
@@ -265,8 +269,8 @@ export default function LessonId() {
               <span className="letter">n</span>
               <span className="letter">i</span>
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-
-
+@import "tailwindcss";
 
 .add-lesson h1 {
   color: #2c3e50;
@@ -119,6 +118,8 @@ textarea:focus {
   display: flex;
   gap: 10px;
   margin-top: 25px;
+  /* align-items: end; */
+  justify-content: end;
 }
 
 .add-lesson .button {
@@ -151,4 +152,14 @@ textarea:focus {
 
 footer {
   grid-area: footer;
+}
+
+.message-error {
+  color: var(--color-red-400);
+  background-color: var(--color-red-100);
+  border: 1px solid var(--color-red-400);
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 15px;
+  text-align: center;
 }

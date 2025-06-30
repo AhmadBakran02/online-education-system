@@ -9,6 +9,7 @@ import deleteBlog from "./delete-blog";
 import { GetComments } from "@/types/type";
 import Comment from "../comment/Comment";
 import Loading2 from "../loading2/loading2";
+import Loading3 from "../loading3/loading3";
 
 interface TypeOfValue {
   title: string;
@@ -36,6 +37,7 @@ export const ForumCard = ({
   const [comment, setComment] = useState<string>("");
   const [commentNumber, setCommentNumber] = useState<string>("0");
   const [success, setSuccess] = useState<boolean>(false);
+  const [addingComment, setAddingComment] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -57,7 +59,7 @@ export const ForumCard = ({
   const dateOnly = createdAt?.split("T")[0] || "N/A";
 
   const addComment = async () => {
-    // setIsUploading(true);
+    setAddingComment(true);
     try {
       console.log("start-2");
 
@@ -88,7 +90,7 @@ export const ForumCard = ({
       console.log(error);
     } finally {
       // setLoading(false);
-      // setIsUploading(false);
+      setAddingComment(false);
     }
   };
 
@@ -171,6 +173,7 @@ export const ForumCard = ({
   // Initial data fetch
   const handelAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!comment) return;
     const addsuccessfuly = await addComment();
     if (addsuccessfuly) {
       setComment("");
@@ -304,8 +307,12 @@ export const ForumCard = ({
             placeholder="Write your answer..."
             onChange={(e) => setComment(e.target.value)}
           ></textarea>
-          <button className="primary-btn" onClick={handelAddComment}>
-            Post Answer
+          <button
+            className="primary-btn"
+            onClick={handelAddComment}
+            disabled={comment == ""}
+          >
+            {!addingComment ? "Post Answer" : <Loading3 />}
           </button>
         </div>
         <div className="answers-list">
@@ -330,7 +337,7 @@ export const ForumCard = ({
       {showEdit && (
         <div className="modal-overlay">
           <div className="flow-card">
-            <form>
+            <form onSubmit={handleEditApi}>
               <div className="form-group">
                 <label>Title</label>
                 <input
@@ -349,7 +356,7 @@ export const ForumCard = ({
                 />
               </div>
               <div className="button-group-blog">
-                <button type="submit" onClick={handleEditApi}>
+                <button type="submit">
                   {isLoading ? "Updating..." : "Submit"}
                 </button>
                 <button type="button" onClick={() => setShowEdit(false)}>

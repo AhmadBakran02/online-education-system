@@ -5,21 +5,74 @@ import styles from "./VerifyCodePage.module.css";
 import "./style.css";
 import Image from "next/image";
 import { apiUrl } from "@/components/url";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function VerifyCodePage() {
   const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
   const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);
-  const [resendTimer, setResendTimer] = useState<number>(30);
+  const [resendTimer, setResendTimer] = useState<number>(15);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [emailValue, setEmailValue] = useState<string>("");
 
   // Error and loading states
+  interface NewPassword {
+    password: string;
+  }
   const [error, setError] = useState<string | null>(null);
   const [resendError, setResendError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [resendLoading, setResendLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [newPassword, setNewPassword] = useState<NewPassword>({
+    password: "",
+  });
+  const [showIcon, setIcon] = useState(faEye);
+  const [passType, setType] = useState<string>("password");
 
+  function showPass() {
+    if (showIcon === faEye) {
+      setIcon(faEyeSlash);
+      setType("text");
+    } else {
+      setIcon(faEye);
+      setType("password");
+    }
+  }
+
+  // Resend verification code
+  const handleResend = async () => {
+    setResendLoading(true);
+    setResendError(null);
+    setIsResendDisabled(true);
+    setResendTimer(30);
+
+    try {
+      // console.log(emailValue)
+      const response = await fetch(apiUrl + `/auth/send-code`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("email") || "",
+          typeCode: "reset-password",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to resend code");
+      }
+    } catch (err) {
+      setResendError(
+        err instanceof Error ? err.message : "Failed to resend code"
+      );
+    } finally {
+      setResendLoading(false);
+    }
+  };
   // Initialize email from localStorage
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -42,6 +95,14 @@ export default function VerifyCodePage() {
       }
     }
   }, []);
+
+  const handleNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewPassword((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   // Handle backspace
   const handleKeyDown = useCallback(
@@ -85,6 +146,8 @@ export default function VerifyCodePage() {
   const isSubmitDisabled = code.some((digit) => !digit);
 
   // Verify code submission
+  // console.log(newPassword.password);
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -94,7 +157,14 @@ export default function VerifyCodePage() {
 
       try {
         const verificationCode = code.join("");
-        const response = await fetch(`${apiUrl}/auth/verify-email`, {
+        // Add proper validation
+        if (!newPassword.password) {
+          setError("Please enter a new password");
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${apiUrl}/auth/reset-password`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -102,8 +172,10 @@ export default function VerifyCodePage() {
           body: JSON.stringify({
             email: emailValue,
             code: verificationCode,
+            newPassword: newPassword.password,
           }),
         });
+        // console.log(newPassword);
 
         const data = await response.json();
 
@@ -115,51 +187,16 @@ export default function VerifyCodePage() {
         if (data.token) {
           localStorage.setItem("token", data.token);
         }
-        window.location.href = "/login";
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 3000);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Verification failed");
       } finally {
         setLoading(false);
       }
     },
-    [code, emailValue]
-  );
-
-  // Resend verification code
-  const handleResend = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setResendLoading(true);
-      setResendError(null);
-      setIsResendDisabled(true);
-      setResendTimer(30);
-
-      try {
-        const response = await fetch(apiUrl + `/auth/send-code`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: emailValue,
-            typeCode: "verify",
-          }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Failed to resend code");
-        }
-      } catch (err) {
-        setResendError(
-          err instanceof Error ? err.message : "Failed to resend code"
-        );
-      } finally {
-        setResendLoading(false);
-      }
-    },
-    [emailValue]
+    [code, emailValue, newPassword.password]
   );
 
   return (
@@ -175,15 +212,11 @@ export default function VerifyCodePage() {
             priority
           />
           <h1>Educational Academy</h1>
-          <p>Account Verification</p>
-          {error && <div className="error-message">{error}</div>}
-          {success && (
-            <div className="success-message">Verification successful!</div>
-          )}
+          <p>Reset Password</p>
         </div>
 
         <div className="formAndResend">
-          <form onSubmit={handleSubmit} className="form">
+          <form onSubmit={(e) => handleSubmit(e)} className="form">
             <label>Enter the 6-digit code sent to {emailValue}</label>
             <div className={styles.codeContainer}>
               {code.map((digit, index) => (
@@ -206,17 +239,44 @@ export default function VerifyCodePage() {
                 />
               ))}
             </div>
+            <div className="In">
+              <div className="pass-icon" onClick={() => showPass()}>
+                <FontAwesomeIcon
+                  icon={showIcon}
+                  className={` ${showIcon}`}
+                ></FontAwesomeIcon>
+              </div>
+
+              <input
+                type={passType}
+                className="new-password-input"
+                name="password"
+                id="pass"
+                value={newPassword.password}
+                onChange={handleNewPassword}
+                required
+                placeholder="Enter your password"
+              />
+            </div>
 
             <button
               className={`${styles.submitButton} ${
                 isSubmitDisabled ? styles.disabled : ""
               }`}
               type="submit"
-              disabled={loading || isSubmitDisabled}
+              disabled={loading || isSubmitDisabled || !newPassword}
             >
-              {loading ? "Verifying..." : "Verify"}
+              {loading ? "Verifying..." : "Change Password"}
             </button>
           </form>
+          {error && (
+            <div className="error-message">
+              Something went wrong. Please try again later
+            </div>
+          )}
+          {success && (
+            <div className="success-message">Reset Password Successfully!</div>
+          )}
 
           <p className="resend">
             Didn&apos;t receive a code?
@@ -230,7 +290,6 @@ export default function VerifyCodePage() {
                 : `Resend Code ${isResendDisabled ? `(${resendTimer}s)` : ""}`}
             </button>
           </p>
-          
           {resendError && <div className="error-message">{resendError}</div>}
         </div>
       </div>

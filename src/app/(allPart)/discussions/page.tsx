@@ -4,7 +4,7 @@ import "./style.css";
 import { ForumCard } from "../../../components/forum-card/forum-card";
 import { useCallback, useEffect, useState } from "react";
 import { apiUrl } from "@/components/url";
-import Success from "../Success/success-text";
+import Success from "../../../components/Success/success-text";
 import { getBlogsType } from "@/types/type";
 import Loading from "@/components/loading/Loading";
 
@@ -208,7 +208,9 @@ export default function Discussions() {
             Choose a discussion topic from the list to view replies or start a
             new discussion by clicking the &quot;New Topic&quot; button.
           </p>
-          <button className="btn">Create topic</button>
+          <button className="btn" onClick={() => setShowAdd(true)}>
+            Create topic
+          </button>
         </div>
       </div>
 
@@ -222,7 +224,7 @@ export default function Discussions() {
                 your peers.
               </p>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="input-group">
                 <label>Title</label>
                 <input
@@ -243,7 +245,7 @@ export default function Discussions() {
                   onChange={(e) => setCategory(e.target.value)}
                   className="category-select"
                 >
-                  <option value="null">Select a category</option>
+                  <option value="">Select a category</option>
                   <option value="">General</option>
                   <option value="programming">Programming</option>
                   <option value="math">Math</option>
@@ -270,11 +272,7 @@ export default function Discussions() {
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="post-button"
-                  onClick={handleSubmit}
-                >
+                <button type="submit" className="post-button">
                   {blogAdd ? "Updating..." : "Post Topic"}
                 </button>
               </div>
