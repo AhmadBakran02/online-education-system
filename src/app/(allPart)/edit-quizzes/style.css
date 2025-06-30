@@ -1,8 +1,49 @@
+@import "tailwindcss";
+
 .all-tasks {
   /* padding: 2rem;
   max-width: 1200px; */
   /* margin: 0 auto;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+}
+
+.quizzes-container {
+  /* background-color: #fff; */
+}
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.delete-quiz {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-red-600);
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  float: right;
+  transition: background-color 0.3s;
+}
+.delete-quiz:hover {
+  background-color: var(--color-red-700);
+}
+
+.quizzes-container .lessons-header h3 {
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.quizzes-container .lessons-header p {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgb(115, 115, 115);
 }
 
 .all-tasks {
@@ -131,8 +172,9 @@
   background-color: white;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  transition: transform, box-shadow, 0.3s;
 }
 
 .task-card:hover {
@@ -151,13 +193,13 @@
 }
 
 .task-content {
-  flex: 1;
+  /* flex: 1; */
+  max-height: 300px;
+  width: 100%;
 }
 
 .task-content h3 {
-  margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
-  color: #2c3e50;
 }
 
 .task-course {

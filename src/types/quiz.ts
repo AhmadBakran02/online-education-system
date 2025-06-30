@@ -14,6 +14,7 @@ export interface QuizData {
   title: string;
   description: string;
   questions: Question[];
+  category: string;
 }
 
 export interface QuizListResponse {
@@ -52,6 +53,7 @@ export interface Quiz {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  category: string;
 }
 export interface QuizResponse {
   quizes: Quiz[];

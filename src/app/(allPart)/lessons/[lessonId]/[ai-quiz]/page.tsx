@@ -1,4 +1,5 @@
 "use client";
+import "../../../../globals.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
@@ -6,24 +7,21 @@ import { Quiz } from "@/types/quiz";
 import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
-// import QuestionCard from "@/components/question-card/QuestionCard";
 import "./style.css";
-// import Success from "../../Success/success-text";
 
 export default function QuizPage() {
-  const params = useParams(); // Get params from useParams hook
+  const params = useParams();
   const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
+  const [userAnswers2, setUserAnswers2] = useState<Record<string, number>>({});
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  // const [submitted, setSubmitted] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>();
   const [submiting, setSubmiting] = useState<boolean>();
   const [score, setScore] = useState<number>(0);
   const router = useRouter();
   const pathname = usePathname();
-  // const [id, setId] = useState<string>("");
-
+  const [answers, setAnswers] = useState<boolean[]>([]);
   // const getLessonID = () => {
   //   const newId = pathname.split("/")[2];
   //   setId(newId);
@@ -80,13 +78,13 @@ export default function QuizPage() {
 
   const submitSolution = async () => {
     setSubmiting(true);
-    console.log(answersArray);
+    // console.log(answersArray);
     try {
       console.log("start-2");
       console.log(answersArray);
       console.log(quiz?._id);
-      const response = await fetch(apiUrl + `/quiz/submit-solution`, {
-        method: "POST",
+      const response = await fetch(apiUrl + `/quiz/AI/submit-solution`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           token: localStorage.getItem("token") || "",
@@ -104,14 +102,17 @@ export default function QuizPage() {
 
       // Handle successful login
       setSuccess(true);
-      console.log("successful ");
-      console.log(data.score);
+      // console.log("successful ");
+      // console.log(data.score);
+      // console.log(data.isCorrect);
+      setAnswers(data.isCorrect);
+      setUserAnswers2(userAnswers);
+      setUserAnswers({});
       setScore(data.score);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       console.log(error);
     } finally {
-      // setLoading(false);
       setSubmiting(false);
     }
   };
@@ -128,7 +129,7 @@ export default function QuizPage() {
     }));
   };
 
-  console.log(userAnswers);
+  // console.log(userAnswers);
 
   // const calculateScore = () => {
   //   if (!quiz) return 0;
@@ -143,7 +144,7 @@ export default function QuizPage() {
   if (error)
     return <div className="text-red-500 text-center py-8">Error: {error}</div>;
   if (!quiz) return <div className="text-center py-8">Quiz not found</div>;
-
+  console.log(answers);
   return (
     <div className="container mx-auto p-4 max-w-2xl">
       <button onClick={() => router.push("/quizzes")} className="back-button">
@@ -151,20 +152,22 @@ export default function QuizPage() {
         Back to Quizzes
       </button>
       <div className="quiz-header">
-        <div className="title-and-description">
+        <div className="title-and-score">
           <h1 className="text-2xl font-bold mb-2 capitalize">{quiz.title}</h1>
-          <p className="text-gray-600 mb-6 capitalize">{quiz.description}</p>
+          {success && (
+            <div
+              className={`result ${score > 59 ? "good-result" : "bad-result"}`}
+            >
+              <p className={`score ${score > 59 ? "good-score" : "bad-score"}`}>
+                {score}%
+              </p>
+              <p className="score-message">
+                {score > 59 ? "Good job! 👍" : "Keep practicing! 💪"}
+              </p>
+            </div>
+          )}
         </div>
-        {success && (
-          <div
-            className={`result ${score > 59 ? "good-result" : "bad-result"}`}
-          >
-            <p className={`score ${score > 59 ? "good-score" : "bad-score"}`}>
-              {score}%
-            </p>
-            {score > 59 ? <p>Good job! 👍</p> : <p>Keep practicing! 💪</p>}
-          </div>
-        )}
+        <p className="text-gray-600 mb-6 capitalize">{quiz.description}</p>
       </div>
 
       <div className="all-questions">
@@ -179,10 +182,26 @@ export default function QuizPage() {
                     id={`${question._id}-${index}`}
                     name={question._id}
                     onChange={() => handleAnswerSelect(index2, index)}
-                    // disabled={submitted}
                     className="input-choice"
                   />
-                  <label htmlFor={`${question._id}-${index}`}>{option}</label>
+                  <label
+                    htmlFor={`${question._id}-${index}`}
+                    className={`${
+                      success &&
+                      !answers[index2] &&
+                      userAnswers2[index2] == index
+                        ? "text-red-400"
+                        : ""
+                    } ${
+                      success &&
+                      answers[index2] &&
+                      userAnswers2[index2] == index
+                        ? "text-green-400"
+                        : ""
+                    }`}
+                  >
+                    {option}
+                  </label>
                 </div>
               ))}
             </div>
@@ -197,6 +216,36 @@ export default function QuizPage() {
       >
         {!submiting ? "Submit Answers" : "Submiting..."}
       </button>
+
+      {/* {!submitted ? (
+          <button
+            onClick={handleSubmit}
+            disabled={Object.keys(userAnswers).length !== quiz.questions.length}
+            className={`mt-6 px-6 py-3 rounded-lg text-white font-medium w-full ${
+              Object.keys(userAnswers).length === quiz.questions.length
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
+          >
+            Submit Answers
+          </button>
+        ) : (
+          <div className="mt-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
+            <h3 className="text-xl font-semibold text-center mb-2">
+              Quiz Results
+            </h3>
+            <div className="text-3xl font-bold text-center mb-4">
+              {calculateScore()} / {quiz.questions.length}
+            </div>
+            <p className="text-center text-gray-600">
+              {calculateScore() === quiz.questions.length
+                ? "Perfect score! 🎉"
+                : calculateScore() >= quiz.questions.length / 2
+                ? "Good job! 👍"
+                : "Keep practicing! 💪"}
+            </p>
+          </div>
+        )} */}
     </div>
   );
 }

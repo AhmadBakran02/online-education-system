@@ -10,6 +10,36 @@
 .quizzes-container {
   /* background-color: #fff; */
 }
+.quiz-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  /* background-color: #2ecc71; */
+  align-items: center;
+  margin-bottom: 10px;
+}
+.quiz-header h3 {
+  justify-self: start;
+}
+.delete-quiz {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-red-600);
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  float: right;
+  transition: background-color 0.3s;
+}
+.delete-quiz:hover {
+  background-color: var(--color-red-700);
+}
+
 .quizzes-container .lessons-header h3 {
   font-weight: 600;
   font-size: 25px;
@@ -168,14 +198,13 @@
 }
 
 .task-content {
-  flex: 1;
+  /* flex: 1; */
   max-height: 300px;
+  width: 100%;
 }
 
 .task-content h3 {
-  margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
-  color: #2c3e50;
 }
 
 .task-course {

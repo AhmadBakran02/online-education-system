@@ -2,8 +2,9 @@
 
 .quiz-header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   /* background-color: #c0c0c0; */
   gap: 10px;
 }
@@ -20,7 +21,7 @@
 .bad-score {
   background-color: var(--color-red-100);
   border: 2px solid var(--color-red-300);
-  color:  var(--color-red-400);
+  color: var(--color-red-400);
 }
 
 .result {
@@ -112,4 +113,10 @@
   /* background-color: saddlebrown; */
   cursor: pointer;
   text-transform: capitalize;
+}
+
+.title-and-score {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }

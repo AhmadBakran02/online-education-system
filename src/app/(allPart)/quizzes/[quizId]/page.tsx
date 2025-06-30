@@ -10,18 +10,19 @@ import Loading from "@/components/loading/Loading";
 import "./style.css";
 
 export default function QuizPage() {
-  const params = useParams(); // Get params from useParams hook
+  const params = useParams();
   const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
+  const [userAnswers2, setUserAnswers2] = useState<Record<string, number>>({});
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  // const [submitted, setSubmitted] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>();
   const [submiting, setSubmiting] = useState<boolean>();
   const [score, setScore] = useState<number>(0);
   const router = useRouter();
   const pathname = usePathname();
   const [id, setId] = useState<string>("");
+  const [answers, setAnswers] = useState<boolean[]>([]);
 
   useEffect(() => {
     const newId = pathname.split("/")[2];
@@ -34,13 +35,12 @@ export default function QuizPage() {
         const token = localStorage.getItem("token") || "";
         const quizId = params.quizId as string; // Type assertion
 
-        const response = await fetch(apiUrl + `/quiz/get`, {
-          method: "POST", // Changed to POST since you're sending body
+        const response = await fetch(apiUrl + `/quiz?quizID=${quizId}`, {
+          method: "GET", // Changed to POST since you're sending body
           headers: {
             "Content-Type": "application/json",
             token: token,
           },
-          body: JSON.stringify({ quizID: quizId }),
         });
 
         if (!response.ok) throw new Error("Failed to fetch quiz");
@@ -69,7 +69,7 @@ export default function QuizPage() {
       console.log("start-2");
       console.log(answersArray);
       const response = await fetch(apiUrl + `/quiz/submit-solution`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           token: localStorage.getItem("token") || "",
@@ -88,8 +88,11 @@ export default function QuizPage() {
       // Handle successful login
       setSuccess(true);
       console.log("successful ");
-      console.log(data.score);
+      // console.log(data.score);
+      setUserAnswers2(userAnswers);
+      setUserAnswers({});
       setScore(data.score);
+      setAnswers(data.isCorrect);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       console.log(error);
@@ -111,16 +114,8 @@ export default function QuizPage() {
     }));
   };
 
+  console.log(answers);
   console.log(userAnswers);
-
-  // const calculateScore = () => {
-  //   if (!quiz) return 0;
-  //   return quiz.questions.reduce((score, question) => {
-  //     return (
-  //       score + (userAnswers[question._id] === question.correctAnswer ? 1 : 0)
-  //     );
-  //   }, 0);
-  // };
 
   if (loading) return <Loading />;
   if (error)
@@ -134,22 +129,26 @@ export default function QuizPage() {
         Back to Quizzes
       </button>
       <div className="quiz-header">
-        <div className="title-and-description">
+        <div className="title-and-score">
           <h1 className="text-2xl font-bold mb-2 capitalize">{quiz.title}</h1>
-          <p className="text-gray-600 mb-6 capitalize">{quiz.description}</p>
+          {success && (
+            <div
+              className={`result ${score > 59 ? "good-result" : "bad-result"}`}
+            >
+              <p className={`score ${score > 59 ? "good-score" : "bad-score"}`}>
+                {score}%
+              </p>
+              <p className="score-message">
+                {score > 89
+                  ? "Perfect score! 🎉"
+                  : score > 59
+                  ? "Good job! 👍"
+                  : "Keep practicing! 💪"}
+              </p>
+            </div>
+          )}
         </div>
-        {success && (
-          <div
-            className={`result ${score > 59 ? "good-result" : "bad-result"}`}
-          >
-            <p className={`score ${score > 59 ? "good-score" : "bad-score"}`}>
-              {score}%
-            </p>
-            <p className="score-message">
-              {score > 59 ? "Good job! 👍" : "Keep practicing! 💪"}
-            </p>
-          </div>
-        )}
+        <p className="text-gray-600 mb-6 capitalize">{quiz.description}</p>
       </div>
 
       <div className="all-questions">
@@ -165,9 +164,26 @@ export default function QuizPage() {
                     name={question._id}
                     onChange={() => handleAnswerSelect(index2, index)}
                     // disabled={submitted}
-                    className="input-choice"
+                    className={`input-choice `}
                   />
-                  <label htmlFor={`${question._id}-${index}`}>{option}</label>
+                  <label
+                    htmlFor={`${question._id}-${index}`}
+                    className={`${
+                      success &&
+                      !answers[index2] &&
+                      userAnswers2[index2] == index
+                        ? "text-red-400"
+                        : ""
+                    } ${
+                      success &&
+                      answers[index2] &&
+                      userAnswers2[index2] == index
+                        ? "text-green-400"
+                        : ""
+                    }`}
+                  >
+                    {option}
+                  </label>
                 </div>
               ))}
             </div>

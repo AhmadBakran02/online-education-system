@@ -2,13 +2,13 @@
 import { ForumCard } from "@/components/forum-card/forum-card";
 import Loading from "@/components/loading/Loading";
 import { apiUrl } from "@/components/url";
-import { getBlogsType } from "@/types/type";
+import { GetBlogsType } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
 import "./../../globals.css";
-import "./style.css"
+import "./style.css";
 
 export default function BlogArchive() {
-  const [blogs, setBlogs] = useState<getBlogsType[]>([]);
+  const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   // const [success, setSuccess] = useState<boolean | null>(null);
   const [error, setError] = useState<string>("");

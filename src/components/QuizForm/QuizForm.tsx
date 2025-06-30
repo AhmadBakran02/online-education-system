@@ -11,11 +11,13 @@ export default function QuizForm() {
     title: "",
     description: "",
     questions: [],
+    category: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
 
   // Handle changes for title and description
   const handleInputChange = (
@@ -95,6 +97,10 @@ export default function QuizForm() {
   // Submit the quiz
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (category == "") {
+      setError("Please fill in all fields");
+      return;
+    }
     setIsSubmitting(true);
     setError("");
     setSubmitSuccess(false);
@@ -114,13 +120,18 @@ export default function QuizForm() {
           throw new Error("All options must be filled");
       }
 
-      const response = await fetch(apiUrl + "/quiz/add", {
-        method: "POST",
+      const response = await fetch(apiUrl + "/quiz", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           token: localStorage.getItem("token") || "",
         },
-        body: JSON.stringify(quizData),
+        body: JSON.stringify({
+          title: quizData.title,
+          description: quizData.description,
+          questions: quizData.questions,
+          category: category,
+        }),
       });
 
       if (!response.ok) {
@@ -130,7 +141,7 @@ export default function QuizForm() {
 
       setSubmitSuccess(true);
       // Reset form
-      setQuizData({ title: "", description: "", questions: [] });
+      setQuizData({ title: "", description: "", questions: [], category: "" });
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unknown error occurred"
@@ -155,6 +166,7 @@ export default function QuizForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6 ">
+        {/* -------Title-------*/}
         <div>
           <label className="block text-sm font-medium mb-1">Quiz Title*</label>
           <input
@@ -167,9 +179,9 @@ export default function QuizForm() {
             required
           />
         </div>
-
+        {/* -------Description-------*/}
         <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
+          <label className="block text-sm font-medium mb-1">Description*</label>
           <textarea
             name="description"
             value={quizData.description}
@@ -179,7 +191,24 @@ export default function QuizForm() {
             placeholder="Enter quiz description"
           />
         </div>
-
+        {/* -------Category-------*/}
+        <div className="select-group">
+          <label htmlFor="category">Category*</label>
+          <select
+            value={category}
+            id="category"
+            name="category"
+            onChange={(e) => setCategory(e.target.value)}
+            className="category-select"
+          >
+            <option value="">Select a category</option>
+            <option value="programming">Programming</option>
+            <option value="math">Math</option>
+            <option value="english">English</option>
+            <option value="physics">Physics</option>
+          </select>
+        </div>
+        {/* -------Questions-------*/}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-medium">Questions</h2>
@@ -266,7 +295,7 @@ export default function QuizForm() {
             </div>
           ))}
         </div>
-
+        {/* -------Button-------*/}
         <button
           type="submit"
           disabled={isSubmitting || quizData.questions.length === 0}

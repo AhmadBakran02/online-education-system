@@ -6,6 +6,7 @@
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
+
 .red-6 {
   border-radius: 6px;
 }
@@ -15,4 +16,26 @@
 }
 .color-main-blue {
   color: var(--mainBlue);
+}
+
+.select-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.category-select {
+  border-radius: 6px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 100%;
+  height: 40px;
+  padding: 9px;
+  font-size: 13px;
+}
+.signup-select:focus {
+  outline: 2px solid black;
 }

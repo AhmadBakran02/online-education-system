@@ -1,23 +1,25 @@
 "use client";
 import Image from "next/image";
 import "./style.css";
+import "../../globals.css";
 import { ForumCard } from "../../../components/forum-card/forum-card";
 import { useCallback, useEffect, useState } from "react";
 import { apiUrl } from "@/components/url";
 import Success from "../../../components/Success/success-text";
-import { getBlogsType } from "@/types/type";
+import { GetBlogsType } from "@/types/type";
 import Loading from "@/components/loading/Loading";
 
 export default function Discussions() {
   const [showAdd, setShowAdd] = useState<boolean>(false);
   const [blogAdd, setBlogAdd] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [emptyCategory, setEmptyCategory] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [title, setTitle] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [article, setArticle] = useState<string>("");
-  const [blogs, setBlogs] = useState<getBlogsType[]>([]);
-  const [category, setCategory] = useState<string>("Select a category");
+  const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
+  const [category, setCategory] = useState<string>("");
 
   const handleGetAllBlogs = useCallback(async () => {
     setLoading(true);
@@ -25,7 +27,7 @@ export default function Discussions() {
 
     try {
       const token = localStorage.getItem("token") || "";
-      const response = await fetch(`${apiUrl}/blog/all?page=${1}&limit=${10}`, {
+      const response = await fetch(`${apiUrl}/blog/all?page=${1}&limit=${120}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +53,7 @@ export default function Discussions() {
     } finally {
       setLoading(false);
     }
-  }, []); // Added numberOfLessons to dependencies
+  }, []); 
 
   // Initial data fetch
   useEffect(() => {
@@ -98,11 +100,17 @@ export default function Discussions() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (category == "") {
+      setEmptyCategory(true);
+      return
+    }
+    setEmptyCategory(false);
     submitBlog();
     if (error) console.log(error);
   };
+
   const [activeTab, setActiveTab] = useState<
-    "all" | "programming" | "math" | "english" | "physics" | ""
+    "all" | "programming" | "math" | "english" | "physics" | "general"
   >("all");
 
   const filteredBlogs = Array.isArray(blogs)
@@ -140,8 +148,8 @@ export default function Discussions() {
                 All
               </button>
               <button
-                className={activeTab === "" ? "active" : ""}
-                onClick={() => setActiveTab("")}
+                className={activeTab === "general" ? "active" : ""}
+                onClick={() => setActiveTab("general")}
               >
                 General
               </button>
@@ -178,7 +186,7 @@ export default function Discussions() {
                   <ForumCard
                     key={item._id}
                     title={item.title}
-                    article={"lorem asdasd "}
+                    article={item.article}
                     category={item.category}
                     show={true}
                     createdAt={item.createdAt}
@@ -246,7 +254,7 @@ export default function Discussions() {
                   className="category-select"
                 >
                   <option value="">Select a category</option>
-                  <option value="">General</option>
+                  <option value="general">General</option>
                   <option value="programming">Programming</option>
                   <option value="math">Math</option>
                   <option value="english">English</option>
@@ -265,6 +273,11 @@ export default function Discussions() {
               </div>
               <div className="button-group">
                 {success && <Success text={"The topic added succesfully"} />}
+                {emptyCategory && (
+                  <div className="failed-message">
+                    Please fill in all fields
+                  </div>
+                )}
                 <button
                   type="button"
                   className="close-button"

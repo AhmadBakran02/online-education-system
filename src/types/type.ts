@@ -77,10 +77,11 @@ export interface BlogsType {
   category: string;
   article: string;
 }
-export interface getBlogsType {
+export interface GetBlogsType {
   _id: string;
   title: string;
   BlogedBy: string;
+  article: string;
   category: string;
   createdAt: string;
   updatedAt: string;

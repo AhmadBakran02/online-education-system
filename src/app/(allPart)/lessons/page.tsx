@@ -16,6 +16,7 @@ export default function Lessons() {
     "all" | "programming" | "math" | "english" | "physics"
   >("all");
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
+  
   const [numPage, setNumPage] = useState<NumPage>({
     page: "1",
     limit: "10",
@@ -107,7 +108,7 @@ export default function Lessons() {
     fetchData();
   }, [handleGetAllLessons, handleGetNumber]);
 
-  const filteredTasks = lessonsItems.filter((task) => {
+  const filteredLessons = lessonsItems.filter((task) => {
     return activeTab === "all" || task.category === activeTab;
   });
 
@@ -167,8 +168,8 @@ export default function Lessons() {
       </div>
       {loading && <Loading />}
       <div className="lessons-main">
-        {filteredTasks.length > 0
-          ? filteredTasks.map((item) => (
+        {filteredLessons.length > 0
+          ? filteredLessons.map((item) => (
               <Card
                 key={item._id}
                 title={item.title}

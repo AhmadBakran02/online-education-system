@@ -62,8 +62,8 @@ export const Card = ({
   };
   
   const handleDelete = async () => {
-    const f = action === "edit";
-    console.log(f);
+    // const f = action === "edit";
+    // console.log(f);
     const success = await DeleteLesson(id);
     if (success) {
       setDeleted(true);
