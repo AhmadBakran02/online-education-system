@@ -1,61 +1,54 @@
 "use client";
-import { useEffect, useState } from "react";
 import "./style.css";
 import Image from "next/image";
+import { SIDEBAR_ITEMS, NavItem } from "@/types/navigaton"; // Assuming you have these types defined
+import { UserRole } from "@/types/user";
 import Link from "next/link";
-// import "../../../public/"
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [screenSize, setScreenSize] = useState(800);
+  const [screenSize, setScreenSize] = useState<number>(800);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
 
   useEffect(() => {
-    if (screenSize !== 0) {
-      const handleResize = () => {
-        setScreenSize(window.innerWidth);
-      };
-      handleResize();
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+    
+    handleResize(); // Set initial size
+    window.addEventListener("resize", handleResize);
+    
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, [screenSize]);
+  useEffect(() => {
+    const role = localStorage.getItem("role") as UserRole | null;
+    setUserRole(role);
+  }, []);
 
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  if (!userRole) {
+    return <div>Loading...</div>;
+  }
 
-  const sidebarLinks = [
-    { name: "dashboard", icon: "./dashboard.svg", href: "/dashboard" },
-    { name: "quizzes", icon: "./task.svg", href: "/quizzes" },
-    { name: "Question Bank", icon: "./question.svg", href: "/question-bank" },
-    {
-      name: "Learning Resources",
-      icon: "./book5.svg",
-      href: "/learning-resources",
-    },
-    { name: "Discussions", icon: "./message3.svg", href: "/discussions" },
-    { name: "Add Lessons", icon: "./book3.svg", href: "/add-lessons" },
-    { name: "Edit Lessons", icon: "./edit.svg", href: "/edit-lessons" },
-    { name: "Add Post", icon: "./article.svg", href: "/add-post" },
-    { name: "Edit Posts", icon: "./edit.svg", href: "/edit-posts" },
-    { name: "Users", icon: "./users.svg", href: "/users" },
-    { name: "Add Quiz", icon: "./task-add.svg", href: "/add-quiz" },
-    { name: "Blog Archive", icon: "./message-edit.svg", href: "/blog-archive" },
-    { name: "Edit Quiz", icon: "./quiz-edit.svg", href: "/edit-quizzes" },
-  ];
+  // Fixed the type for the filter callback
+  const filteredItems = SIDEBAR_ITEMS.filter((item: NavItem) => 
+    item.roles.includes(userRole)
+  );
 
   return (
     <>
-      {/* Mobile menu button - only for small screens */}
+      {/* Mobile menu button */}
       <div className="lg:hidden md:hidden top-4 left-4">
         <button
           name="sidebar"
+          aria-label="Toggle sidebar"
           onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
           className="aside-button p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none my-3.5 ml-5"
         >
-          {isMobileSidebarOpen ? (
-            ""
-          ) : (
-            <Image src={"./sidebar-right.svg"} width={25} height={25} alt="" />
+          {!isMobileSidebarOpen && (
+            <Image src="/sidebar-right.svg" width={25} height={25} alt="Menu" />
           )}
         </button>
       </div>
@@ -75,51 +68,46 @@ const Sidebar = () => {
               } lg:block text-xl font-semibold whitespace-nowrap`}
             >
               <div className="logo z-50">
-                <Image src="./logo.svg" width={40} height={40} alt="" />
+                <Image src="/logo.svg" width={40} height={40} alt="Logo" />
                 <span>Educational Academy</span>
               </div>
             </span>
           </div>
 
-          {/* Expand/Collapse button - only visible on medium screens */}
+          {/* Expand/Collapse button */}
           <div className="md:block lg:hidden absolute top-4 -right-3 z-50">
-            {screenSize > 767 ? (
+            {screenSize > 767 && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="p-1 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-gray-100"
+                aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
               >
-                {isExpanded ? (
-                  <Image src={"./close.svg"} width={20} height={20} alt="" />
-                ) : (
-                  <Image
-                    src={"./arrow-left.svg"}
-                    width={20}
-                    height={20}
-                    alt=""
-                  />
-                )}
+                <Image 
+                  src={isExpanded ? "./close.svg" : "./arrow-left.svg"} 
+                  width={20} 
+                  height={20} 
+                  alt="" 
+                />
               </button>
-            ) : (
-              ""
             )}
           </div>
 
           <ul className="space-y-2 my-10">
-            {sidebarLinks.map((link) => (
-              <li key={link.name} className="my-5">
+            {filteredItems.map((link) => (
+              <li key={link.title} className="my-5">
                 <Link
                   href={link.href}
                   className="flex items-center p-2 px-3 justify-items-center text-base font-normal my-3 text-gray-900 rounded-lg hover:bg-gray-100"
                 >
                   <span className="flex-shrink-0">
-                    <Image src={link.icon} width={30} height={30} alt="" />
+                    <Image src={link.icon} width={30} height={30} alt={link.title} />
                   </span>
                   <span
                     className={`${
                       isExpanded ? "md:block" : "md:hidden"
                     } lg:block ml-3`}
                   >
-                    {link.name}
+                    {link.title}
                   </span>
                 </Link>
               </li>
@@ -128,14 +116,16 @@ const Sidebar = () => {
         </div>
       </aside>
 
-      {/* Overlay for mobile - only for small screens */}
+      {/* Mobile overlay */}
       {isMobileSidebarOpen && (
         <div
-          className="fixed inset-0 z-30 backdrop-blur-xs  lg:hidden md:hidden"
+          className="fixed inset-0 z-30 backdrop-blur-xs lg:hidden md:hidden"
           onClick={() => setIsMobileSidebarOpen(false)}
+          aria-hidden="true"
         />
       )}
     </>
   );
 };
+
 export default Sidebar;

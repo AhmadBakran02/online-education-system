@@ -5,6 +5,7 @@ import { useState } from "react";
 import Success from "../../../components/Success/success-text";
 import { AddLesson } from "../../../types/type";
 import { apiUrl } from "@/components/url";
+import { AuthGuard } from "@/components/AuthGuard";
 
 export default function AddLessons() {
   const [file, setFile] = useState<File | null>(null);
@@ -209,157 +210,159 @@ export default function AddLessons() {
   };
 
   return (
-    <div className="add-lesson">
-      <h1>Add New Lesson</h1>
-      <p>
-        Upload lesson materials, share resources, and organize content for your
-        className.
-      </p>
+    <AuthGuard allowedRoles={["admin", "teacher"]}>
+      <div className="add-lesson">
+        <h1>Add New Lesson</h1>
+        <p>
+          Upload lesson materials, share resources, and organize content for
+          your className.
+        </p>
 
-      <hr />
+        <hr />
 
-      <p>Prepare and share educational materials with your students.</p>
+        <p>Prepare and share educational materials with your students.</p>
 
-      {/* --------------- Title --------------- */}
-      <div className="form-group">
-        <label htmlFor="lesson-title">Lesson Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={lessonInforamtion.title}
-          onChange={handleChange}
-          placeholder="Enter lesson title (e.g., 'Introduction to Algebra')"
-          required
-        />
-      </div>
-      {/* --------------- Description --------------- */}
-      <div className="form-group">
-        <label htmlFor="lesson-description">Description</label>
-        <textarea
-          name="description"
-          id="description"
-          value={lessonInforamtion.description}
-          onChange={handleChange}
-          placeholder="Provide details about the lesson objectives and content"
-          required
-        ></textarea>
-      </div>
-      {/* --------------- File --------------- */}
-
-      <div className="form-group">
-        <label>Upload Materials</label>
-        <div className="file-upload">
-          {/* <span className="file-upload-text">No file selected</span> */}
-          <label className="file-upload-button" htmlFor="file-upload">
-            Select File
-          </label>
+        {/* --------------- Title --------------- */}
+        <div className="form-group">
+          <label htmlFor="lesson-title">Lesson Title</label>
           <input
-            id="file-upload"
-            type="file"
-            // className="bg-amber-300 border-amber-300"
-            accept=".pdf,.docx,.ppt,.pptx"
-            className="hidden"
-            onChange={handleFileChange}
-            disabled={isUploading}
+            type="text"
+            id="title"
+            name="title"
+            value={lessonInforamtion.title}
+            onChange={handleChange}
+            placeholder="Enter lesson title (e.g., 'Introduction to Algebra')"
+            required
           />
         </div>
-        <div className="file-footer">
-          <p className="my-5">(Maximum file size: 25MB)</p>
-          <p className="my-5">(Supports PDF, DOCX, PPT)</p>
+        {/* --------------- Description --------------- */}
+        <div className="form-group">
+          <label htmlFor="lesson-description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            value={lessonInforamtion.description}
+            onChange={handleChange}
+            placeholder="Provide details about the lesson objectives and content"
+            required
+          ></textarea>
         </div>
-      </div>
-      {/* --------------- Video --------------- */}
-      <div className="form-group">
-        <label>Upload Video</label>
-        <div className="file-upload">
-          {/* <span className="file-upload-text">No file selected</span> */}
-          <label className="file-upload-button" htmlFor="video-upload">
-            Select Video
-          </label>
-          <input
-            id="video-upload"
-            type="file"
-            // className="bg-amber-300 border-amber-300"
-            accept="video/*"
-            className="hidden"
-            onChange={handleVideoChange}
-            disabled={isUploading}
-          />
-        </div>
-        <div className="file-footer">
-          <p className="my-5">(Maximum Video size: 250MB)</p>
-          <p className="my-5">(Supports MP4, MOV, AVI, WMV, WEBM)</p>
-        </div>
-      </div>
+        {/* --------------- File --------------- */}
 
-      {/* --------------- Select --------------- */}
-
-      <div className="select">
-        <label htmlFor="gender">Category</label>
-        <select
-          value={lessonInforamtion.category}
-          id="category"
-          name="category"
-          onChange={handleChange}
-          className="signup-select"
-          required
-        >
-          <option value="null">Select Topic</option>
-          <option value="programming">Programming</option>
-          <option value="physics">Physics</option>
-          <option value="english">English</option>
-          <option value="math">Math</option>
-        </select>
-      </div>
-
-      {/* --------------- Button --------------- */}
-      <div className="button-group">
-        {success && (
-          <div className="">
-            <Success text={"The lesson has been added successfully."} />
+        <div className="form-group">
+          <label>Upload Materials</label>
+          <div className="file-upload">
+            {/* <span className="file-upload-text">No file selected</span> */}
+            <label className="file-upload-button" htmlFor="file-upload">
+              Select File
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              // className="bg-amber-300 border-amber-300"
+              accept=".pdf,.docx,.ppt,.pptx"
+              className="hidden"
+              onChange={handleFileChange}
+              disabled={isUploading}
+            />
           </div>
-        )}
-        <button className="button button-secondary" onClick={handleCancel}>
-          Cancel
-        </button>
-        <button
-          type="button"
-          onClick={handleSubmit}
-          // disabled={!file || isUploading}
-          className="button button-primary"
-        >
-          {isUploading ? "Uploading..." : "Publish Lesson"}
-        </button>
-      </div>
-      {message && <div className="message-error">{message}</div>}
+          <div className="file-footer">
+            <p className="my-5">(Maximum file size: 25MB)</p>
+            <p className="my-5">(Supports PDF, DOCX, PPT)</p>
+          </div>
+        </div>
+        {/* --------------- Video --------------- */}
+        <div className="form-group">
+          <label>Upload Video</label>
+          <div className="file-upload">
+            {/* <span className="file-upload-text">No file selected</span> */}
+            <label className="file-upload-button" htmlFor="video-upload">
+              Select Video
+            </label>
+            <input
+              id="video-upload"
+              type="file"
+              // className="bg-amber-300 border-amber-300"
+              accept="video/*"
+              className="hidden"
+              onChange={handleVideoChange}
+              disabled={isUploading}
+            />
+          </div>
+          <div className="file-footer">
+            <p className="my-5">(Maximum Video size: 250MB)</p>
+            <p className="my-5">(Supports MP4, MOV, AVI, WMV, WEBM)</p>
+          </div>
+        </div>
 
-      {/* {error && (
+        {/* --------------- Select --------------- */}
+
+        <div className="select">
+          <label htmlFor="gender">Category</label>
+          <select
+            value={lessonInforamtion.category}
+            id="category"
+            name="category"
+            onChange={handleChange}
+            className="signup-select"
+            required
+          >
+            <option value="null">Select Topic</option>
+            <option value="programming">Programming</option>
+            <option value="physics">Physics</option>
+            <option value="english">English</option>
+            <option value="math">Math</option>
+          </select>
+        </div>
+
+        {/* --------------- Button --------------- */}
+        <div className="button-group">
+          {success && (
+            <div className="">
+              <Success text={"The lesson has been added successfully."} />
+            </div>
+          )}
+          <button className="button button-secondary" onClick={handleCancel}>
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            // disabled={!file || isUploading}
+            className="button button-primary"
+          >
+            {isUploading ? "Uploading..." : "Publish Lesson"}
+          </button>
+        </div>
+        {message && <div className="message-error">{message}</div>}
+
+        {/* {error && (
         <div className="text-red-400 border-solid border-red-400 border rounded-sm my-5 text-center bg-red-50">
           {error} {message}
         </div>
       )} */}
 
-      <div className="tips">
-        <h4>Tips for Effective Lessons</h4>
-        <ul>
-          <li>Clearly state learning objectives</li>
-          <li>Break content into manageable sections</li>
-          <li>Include real-world examples</li>
-          <li>Provide practice exercises</li>
-        </ul>
-      </div>
+        <div className="tips">
+          <h4>Tips for Effective Lessons</h4>
+          <ul>
+            <li>Clearly state learning objectives</li>
+            <li>Break content into manageable sections</li>
+            <li>Include real-world examples</li>
+            <li>Provide practice exercises</li>
+          </ul>
+        </div>
 
-      <p>
-        <a href="#" className="help-link">
-          Access our lesson creation guide
-        </a>
-      </p>
-      <p>
-        <a href="#" className="help-link">
-          View Teaching Resources
-        </a>
-      </p>
-    </div>
+        <p>
+          <a href="#" className="help-link">
+            Access our lesson creation guide
+          </a>
+        </p>
+        <p>
+          <a href="#" className="help-link">
+            View Teaching Resources
+          </a>
+        </p>
+      </div>
+    </AuthGuard>
   );
 }

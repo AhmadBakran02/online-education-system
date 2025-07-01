@@ -55,18 +55,21 @@
 .lesson-description {
   color: var(--color-gray-800);
   /* border: 1px solid red; */
-  min-width: 300px;
+  width: 100%;
   min-height: 100px;
   padding: 15px;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 2px;
 }
+.lesson-description::first-letter {
+  text-transform: uppercase;
+}
 
 /* -----------Video----------- */
 .lesson-video {
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   border-radius: 6px;
 }
 
@@ -83,12 +86,11 @@
 }
 
 .download-button {
-  background-color: #f0f0f0;
+  background-color: var(--mainBlue);
   border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 5px 10px;
-  transition: 0.5s;
-  color: #454545;
+  transition: 0.3s;
+  color: #ffffff;
+  cursor: pointer;
 }
 
 .downloading-button {
@@ -99,8 +101,7 @@
 }
 
 .download-button:hover {
-  background-color: #e6e6e6;
-  /* color: white; */
+  background-color: var(--hoverBlue);
 }
 
 @media (max-width: 507px) {
@@ -184,22 +185,19 @@
     font-size: 15px;
   }
 }
-.ai-text-animation:hover {
-  font-size: 2.5rem;
-}
 
 .ai-text-animation {
   cursor: pointer;
-  transition: 0.3s;
   cursor: pointer;
   float: right;
-  font-size: 2rem;
+  /* font-size: 1.1rem; */
   font-weight: bold;
   display: flex;
   gap: 0.5rem;
   display: flex;
   gap: 0;
   z-index: 2;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.82);
 }
 
 .letter {
@@ -293,4 +291,7 @@
   90% {
     border-color: #439ddf;
   }
+}
+.ai-button {
+  transition: 0.3s;
 }

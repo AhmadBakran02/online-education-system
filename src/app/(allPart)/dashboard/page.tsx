@@ -3,7 +3,6 @@
 import Link from "next/link";
 import "./style.css";
 import { useCallback, useEffect } from "react";
-import { ForumCard } from "../../../components/forum-card/forum-card";
 import { useState } from "react";
 
 import { Card } from "../../../components/lessons-card/lessons-card";
@@ -11,6 +10,7 @@ import { Card } from "../../../components/lessons-card/lessons-card";
 import Loading from "../../../components/loading/Loading";
 import { LessonsType } from "../../../types/type";
 import { apiUrl } from "@/components/url";
+import BlogDashboard from "@/components/blog-dashboard/BlogDaschboard";
 
 interface NumPage {
   page: string;
@@ -111,7 +111,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="current-lessons dashboard-box">
-            <h3>Current Lessons</h3>
+            <h3>My Lessons</h3>
             <Link href="my-lessons">All Lessons ›</Link>
             <div className="news-back null-lessons-announcements">
               {loading && <Loading />}
@@ -161,7 +161,7 @@ export default function Dashboard() {
             <div className="news-back null-lessons-announcements">
               {/* <p>No forum activity yet </p> */}
               <div className="topics-exist">
-                <ForumCard
+                {/* <ForumCard
                   show={false}
                   title={""}
                   article={""}
@@ -171,7 +171,8 @@ export default function Dashboard() {
                   name={""}
                   role={""}
                   edit={false}
-                />
+                /> */}
+                <BlogDashboard />
               </div>
             </div>
           </div>

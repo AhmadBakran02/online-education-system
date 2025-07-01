@@ -56,7 +56,7 @@ export interface Quiz {
   category: string;
 }
 export interface QuizResponse {
-  quizes: Quiz[];
+  quizzes: Quiz[];
 }
 
 export interface EditQuizPayload {

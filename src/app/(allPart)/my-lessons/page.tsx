@@ -71,7 +71,6 @@ export default function MyLessons() {
       </div>
       {loading && (
         <div className="loading-cards">
-          {" "}
           <Loading />
         </div>
       )}

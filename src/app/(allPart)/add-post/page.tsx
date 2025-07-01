@@ -3,7 +3,7 @@ import "./style.css";
 import { useState } from "react";
 import Success from "../../../components/Success/success-text";
 import { apiUrl } from "@/components/url";
-// import { AddPost } from "../../interfaces/type";
+import { AuthGuard } from "@/components/AuthGuard";
 
 export default function AddPosts() {
   const [photo, setPhoto] = useState<File | null>(null);
@@ -13,8 +13,6 @@ export default function AddPosts() {
   const [success, setSuccess] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  // const [loading, setLoading] = useState<boolean>(false);
-  // const [path, setPath] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -131,86 +129,88 @@ export default function AddPosts() {
   };
 
   return (
-    <div className="add-lesson">
-      <h1>Add New Post</h1>
-      <p>Add the latest events and activities in the academy</p>
+    <AuthGuard allowedRoles={["admin"]}>
+      <div className="add-lesson">
+        <h1>Add New Post</h1>
+        <p>Add the latest events and activities in the academy</p>
 
-      <hr />
+        <hr />
 
-      {/* --------------- Title --------------- */}
-      <div className="form-group">
-        <label htmlFor="lesson-title">Post Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={titleValue}
-          onChange={(e) => setTitleValue(e.target.value)}
-          placeholder="Enter post title (e.g., 'Math Olympiad Registration Now Open!')"
-        />
-      </div>
-      {/* --------------- Article --------------- */}
-      <div className="form-group">
-        <label htmlFor="lesson-description">Article</label>
-        <textarea
-          name="article"
-          id="article"
-          value={articleValue}
-          onChange={(e) => setArticleValue(e.target.value)}
-          placeholder="Provide details about the events or activities and content"
-        ></textarea>
-      </div>
-      {/* --------------- Photo --------------- */}
-
-      <div className="form-group">
-        <label>Upload Image</label>
-        <div className="file-upload">
-          {/* <span className="file-upload-text">No file selected</span> */}
-          <label className="file-upload-button" htmlFor="file-upload">
-            Select Image
-          </label>
+        {/* --------------- Title --------------- */}
+        <div className="form-group">
+          <label htmlFor="lesson-title">Post Title</label>
           <input
-            id="file-upload"
-            type="file"
-            // className="bg-amber-300 border-amber-300"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-            disabled={isUploading}
+            type="text"
+            id="title"
+            name="title"
+            value={titleValue}
+            onChange={(e) => setTitleValue(e.target.value)}
+            placeholder="Enter post title (e.g., 'Math Olympiad Registration Now Open!')"
           />
         </div>
-        <div className="file-footer">
-          <p className="my-5">(Maximum Image size: 25MB)</p>
-          <p className="my-5">(Supports JPEG, PNG, GIF, BMP, TIFF)</p>
+        {/* --------------- Article --------------- */}
+        <div className="form-group">
+          <label htmlFor="lesson-description">Article</label>
+          <textarea
+            name="article"
+            id="article"
+            value={articleValue}
+            onChange={(e) => setArticleValue(e.target.value)}
+            placeholder="Provide details about the events or activities and content"
+          ></textarea>
         </div>
-      </div>
+        {/* --------------- Photo --------------- */}
 
-      {/* --------------- Button --------------- */}
-      <div className="button-group">
-        <button className="button button-secondary" onClick={handleCancel}>
-          Cancel
-        </button>
-        {/* <button className="button button-secondary">Save Draft</button> */}
-        <button
-          type="button"
-          onClick={handleSubmit}
-          // disabled={!file || isUploading}
-          className="button button-primary"
-        >
-          {isUploading ? "Uploading..." : "Publish Lesson"}
-        </button>
-      </div>
-      {success && (
-        <div className="mt-3.5">
-          <Success text={"The lesson has been added successfully."} />
+        <div className="form-group">
+          <label>Upload Image</label>
+          <div className="file-upload">
+            {/* <span className="file-upload-text">No file selected</span> */}
+            <label className="file-upload-button" htmlFor="file-upload">
+              Select Image
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              // className="bg-amber-300 border-amber-300"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+              disabled={isUploading}
+            />
+          </div>
+          <div className="file-footer">
+            <p className="my-5">(Maximum Image size: 25MB)</p>
+            <p className="my-5">(Supports JPEG, PNG, GIF, BMP, TIFF)</p>
+          </div>
         </div>
-      )}
-      {/* {error && (
+
+        {/* --------------- Button --------------- */}
+        <div className="button-group">
+          <button className="button button-secondary" onClick={handleCancel}>
+            Cancel
+          </button>
+          {/* <button className="button button-secondary">Save Draft</button> */}
+          <button
+            type="button"
+            onClick={handleSubmit}
+            // disabled={!file || isUploading}
+            className="button button-primary"
+          >
+            {isUploading ? "Uploading..." : "Publish Lesson"}
+          </button>
+        </div>
+        {success && (
+          <div className="mt-3.5">
+            <Success text={"The lesson has been added successfully."} />
+          </div>
+        )}
+        {/* {error && (
         <div className="text-red-500 border-solid border-red-500 border rounded-sm my-5 text-center">
           {error} {message}
         </div>
       )} */}
-      {message && <div className="message-error">{message}</div>}
-    </div>
+        {message && <div className="message-error">{message}</div>}
+      </div>
+    </AuthGuard>
   );
 }

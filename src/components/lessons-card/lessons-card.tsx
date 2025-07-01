@@ -18,12 +18,10 @@ export const Card = ({
   const [message, setMessage] = useState<boolean>(false);
   const [addButton, setAddButton] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
-
   const [deletePic, setDeletePic] = useState<string>("./delete.svg");
   const [editPic, setEditPic] = useState<string>("./delete.svg");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const [showLesson, setShowLesson] = useState<boolean>(false);
   const [editId, setEditId] = useState<string>("");
   const [newTitle, setNewTitle] = useState<string>("");
   const [newdDescription, setNewDescription] = useState<string>("");
@@ -62,8 +60,7 @@ export const Card = ({
   };
   
   const handleDelete = async () => {
-    // const f = action === "edit";
-    // console.log(f);
+
     const success = await DeleteLesson(id);
     if (success) {
       setDeleted(true);

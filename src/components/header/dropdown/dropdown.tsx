@@ -4,8 +4,11 @@ import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
 import { apiUrl } from "@/components/url";
+interface Screen {
+  smallSize: boolean;
+}
 
-export default function UserDropdown() {
+export default function UserDropdown({ smallSize }: Screen) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [photoID, setPhotoID] = useState<string>("685580b136f272c1888f9be3");
   const [userName, setUserName] = useState<string>("name");
@@ -139,15 +142,22 @@ export default function UserDropdown() {
               <div className="user-email">{email}</div>
             </div>
           </div>
-          <div className="dropdown-divider"></div>
+          {smallSize && (
+            <>
+              <Link href="/" className="dropdown-item">
+                Home
+              </Link>
+              <Link href="/Quizzes" className="dropdown-item">
+                Quizzes
+              </Link>
+              <Link href="/discussions" className="dropdown-item">
+                Discussions
+              </Link>
+              <div className="dropdown-divider"></div>
+            </>
+          )}
           <Link href="/profile" className="dropdown-item">
             My Profile
-          </Link>
-          <Link href="/settings" className="dropdown-item">
-            Account Settings
-          </Link>
-          <Link href="/grades" className="dropdown-item">
-            My Grades
           </Link>
           <div className="dropdown-divider"></div>
           <Link href="/help-center" className="dropdown-item">

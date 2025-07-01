@@ -5,6 +5,7 @@ import { Card } from "../../../components/lessons-card/lessons-card";
 import Loading from "../../../components/loading/Loading";
 import { NumPage } from "../../../types/type";
 import { getAllLessons } from "@/app/api/lesson-get-my";
+import { AuthGuard } from "@/components/AuthGuard";
 // import { getAllLessons } from "../../api/lesson-get-my";
 
 export default function Edit() {
@@ -57,46 +58,50 @@ export default function Edit() {
   }, [handleGetAlllessons]); // Now stable between renders
 
   return (
-    <div className="edit-container">
-      <div className="resource-tabs">
-        <h1>Edit Lessons</h1>
-        <p>Explore our colltion of e-book, references, and learing resouces</p>
-      </div>
+    <AuthGuard allowedRoles={["admin", "teacher"]}>
+      <div className="edit-container">
+        <div className="resource-tabs">
+          <h1>Edit Lessons</h1>
+          <p>
+            Explore our colltion of e-book, references, and learing resouces
+          </p>
+        </div>
 
-      <div className="my-lessons">
-        {loading && (
-          <div className="loading-cards">
-            <Loading />
-          </div>
-        )}
-        {!loading && lessonsItems.length < 1 && (
-          <div className="no-task-card">
-            <div className="no-tasks">
-              <p>No Lessons Available Yet</p>
+        <div className="my-lessons">
+          {loading && (
+            <div className="loading-cards">
+              <Loading />
             </div>
-          </div>
-        )}
-        {lessonsItems.length > 0 && (
-          <div className="lesson-cards">
-            <ul>
-              {lessonsItems.map((item) => (
-                <Card
-                  key={item._id}
-                  title={item.title}
-                  description={item.description}
-                  id={item._id}
-                  action={"edit"}
-                />
-              ))}
-            </ul>
-          </div>
-        )}
-        {/* <div className="help-section">
+          )}
+          {!loading && lessonsItems.length < 1 && (
+            <div className="no-task-card">
+              <div className="no-tasks">
+                <p>No Lessons Available Yet</p>
+              </div>
+            </div>
+          )}
+          {lessonsItems.length > 0 && (
+            <div className="lesson-cards">
+              <ul>
+                {lessonsItems.map((item) => (
+                  <Card
+                    key={item._id}
+                    title={item.title}
+                    description={item.description}
+                    id={item._id}
+                    action={"edit"}
+                  />
+                ))}
+              </ul>
+            </div>
+          )}
+          {/* <div className="help-section">
             <p>
               Need help? <a href="#">View Support Center →</a>
             </p>
           </div> */}
+        </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 }

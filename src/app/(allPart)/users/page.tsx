@@ -5,6 +5,7 @@ import { apiUrl } from "@/components/url";
 import { useCallback, useEffect, useState } from "react";
 import UserCard from "@/components/user-card/UserCard";
 import "./style.css";
+import { AuthGuard } from "@/components/AuthGuard";
 
 export default function UsersPage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -84,7 +85,7 @@ export default function UsersPage() {
   }, [handleGetAllUsers, fetchPhotoUrls]);
 
   return (
-    <>
+    <AuthGuard allowedRoles={["admin", "teacher"]}>
       {loading && (
         <div className="loading-users">
           <Loading />
@@ -109,6 +110,7 @@ export default function UsersPage() {
               </div>
             )}
       </div>
-    </>
+
+    </AuthGuard>
   );
 }

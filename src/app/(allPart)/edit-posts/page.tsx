@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import { GetPost } from "../../../types/type";
 import { PostCard } from "@/components/post-card/post-card";
 import { apiUrl } from "@/components/url";
+import { AuthGuard } from "@/components/AuthGuard";
 
 export default function EditePosts() {
   const [error, setError] = useState<string | null>(null);
@@ -107,42 +108,48 @@ export default function EditePosts() {
   }, [handleGetAllPost, fetchPhotoUrls]);
 
   return (
-    <div className="lessons-container">
-      <div className="lessons-header">
-        <h3>Post</h3>
-        <p>Add new post, events and activities.</p>
-      </div>
+    <AuthGuard allowedRoles={["admin"]}>
+      <div className="lessons-container">
+        <div className="lessons-header">
+          <h3>Post</h3>
+          <p>Add new post, events and activities.</p>
+        </div>
 
-      <div className="lessons-main">
-        {loading &&
-          [1, 2, 3, 4, 5].map((index) => (
-            <PostCard
-              key={index.toString()}
-              _id={index.toString()}
-              postedBy={""}
-              title={"Loading..."}
-              article={"Loading content..."}
-              photoUrl={""}
-              __v={0}
-              editPost={false}
-              photoID={""} showFull={false}            />
-          ))}
-        {error && <div className="error-message">{error}</div>}
-        {!loading && postItems.length > 0
-          ? postItems.map((post) => (
+        <div className="lessons-main">
+          {loading &&
+            [1, 2, 3, 4, 5].map((index) => (
               <PostCard
-              key={post._id}
-              _id={post._id}
-              title={post.title}
-              article={post.article}
-              postedBy={""}
-              photoUrl={photoUrls[post.photoID]}
-              __v={0}
-              editPost={true}
-              photoID={post.photoID} showFull={false}              />
-            ))
-          : !loading && <h3>No posts found.</h3>}
+                key={index.toString()}
+                _id={index.toString()}
+                postedBy={""}
+                title={"Loading..."}
+                article={"Loading content..."}
+                photoUrl={""}
+                __v={0}
+                editPost={false}
+                photoID={""}
+                showFull={false}
+              />
+            ))}
+          {error && <div className="error-message">{error}</div>}
+          {!loading && postItems.length > 0
+            ? postItems.map((post) => (
+                <PostCard
+                  key={post._id}
+                  _id={post._id}
+                  title={post.title}
+                  article={post.article}
+                  postedBy={""}
+                  photoUrl={photoUrls[post.photoID]}
+                  __v={0}
+                  editPost={true}
+                  photoID={post.photoID}
+                  showFull={false}
+                />
+              ))
+            : !loading && <h3>No posts found.</h3>}
+        </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 }

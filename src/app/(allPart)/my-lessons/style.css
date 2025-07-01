@@ -13,6 +13,10 @@
 .my-lessons .search {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  /* background-color: saddlebrown; */
+  gap: 10px;
+  margin: 15px auto;
 }
 
 .my-lessons input {
@@ -21,7 +25,7 @@
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   flex: 1;
-  max-width: 450px;
+  /* max-width: 515px; */
   height: 40px;
   padding: 10px;
   font-size: 13px;
@@ -38,7 +42,7 @@
   font-weight: 300;
   cursor: pointer;
   transition: 0.2s;
-  margin: 10px;
+  /* margin: 10px; */
 }
 
 .btn:hover {

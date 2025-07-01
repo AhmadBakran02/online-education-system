@@ -16,6 +16,7 @@ export default function QuizPage() {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean>();
   const [submiting, setSubmiting] = useState<boolean>();
   const [score, setScore] = useState<number>(0);
@@ -119,6 +120,11 @@ export default function QuizPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // console.log(quiz?.questions.length);
+    if (Object.keys(userAnswers).length != quiz?.questions.length) {
+      setMessage("Please answer all questions before submitting");
+      return;
+    }
     submitSolution();
   };
 
@@ -209,13 +215,10 @@ export default function QuizPage() {
         ))}
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={Object.keys(userAnswers).length !== quiz.questions.length}
-        className="submitted-button"
-      >
+      <button onClick={handleSubmit} className="submitted-button">
         {!submiting ? "Submit Answers" : "Submiting..."}
       </button>
+      {message && <div className="select-all">{message}</div>}
 
       {/* {!submitted ? (
           <button

@@ -23,6 +23,7 @@ export default function QuizPage() {
   const pathname = usePathname();
   const [id, setId] = useState<string>("");
   const [answers, setAnswers] = useState<boolean[]>([]);
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     const newId = pathname.split("/")[2];
@@ -104,7 +105,16 @@ export default function QuizPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submitSolution();
+
+    console.log(Object.keys(userAnswers).length);
+    console.log(quiz?.questions.length);
+
+    if (Object.keys(userAnswers).length != quiz?.questions.length) {
+      setMessage("Please answer all questions before submitting");
+    } else {
+      setMessage("");
+      submitSolution();
+    }
   };
 
   const handleAnswerSelect = (questionId: number, optionIndex: number) => {
@@ -114,8 +124,8 @@ export default function QuizPage() {
     }));
   };
 
-  console.log(answers);
-  console.log(userAnswers);
+  // console.log(answers);
+  // console.log(userAnswers);
 
   if (loading) return <Loading />;
   if (error)
@@ -123,7 +133,7 @@ export default function QuizPage() {
   if (!quiz) return <div className="text-center py-8">Quiz not found</div>;
 
   return (
-    <div className="container mx-auto p-4 max-w-2xl">
+    <div className="quiz-container mx-auto p-4 max-w-2xl">
       <button onClick={() => router.push("/quizzes")} className="back-button">
         <Image src={"../arrow-left.svg"} width={30} height={30} alt="" />
         Back to Quizzes
@@ -191,13 +201,10 @@ export default function QuizPage() {
         ))}
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={Object.keys(userAnswers).length !== quiz.questions.length}
-        className="submitted-button"
-      >
+      <button onClick={handleSubmit} className="submitted-button">
         {!submiting ? "Submit Answers" : "Submiting..."}
       </button>
+      {message && <div className="select-all">{message}</div>}
 
       {/* {!submitted ? (
         <button

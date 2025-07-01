@@ -180,6 +180,7 @@ export const ForumCard = ({
       getAllComments();
     }
   };
+
   useEffect(() => {
     getNumberOfComments();
   }, [getNumberOfComments]);
@@ -255,7 +256,7 @@ export const ForumCard = ({
     // </div>
     <div className={`topic-card ${deleted ? "hid" : ""}`}>
       <div className="card-header">
-        <div>
+        <div className="flex flex-col justify-end">
           <h4 className="card-title">Practical: {title}</h4>
           <span className="card-meta">{category}</span>
           <span className="card-meta">

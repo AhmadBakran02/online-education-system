@@ -33,7 +33,7 @@ export default function QuizListPage() {
         if (!response.ok) throw new Error("Failed to fetch quizzes");
 
         const data: QuizResponse = await response.json();
-        setQuizzes(data.quizes);
+        setQuizzes(data.quizzes);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {

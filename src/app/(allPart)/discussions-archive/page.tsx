@@ -6,16 +6,15 @@ import { GetBlogsType } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
 import "./../../globals.css";
 import "./style.css";
+import { AuthGuard } from "@/components/AuthGuard";
 
 export default function BlogArchive() {
   const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  // const [success, setSuccess] = useState<boolean | null>(null);
   const [error, setError] = useState<string>("");
 
   const handleGetAllBlogs = useCallback(async () => {
     setLoading(true);
-    // setError(null);
 
     try {
       const token = localStorage.getItem("token") || "";
@@ -62,24 +61,26 @@ export default function BlogArchive() {
   // return loading && <Loading />;
 
   return (
-    <div className="my-blog">
-      {loading && <Loading />}
-      {!loading &&
-        blogs.map((item) => (
-          <ForumCard
-            key={item._id}
-            title={item.title}
-            article={"lorem asdasd "}
-            category={item.category}
-            show={true}
-            createdAt={item.createdAt}
-            id={item._id}
-            name={item.name}
-            role={item.role}
-            edit={true}
-          />
-        ))}
-      {error && !error && <h1>{error}</h1>}
-    </div>
+    <AuthGuard allowedRoles={["admin", "teacher", "student"]}>
+      <div className="my-blog">
+        {loading && <Loading />}
+        {!loading &&
+          blogs.map((item) => (
+            <ForumCard
+              key={item._id}
+              title={item.title}
+              article={"lorem asdasd "}
+              category={item.category}
+              show={true}
+              createdAt={item.createdAt}
+              id={item._id}
+              name={item.name}
+              role={item.role}
+              edit={true}
+            />
+          ))}
+        {error && !error && <h1>{error}</h1>}
+      </div>
+    </AuthGuard>
   );
 }

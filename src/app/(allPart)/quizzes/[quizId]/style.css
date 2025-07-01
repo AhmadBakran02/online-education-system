@@ -60,15 +60,23 @@
   flex-direction: column;
 }
 
+/* .quiz-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
 .submitted-button {
   /* position: absolute; */
   background-color: var(--mainBlue);
-  margin: 0 auto;
+  /* margin: 0 auto; */
   color: #fff;
   border-radius: 6px;
   padding: 10px 15px;
   margin-top: 15px;
   margin-bottom: 25px;
+  right: 0;
+  display: block;
   float: right;
 }
 
@@ -119,4 +127,14 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.select-all {
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: 75px;
+  text-align: center;
+  color: var(--color-red-400);
+  background-color: var(--color-red-100);
+  border: 1px solid var(--color-red-400);
 }
