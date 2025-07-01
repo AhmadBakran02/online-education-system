@@ -83,7 +83,7 @@ const Sidebar = () => {
                 aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
               >
                 <Image 
-                  src={isExpanded ? "./close.svg" : "./arrow-left.svg"} 
+                  src={isExpanded ? "/close.svg" : "/arrow-right.svg"} 
                   width={20} 
                   height={20} 
                   alt="" 

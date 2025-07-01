@@ -154,7 +154,7 @@ export default function QuizPage() {
   return (
     <div className="container mx-auto p-4 max-w-2xl">
       <button onClick={() => router.push("/quizzes")} className="back-button">
-        <Image src={"../arrow-left.svg"} width={30} height={30} alt="" />
+        <Image src={"/arrow-left.svg"} width={30} height={30} alt="" />
         Back to Quizzes
       </button>
       <div className="quiz-header">
