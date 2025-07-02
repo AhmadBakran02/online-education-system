@@ -331,7 +331,7 @@ export default function Settings() {
         },
         body: JSON.stringify({
           email: emailValue,
-          typeCode: "reset-password",
+          codeType: "reset-password",
         }),
       });
 

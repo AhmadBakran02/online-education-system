@@ -34,6 +34,12 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     roles: ["admin", "teacher", "student"],
   },
   {
+    title: "My Lessons",
+    href: "/my-lessons",
+    icon: "/mylessons.svg",
+    roles: ["admin", "teacher", "student"],
+  },
+  {
     title: "Users",
     href: "/users",
     icon: "/users.svg",
