@@ -43,6 +43,7 @@ export default function BlogDashboard() {
       setLoading(false);
     }
   }, []);
+  
   if (error) console.log(error);
 
   // Initial data fetch
@@ -52,6 +53,7 @@ export default function BlogDashboard() {
     };
     fetchData();
   }, [handleGetAllBlogs]);
+
   return (
     <div className="topics-exist">
       {loading && <Loading />}

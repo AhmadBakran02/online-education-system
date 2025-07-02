@@ -16,7 +16,6 @@
 }
 
 .submitted-button {
-  /* position: absolute; */
   background-color: var(--mainBlue);
   margin: 0 auto;
   color: #fff;
@@ -53,15 +52,31 @@
   gap: 15px;
   user-select: none;
 }
+.input-radio {
 
-.answer .choice .input-choice {
-  cursor: pointer;
-  width: 18px;
 }
 
-.answer .choice .input-choice:checked {
+.radio-modern {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #555;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.radio-modern:checked {
   background-color: var(--mainBlue);
-  border-color: var(--color-gray-800);
+  border-color: var(--mainBlue);
+  box-shadow: inset 0 0 0 3px var(--mainBlue);
+}
+
+.radio-modern:focus {
+  box-shadow: 0 0 0 2px rgba(76, 89, 175, 0.3);
 }
 
 .answer .choice label {

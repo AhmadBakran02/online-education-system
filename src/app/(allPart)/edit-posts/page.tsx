@@ -132,23 +132,26 @@ export default function EditePosts() {
               />
             ))}
           {error && <div className="error-message">{error}</div>}
-          {!loading && postItems.length > 0
-            ? postItems.map((post) => (
-                <PostCard
-                  key={post._id}
-                  _id={post._id}
-                  title={post.title}
-                  article={post.article}
-                  postedBy={""}
-                  photoUrl={photoUrls[post.photoID]}
-                  __v={0}
-                  editPost={true}
-                  photoID={post.photoID}
-                  showFull={false}
-                />
-              ))
-            : !loading && <h3>No posts found.</h3>}
+          {!loading &&
+            postItems.length > 0 &&
+            postItems.map((post) => (
+              <PostCard
+                key={post._id}
+                _id={post._id}
+                title={post.title}
+                article={post.article}
+                postedBy={""}
+                photoUrl={photoUrls[post.photoID]}
+                __v={0}
+                editPost={true}
+                photoID={post.photoID}
+                showFull={false}
+              />
+            ))}
         </div>
+        {!loading && postItems.length == 0 && (
+          <h3 className="no-item">No posts found</h3>
+        )}
       </div>
     </AuthGuard>
   );

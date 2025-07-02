@@ -183,13 +183,15 @@ export default function QuizPage() {
             <div className="answer">
               {question.options.map((option, index) => (
                 <div key={index} className="choice">
-                  <input
-                    type="radio"
-                    id={`${question._id}-${index}`}
-                    name={question._id}
-                    onChange={() => handleAnswerSelect(index2, index)}
-                    className="input-choice"
-                  />
+                  <div className="input-radio">
+                    <input
+                      type="radio"
+                      id={`${question._id}-${index}`}
+                      name={question._id}
+                      onChange={() => handleAnswerSelect(index2, index)}
+                      className="radio-modern"
+                    />
+                  </div>
                   <label
                     htmlFor={`${question._id}-${index}`}
                     className={`${

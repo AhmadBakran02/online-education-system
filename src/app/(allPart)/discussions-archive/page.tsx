@@ -79,6 +79,9 @@ export default function BlogArchive() {
               edit={true}
             />
           ))}
+        {!loading && blogs.length == 0 && (
+          <h3 className="no-item">No posts found</h3>
+        )}{" "}
         {error && !error && <h1>{error}</h1>}
       </div>
     </AuthGuard>

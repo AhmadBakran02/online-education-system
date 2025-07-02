@@ -7,12 +7,11 @@ import { Popover } from "@headlessui/react";
 import "./style.css";
 
 export const Header = () => {
-
   return (
     <Popover className="header  mx-auto flex items-center px-6 py-5 bg-white w-full ">
       <div className="grow">
         <div className="header-links hidden sm:flex items-center  justify-center gap-2 md:gap-8">
-          <Link href="/">Home</Link>
+          <Link href="/home">Home</Link>
           <Link href="/quizzes">Quizzes</Link>
           <Link href="/discussions">Discussions</Link>
         </div>

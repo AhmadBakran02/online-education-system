@@ -17,6 +17,7 @@ export default function QuizPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>();
+  const [submitted, setSubmitted] = useState<boolean>();
   const [submiting, setSubmiting] = useState<boolean>();
   const [score, setScore] = useState<number>(0);
   const router = useRouter();
@@ -94,6 +95,7 @@ export default function QuizPage() {
       setUserAnswers({});
       setScore(data.score);
       setAnswers(data.isCorrect);
+      setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       console.log(error);
@@ -123,9 +125,6 @@ export default function QuizPage() {
       [questionId]: optionIndex,
     }));
   };
-
-  // console.log(answers);
-  // console.log(userAnswers);
 
   if (loading) return <Loading />;
   if (error)
@@ -173,8 +172,8 @@ export default function QuizPage() {
                     id={`${question._id}-${index}`}
                     name={question._id}
                     onChange={() => handleAnswerSelect(index2, index)}
-                    // disabled={submitted}
-                    className={`input-choice `}
+                    disabled={submitted}
+                    className="input-choice radio-modern"
                   />
                   <label
                     htmlFor={`${question._id}-${index}`}

@@ -129,7 +129,7 @@ export default function AddPosts() {
   };
 
   return (
-    <AuthGuard allowedRoles={["admin"]}>
+    <AuthGuard allowedRoles={["admin", "teacher", "student"]}>
       <div className="add-lesson">
         <h1>Add New Post</h1>
         <p>Add the latest events and activities in the academy</p>

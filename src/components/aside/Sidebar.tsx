@@ -16,10 +16,10 @@ const Sidebar = () => {
     const handleResize = () => {
       setScreenSize(window.innerWidth);
     };
-    
+
     handleResize(); // Set initial size
     window.addEventListener("resize", handleResize);
-    
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -29,11 +29,11 @@ const Sidebar = () => {
   }, []);
 
   if (!userRole) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   // Fixed the type for the filter callback
-  const filteredItems = SIDEBAR_ITEMS.filter((item: NavItem) => 
+  const filteredItems = SIDEBAR_ITEMS.filter((item: NavItem) =>
     item.roles.includes(userRole)
   );
 
@@ -82,11 +82,11 @@ const Sidebar = () => {
                 className="p-1 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-gray-100"
                 aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
               >
-                <Image 
-                  src={isExpanded ? "/close.svg" : "/arrow-right.svg"} 
-                  width={20} 
-                  height={20} 
-                  alt="" 
+                <Image
+                  src={isExpanded ? "/close.svg" : "/arrow-right.svg"}
+                  width={20}
+                  height={20}
+                  alt=""
                 />
               </button>
             )}
@@ -100,7 +100,12 @@ const Sidebar = () => {
                   className="flex items-center p-2 px-3 justify-items-center text-base font-normal my-3 text-gray-900 rounded-lg hover:bg-gray-100"
                 >
                   <span className="flex-shrink-0">
-                    <Image src={link.icon} width={30} height={30} alt={link.title} />
+                    <Image
+                      src={link.icon}
+                      width={30}
+                      height={30}
+                      alt={link.title}
+                    />
                   </span>
                   <span
                     className={`${

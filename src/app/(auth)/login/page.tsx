@@ -33,6 +33,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -62,10 +63,12 @@ export default function Login() {
       });
 
       const data = await response.json();
-
+      console.log(data.message == "Account not verified");
+      if (data.message == "Account not verified") {
+        setError("You should verify you account");
+        window.location.href = "/verify";
+      }
       if (!response.ok) {
-      console.log(data.message);
-
         throw new Error(data.error || "Login failed");
       }
 
@@ -81,10 +84,11 @@ export default function Login() {
       }
 
       // Redirect using window.location instead of router
-      window.location.href = "/dashboard";
+      window.location.href = "/home";
     } catch (err) {
-      console.log(err);
-      setError(err instanceof Error ? err.message : "Login failed");
+      // console.log(err);
+      if (error != "You should verify you account")
+        setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
     }

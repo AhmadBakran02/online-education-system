@@ -144,7 +144,7 @@ export default function UserDropdown({ smallSize }: Screen) {
           </div>
           {smallSize && (
             <>
-              <Link href="/" className="dropdown-item">
+              <Link href="/home" className="dropdown-item">
                 Home
               </Link>
               <Link href="/Quizzes" className="dropdown-item">
