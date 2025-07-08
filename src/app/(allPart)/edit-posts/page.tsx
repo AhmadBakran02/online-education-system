@@ -112,7 +112,7 @@ export default function EditePosts() {
       <div className="lessons-container">
         <div className="lessons-header">
           <h3>Post</h3>
-          <p>Add new post, events and activities.</p>
+          <p>Post Management – Edit & Delete.</p>
         </div>
 
         <div className="lessons-main">

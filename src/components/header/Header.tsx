@@ -18,7 +18,7 @@ export const Header = () => {
       </div>
 
       <div className="block sm:hidden">
-        <UserDropdown smallSize={true} />
+        <UserDropdown smallSize={false} />
       </div>
 
       <div className="hidden sm:block">

@@ -66,40 +66,43 @@ export default function AddLessons() {
   };
 
   const uploadVideo = async () => {
-    if (video) {
-      try {
-        const formData = new FormData();
-        formData.append("file", video);
+    if (!video) {
+      setMessage("Please select a video first");
+      return false; // Return false if upload fails
+    }
 
-        const response = await fetch(`${apiUrl}/file`, {
-          method: "PUT",
-          headers: {
-            token: localStorage.getItem("token") || "",
-          },
-          body: formData,
-        });
+    try {
+      const formData = new FormData();
+      formData.append("file", video);
 
-        const data = await response.json();
-        // console.log(data.path);
-        // setVideo(data.fileID);
+      const response = await fetch(`${apiUrl}/file`, {
+        method: "PUT",
+        headers: {
+          token: localStorage.getItem("token") || "",
+        },
+        body: formData,
+      });
 
-        // setLessonInforamtion((prev) => ({
-        //   ...prev,
-        //   videoPath: data.fileID,
-        // }));
-        if (!response.ok) {
-          throw new Error(data.message || "Upload failed");
-        }
+      const data = await response.json();
+      // console.log(data.path);
+      // setVideo(data.fileID);
 
-        setMessage("File uploaded successfully!");
-        return data.fileID;
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Sign up failed");
-        return "";
-      } finally {
-        // setIsUploading(false);
+      // setLessonInforamtion((prev) => ({
+      //   ...prev,
+      //   videoPath: data.fileID,
+      // }));
+      if (!response.ok) {
+        throw new Error(data.message || "Upload failed");
       }
-    } else return "?";
+
+      setMessage("File uploaded successfully!");
+      return data.fileID;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign up failed");
+      return "";
+    } finally {
+      // setIsUploading(false);
+    }
   };
 
   const uploadPDF = async () => {
@@ -162,8 +165,8 @@ export default function AddLessons() {
       }
       const pdfUploadSuccess = await uploadPDF();
       const videoUploadSuccess = await uploadVideo();
-      console.log("pdf", pdfUploadSuccess);
-      console.log("video", videoUploadSuccess);
+      // console.log("pdf", pdfUploadSuccess);
+      // console.log("video", videoUploadSuccess);
       // console.log("path", path);
       if (pdfUploadSuccess == "" || videoUploadSuccess == "") return;
       setMessage("");

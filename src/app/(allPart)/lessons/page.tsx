@@ -16,7 +16,7 @@ export default function Lessons() {
     "all" | "programming" | "math" | "english" | "physics"
   >("all");
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
-  
+
   const [numPage, setNumPage] = useState<NumPage>({
     page: "1",
     limit: "10",
@@ -27,38 +27,38 @@ export default function Lessons() {
 
   // Check authentication
 
-  const handleGetNumber = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  // const handleGetNumber = useCallback(async () => {
+  //   setLoading(true);
+  //   setError(null);
 
-    try {
-      const token = localStorage.getItem("token") || "";
-      const response = await fetch(apiUrl + "/lesson/number", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token,
-        },
-      });
+  //   try {
+  //     const token = localStorage.getItem("token") || "";
+  //     const response = await fetch(apiUrl + "/lesson/number", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         token,
+  //       },
+  //     });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(
+  //         errorData.message || `HTTP error! status: ${response.status}`
+  //       );
+  //     }
 
-      const data = await response.json();
-      setNumPage((prev) => ({ ...prev, limit: data.numberOfLessons }));
-      setNumberOfLessons(data.numberOfLessons);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      setError(errorMessage);
-      console.error("Request failed:", errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }, []); // Removed error from dependencies since we're using local variable
+  //     const data = await response.json();
+  //     setNumPage((prev) => ({ ...prev, limit: data.numberOfLessons }));
+  //     setNumberOfLessons(data.numberOfLessons);
+  //   } catch (err) {
+  //     const errorMessage = err instanceof Error ? err.message : "Unknown error";
+  //     setError(errorMessage);
+  //     console.error("Request failed:", errorMessage);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []); // Removed error from dependencies since we're using local variable
 
   const handleGetAllLessons = useCallback(async () => {
     setLoading(true);
@@ -67,9 +67,7 @@ export default function Lessons() {
     try {
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        `${apiUrl}/lesson/all?page=${numPage.page}&limit=${
-          numberOfLessons || numPage.limit
-        }`,
+        apiUrl + `/lesson/all?page=${numPage.page}&limit=100`,
         {
           method: "GET",
           headers: {
@@ -102,11 +100,11 @@ export default function Lessons() {
   // Initial data fetch
   useEffect(() => {
     const fetchData = async () => {
-      await handleGetNumber();
+      // await handleGetNumber();
       await handleGetAllLessons();
     };
     fetchData();
-  }, [handleGetAllLessons, handleGetNumber]);
+  }, [handleGetAllLessons]);
 
   const filteredLessons = lessonsItems.filter((task) => {
     return activeTab === "all" || task.category === activeTab;

@@ -107,7 +107,7 @@ export default function Settings() {
       const formData = new FormData();
       formData.append("file", photo);
 
-      const response = await fetch(`${apiUrl}/file`, {
+      const response = await fetch(apiUrl+`/file`, {
         method: "PUT",
         headers: {
           token: localStorage.getItem("token") || "",
@@ -351,6 +351,7 @@ export default function Settings() {
     setChangePassword(true);
     handleResend();
   };
+  
   return (
     <div className="profile-container">
       <main className="main-content">

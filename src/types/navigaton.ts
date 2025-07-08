@@ -37,7 +37,7 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     title: "Add Post",
     href: "/add-post",
     icon: "/article.svg",
-    roles: ["admin", "teacher"],
+    roles: ["admin"],
   },
   {
     title: "Edit Posts",
@@ -46,33 +46,27 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     roles: ["admin"],
   },
   {
+    title: "Lessons",
+    href: "/lessons",
+    icon: "/books7.svg",
+    roles: ["student"],
+  },
+  {
     title: "Add Lessons",
     href: "/add-lessons",
     icon: "/book3.svg",
     roles: ["teacher"],
   },
   {
-    title: "Lessons",
-    href: "/lessons",
-    icon: "/books7.svg",
-    roles: ["admin", "teacher", "student"],
+    title: "Edit Lessons",
+    href: "/edit-lessons",
+    icon: "/edit.svg",
+    roles: ["teacher"],
   },
   {
     title: "Quizzes",
     href: "/quizzes",
     icon: "/task.svg",
-    roles: ["admin", "teacher", "student"],
-  },
-  {
-    title: "Discussions",
-    href: "/discussions",
-    icon: "/message3.svg",
-    roles: ["admin", "teacher", "student"],
-  },
-  {
-    title: "My Lessons",
-    href: "/my-lessons",
-    icon: "/archive.svg",
     roles: ["student"],
   },
   {
@@ -82,16 +76,22 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     roles: ["teacher"],
   },
   {
-    title: "Edit Lessons",
-    href: "/edit-lessons",
-    icon: "/edit.svg",
-    roles: ["admin", "teacher"],
-  },
-  {
     title: "Edit Quiz",
     href: "/edit-quizzes",
     icon: "/quiz-edit.svg",
-    roles: ["admin", "teacher"],
+    roles: ["teacher"],
+  },
+  {
+    title: "Discussions",
+    href: "/discussions",
+    icon: "/message3.svg",
+    roles: ["admin", "teacher", "student"],
+  },
+  {
+    title: "My library",
+    href: "/my-library",
+    icon: "/archive.svg",
+    roles: ["student"],
   },
   {
     title: "Discussions Archive",

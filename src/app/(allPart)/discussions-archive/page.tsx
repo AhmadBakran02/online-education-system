@@ -69,7 +69,7 @@ export default function BlogArchive() {
             <ForumCard
               key={item._id}
               title={item.title}
-              article={"lorem asdasd "}
+              article={item.article}
               category={item.category}
               show={true}
               createdAt={item.createdAt}

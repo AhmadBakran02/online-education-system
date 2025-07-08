@@ -58,7 +58,7 @@
   padding: 16px;
   border-bottom: 1px solid #e9ecef;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .card-title {
@@ -66,6 +66,14 @@
   color: #212529;
   font-size: 1.1rem;
   text-align: left;
+  /* max-width: 90%; */
+  /* background-color: salmon; */
+}
+.edit-delete {
+  display: flex;
+  gap: 5px;
+  width: 60px;
+  /* background-color: saddlebrown; */
 }
 
 .card-meta {
@@ -160,11 +168,6 @@
 .edit-blog {
   cursor: pointer;
   align-self: flex-start;
-}
-
-.edit-delete {
-  display: flex;
-  gap: 15px;
 }
 
 .hid {

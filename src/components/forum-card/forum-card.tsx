@@ -291,9 +291,9 @@ export const ForumCard = ({
       )}
       {show && (
         <div className="card-actions hidden">
-          <button className="icon-btn">
+          {/* <button className="icon-btn">
             <Image src="./like.svg" width={20} height={20} alt="" /> 5
-          </button>
+          </button> */}
           <button onClick={() => answer()} className="icon-btn">
             <Image src="./comment.svg" width={21} height={21} alt="" />{" "}
             {commentNumber}

@@ -196,7 +196,7 @@ export default function AddPosts() {
             // disabled={!file || isUploading}
             className="button button-primary"
           >
-            {isUploading ? "Uploading..." : "Publish Lesson"}
+            {isUploading ? "Uploading..." : "Publish Post"}
           </button>
         </div>
         {success && (
