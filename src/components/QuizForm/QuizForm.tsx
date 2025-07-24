@@ -5,6 +5,7 @@ import { QuizData } from "@/types/quiz";
 import "../../app/globals.css";
 import "./style.css";
 import { apiUrl } from "../url";
+import Cookies from "js-cookie";
 
 export default function QuizForm() {
   const [quizData, setQuizData] = useState<QuizData>({
@@ -124,7 +125,7 @@ export default function QuizForm() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           title: quizData.title,
@@ -150,6 +151,7 @@ export default function QuizForm() {
       setIsSubmitting(false);
     }
   };
+  
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Create New Quiz</h1>

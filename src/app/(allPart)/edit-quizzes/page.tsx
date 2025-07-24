@@ -9,6 +9,7 @@ import { apiUrl } from "@/components/url";
 import Loading from "@/components/loading/Loading";
 import QuizCard from "@/components/quiz-card/QuizCard";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function QuizListPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -22,7 +23,7 @@ export default function QuizListPage() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const token = localStorage.getItem("token") || "";
+        const token = Cookies.get("token") || "";
         const response = await fetch(apiUrl + "/quiz/my?page=1&limit=800", {
           method: "GET",
           headers: {
@@ -158,8 +159,7 @@ export default function QuizListPage() {
                 description={task.description}
                 createdAt={task.createdAt}
                 category={task.category}
-                edit={true}
-              />
+                edit={true} student={false}              />
             ))
           ) : (
             <div className="no-tasks">

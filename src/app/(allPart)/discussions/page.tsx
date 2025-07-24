@@ -9,6 +9,7 @@ import Success from "../../../components/Success/success-text";
 import { GetBlogsType } from "@/types/type";
 import Loading from "@/components/loading/Loading";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function Discussions() {
   const [showAdd, setShowAdd] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export default function Discussions() {
     // setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         `${apiUrl}/blog/all?page=${1}&limit=${120}`,
         {
@@ -78,7 +79,7 @@ export default function Discussions() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           title: title,

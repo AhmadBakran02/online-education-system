@@ -5,6 +5,7 @@ import Loading from "../loading/Loading";
 import { ForumCard } from "../forum-card/forum-card";
 import Image from "next/image";
 import "./style.css";
+import Cookies from "js-cookie";
 export default function BlogDashboard() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -15,7 +16,7 @@ export default function BlogDashboard() {
     // setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(`${apiUrl}/blog/all?page=${1}&limit=${3}`, {
         method: "GET",
         headers: {
@@ -43,7 +44,7 @@ export default function BlogDashboard() {
       setLoading(false);
     }
   }, []);
-  
+
   if (error) console.log(error);
 
   // Initial data fetch

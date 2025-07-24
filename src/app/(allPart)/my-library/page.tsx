@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import Loading from "../../../components/loading/Loading";
 import { LessonsType, NumPage } from "../../../types/type";
 import { apiUrl } from "@/components/url";
+import Cookies from "js-cookie";
 
 export default function MyLessons() {
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
@@ -16,7 +17,7 @@ export default function MyLessons() {
 
   // Check authentication
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       window.location.href = "/login";
     }
@@ -26,7 +27,7 @@ export default function MyLessons() {
   const handleGetMyLibrary = useCallback(async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         apiUrl +
           `/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,

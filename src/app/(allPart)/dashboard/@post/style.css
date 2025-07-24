@@ -1,0 +1,32 @@
+.all-post-dash {
+  /* background-color: salmon; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.post-dash {
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  /* margin: 15px; */
+}
+
+.post-dash p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-dash h2 {
+  color: #454545;
+  font-weight: 500;
+}

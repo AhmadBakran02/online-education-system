@@ -6,6 +6,7 @@ import Success from "../../../components/Success/success-text";
 import { AddLesson } from "../../../types/type";
 import { apiUrl } from "@/components/url";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function AddLessons() {
   const [file, setFile] = useState<File | null>(null);
@@ -18,9 +19,10 @@ export default function AddLessons() {
   const [lessonInforamtion, setLessonInforamtion] = useState<AddLesson>({
     title: "",
     description: "",
-    category: "",
+    category: "null",
     videoID: "",
     pdfID: "",
+    level: "null",
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +60,7 @@ export default function AddLessons() {
       category: "",
       videoID: "",
       pdfID: "",
+      level: "",
     });
     setFile(null);
     setVideo(null);
@@ -78,7 +81,7 @@ export default function AddLessons() {
       const response = await fetch(`${apiUrl}/file`, {
         method: "PUT",
         headers: {
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: formData,
       });
@@ -95,7 +98,7 @@ export default function AddLessons() {
         throw new Error(data.message || "Upload failed");
       }
 
-      setMessage("File uploaded successfully!");
+      // setMessage("File uploaded successfully!");
       return data.fileID;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
@@ -122,7 +125,7 @@ export default function AddLessons() {
       const response = await fetch(`${apiUrl}/file`, {
         method: "PUT",
         headers: {
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: formData,
       });
@@ -139,7 +142,7 @@ export default function AddLessons() {
         pdfID: data.fileID,
       }));
 
-      setMessage("File uploaded successfully!");
+      // setMessage("File uploaded successfully!");
       return data.fileID; // Return true if upload succeeds
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -153,10 +156,12 @@ export default function AddLessons() {
     try {
       // First upload the PDF
       if (
+        !video ||
         !lessonInforamtion.category ||
         !lessonInforamtion.title ||
         !lessonInforamtion.description ||
-        lessonInforamtion.category == "null"
+        lessonInforamtion.category == "null" ||
+        lessonInforamtion.level == "null"
       ) {
         setMessage("Please fill in all required fields");
         setIsUploading(false);
@@ -170,12 +175,12 @@ export default function AddLessons() {
       // console.log("path", path);
       if (pdfUploadSuccess == "" || videoUploadSuccess == "") return;
       setMessage("");
-
+      const token = Cookies.get("token");
       const response = await fetch(apiUrl + "/lesson", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: token || "",
         },
         body: JSON.stringify({
           title: lessonInforamtion.title,
@@ -183,10 +188,13 @@ export default function AddLessons() {
           category: lessonInforamtion.category,
           videoID: videoUploadSuccess,
           pdfID: pdfUploadSuccess,
+          level: lessonInforamtion.level,
         }),
       });
       const data = await response.json();
       console.log(data.massage);
+      console.log(videoUploadSuccess);
+      console.log(pdfUploadSuccess);
 
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
@@ -298,7 +306,7 @@ export default function AddLessons() {
           </div>
         </div>
 
-        {/* --------------- Select --------------- */}
+        {/* --------------- Category --------------- */}
 
         <div className="select">
           <label htmlFor="gender">Category</label>
@@ -315,6 +323,24 @@ export default function AddLessons() {
             <option value="physics">Physics</option>
             <option value="english">English</option>
             <option value="math">Math</option>
+          </select>
+        </div>
+        {/* --------------- Level --------------- */}
+
+        <div className="select">
+          <label htmlFor="gender">Level</label>
+          <select
+            value={lessonInforamtion.level}
+            id="level"
+            name="level"
+            onChange={handleChange}
+            className="signup-select"
+            required
+          >
+            <option value="null">Select Level</option>
+            <option value="beginner">Beginner</option>
+            <option value="middle">Middle</option>
+            <option value="advanced">Advanced</option>
           </select>
         </div>
 

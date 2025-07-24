@@ -2,7 +2,7 @@
 
 :root {
   --mainBlue: #4251ad;
-  --hoverBlue: #2d3778;
+  --hoverBlue: #3b489a;
   --white: #fff;
   --gray1: #fafafa;
   --gray11: #f0f0f0;
@@ -115,4 +115,3 @@ footer {
     grid-template-columns: 256px 1fr;
   }
 }
-

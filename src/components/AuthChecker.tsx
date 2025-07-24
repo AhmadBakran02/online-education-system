@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const AUTH_PAGES = ["/login", "/register", "/forgot-password"];
 
@@ -13,7 +14,8 @@ export default function AuthChecker({
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const isAuthPage = AUTH_PAGES.includes(window.location.pathname);
 
       if (!token && !isAuthPage) {

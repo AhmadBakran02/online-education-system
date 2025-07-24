@@ -8,6 +8,7 @@ import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
 import "./style.css";
+import Cookies from "js-cookie";
 
 export default function QuizPage() {
   const params = useParams();
@@ -44,7 +45,7 @@ export default function QuizPage() {
       // if (!lID) return;
 
       try {
-        const token = localStorage.getItem("token") || "";
+        const token = Cookies.get("token") || "";
         // const quizId = params.quizId as string; // Type assertion
 
         const response = await fetch(
@@ -88,7 +89,7 @@ export default function QuizPage() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           answers: answersArray,

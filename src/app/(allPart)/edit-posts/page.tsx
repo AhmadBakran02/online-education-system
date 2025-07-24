@@ -6,6 +6,7 @@ import { GetPost } from "../../../types/type";
 import { PostCard } from "@/components/post-card/post-card";
 import { apiUrl } from "@/components/url";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function EditePosts() {
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export default function EditePosts() {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(apiUrl + `/post/all?limit=10&page=1`, {
         method: "GET",
         headers: {
@@ -49,7 +50,7 @@ export default function EditePosts() {
   // Fetch photo URLs for all posts
   const fetchPhotoUrls = useCallback(async (posts: GetPost[]) => {
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const urls: Record<string, string> = {};
 
       // Process posts with photoIDs in parallel

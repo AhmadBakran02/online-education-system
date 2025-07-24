@@ -8,6 +8,8 @@ import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
 import "./style.css";
+import QuizError from "./QuizError";
+import Cookies from "js-cookie";
 
 export default function QuizPage() {
   const params = useParams();
@@ -34,7 +36,7 @@ export default function QuizPage() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const token = localStorage.getItem("token") || "";
+        const token = Cookies.get("token") || "";
         const quizId = params.quizId as string; // Type assertion
 
         const response = await fetch(apiUrl + `/quiz?quizID=${quizId}`, {
@@ -74,7 +76,7 @@ export default function QuizPage() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           answers: answersArray,
@@ -127,10 +129,10 @@ export default function QuizPage() {
   };
 
   if (loading) return <Loading />;
-  if (error)
-    return <div className="text-red-500 text-center py-8">Error: {error}</div>;
-  if (!quiz) return <div className="text-center py-8">Quiz not found</div>;
-
+  // if (error)
+  //   return <div className="text-red-500 text-center py-8">Error: {error}</div>;
+  // if (!quiz) return <div className="text-center py-8">Quiz not found</div>;
+  if (error) return <QuizError />;
   return (
     <div className="quiz-container mx-auto p-4 max-w-2xl">
       <button onClick={() => router.push("/quizzes")} className="back-button">
@@ -139,7 +141,7 @@ export default function QuizPage() {
       </button>
       <div className="quiz-header">
         <div className="title-and-score">
-          <h1 className="text-2xl font-bold mb-2 capitalize">{quiz.title}</h1>
+          <h1 className="text-2xl font-bold mb-2 capitalize">{quiz?.title}</h1>
           {success && (
             <div
               className={`result ${score > 59 ? "good-result" : "bad-result"}`}
@@ -157,11 +159,11 @@ export default function QuizPage() {
             </div>
           )}
         </div>
-        <p className="text-gray-600 mb-6 capitalize">{quiz.description}</p>
+        <p className="text-gray-600 mb-6 capitalize">{quiz?.description}</p>
       </div>
 
       <div className="all-questions">
-        {quiz.questions.map((question, index2) => (
+        {quiz?.questions.map((question, index2) => (
           <div className="question-box" key={question._id}>
             <h3 className="question">{question.text}</h3>
             <div className="answer">

@@ -2,6 +2,9 @@ import DeleteQuiz from "@/app/(allPart)/edit-quizzes/delete-quiz";
 import Image from "next/image";
 import { useState } from "react";
 import "./style.css";
+import "../../app/globals.css";
+import Success from "../Success/success-text";
+import AddToMyTodo from "./add-quiz";
 interface QuizCradType {
   id: string;
   title: string;
@@ -9,6 +12,7 @@ interface QuizCradType {
   createdAt: string;
   category: string;
   edit: boolean;
+  student: boolean;
 }
 
 export default function QuizCard({
@@ -18,9 +22,15 @@ export default function QuizCard({
   createdAt,
   category,
   edit,
+  student,
 }: QuizCradType) {
   const [deleting, setDeleting] = useState<boolean>(true);
   const [deleted, setDeleted] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [showAdd, setShowAdd] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<boolean>(false);
+  const [quizDate, setQuizDate] = useState<string>("");
 
   const handleEnterQuiz = (quizid: string) => {
     window.location.href = `/quizzes/${quizid}`;
@@ -35,7 +45,35 @@ export default function QuizCard({
       setDeleting(false);
     }
   };
-  
+
+  const handleAddToMyTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    console.log(id);
+    if (quizDate == "") {
+      setError("Select Date First");
+      return;
+    }
+    setIsLoading(true);
+    setError("");
+    try {
+      const response = await AddToMyTodo(id, quizDate);
+
+      if (response.success) {
+        setMessage(true);
+        // setAddButton(true);
+        console.log("Success:", response.message);
+      } else {
+        setError("Quiz is already added");
+        // console.error("Error:", response.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  console.log(quizDate);
+
   return (
     <div
       key={id}
@@ -53,6 +91,12 @@ export default function QuizCard({
             <button className="delete-quiz" onClick={() => handelDeleteQuiz()}>
               {deleting ? <p>Delete Quiz</p> : <p>Deleting Quiz...</p>}
               <Image src={"./delete-white.svg"} width={20} height={20} alt="" />
+            </button>
+          )}
+          {student && (
+            <button className="todo-quiz" onClick={() => setShowAdd(true)}>
+              <p>Add To List</p>
+              <Image src={"./plus-gray.svg"} width={17} height={17} alt="" />
             </button>
           )}
         </div>
@@ -88,6 +132,39 @@ export default function QuizCard({
                     </span> */}
         </div>
       </div>
+
+      {showAdd && (
+        <div className="modal-overlay">
+          <div className="flow-card">
+            <div className="add-post">
+              <h3>Add Quiz To My List</h3>
+              {/* <p>
+                Start a discussion, ask a question, or share information with
+                your peers.
+              </p> */}
+            </div>
+            <input type="date" onChange={(e) => setQuizDate(e.target.value)} />
+            {message && <Success text={"Added succesfully"} />}
+            {error && <div className="failed-message">{error}</div>}
+            <div className="button-group">
+              <button
+                type="button"
+                className="close-button"
+                onClick={() => setShowAdd(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="post-button"
+                onClick={handleAddToMyTodo}
+              >
+                {isLoading ? "Add..." : "Add"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ export interface LessonsType {
   _id: string;
   pdfID: string;
   videoID: string;
+  level: string;
 }
 
 export interface Lesson {
@@ -37,6 +38,7 @@ export interface AddLesson {
   category: string;
   videoID: string;
   pdfID: string;
+  level: string;
 }
 export interface Post {
   _id: string;

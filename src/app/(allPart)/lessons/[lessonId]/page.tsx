@@ -10,6 +10,8 @@ import Link from "next/link";
 import Downloading from "@/components/downloading/downloading";
 import VideoDownload from "@/components/video-download/VideoDownload";
 import { Download, Sparkles } from "lucide-react";
+import LessonError from "./LessonError";
+import Cookies from "js-cookie";
 
 export default function LessonPage() {
   const pathname = usePathname();
@@ -35,7 +37,7 @@ export default function LessonPage() {
     if (lessonId.length < 1) return;
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(apiUrl + `/lesson?lessonID=` + lessonId, {
         method: "GET",
         headers: {
@@ -45,6 +47,7 @@ export default function LessonPage() {
       });
 
       if (!response.ok) {
+        // if (response.status == 401) console.log(response.status);
         const errorData = await response.json();
         throw new Error(
           errorData.message || `HTTP error! status: ${response.status}`
@@ -57,8 +60,8 @@ export default function LessonPage() {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setError(errorMessage);
-      console.error("Request failed:", errorMessage);
-      throw err;
+      // console.error("Request failed:", errorMessage);
+      // throw err;
     } finally {
       setLoading(false);
     }
@@ -79,7 +82,7 @@ export default function LessonPage() {
 
     try {
       // 1. Get token from localStorage
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       if (!token) {
         throw new Error("No authentication token found");
       }
@@ -140,7 +143,7 @@ export default function LessonPage() {
     const fetchVideo = async () => {
       setError("");
       try {
-        const token = localStorage.getItem("token") || "";
+        const token = Cookies.get("token") || "";
 
         if (!lessonItems?.videoID) {
           throw new Error("No video ID provided");
@@ -262,6 +265,7 @@ export default function LessonPage() {
   //   );
   // }
   console.log(lessonItems?.videoID);
+  if (error) return <LessonError />;
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}

@@ -3,6 +3,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 interface AuthGuardProps {
   allowedRoles: string[];
@@ -14,8 +15,7 @@ export const AuthGuard = ({ allowedRoles, children }: AuthGuardProps) => {
 
   useEffect(() => {
     // Check role from localStorage on client side
-    const role =
-      typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    const role = typeof window !== "undefined" ? Cookies.get("role") : null;
 
     if (!role || !allowedRoles.includes(role)) {
       // Redirect to home if not authorized

@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import Loading from "../../../components/loading/Loading";
 import { LessonsType } from "../../../types/type";
 import { apiUrl } from "@/components/url";
+import Cookies from "js-cookie";
 
 interface NumPage {
   page: string;
@@ -17,13 +18,12 @@ export default function Lessons() {
   >("all");
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
 
-  const [numPage, setNumPage] = useState<NumPage>({
+  const [numPage] = useState<NumPage>({
     page: "1",
     limit: "10",
   });
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [numberOfLessons, setNumberOfLessons] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Check authentication
 
@@ -32,7 +32,7 @@ export default function Lessons() {
   //   setError(null);
 
   //   try {
-  //     const token = localStorage.getItem("token") || "";
+  //     const token = Cookies.get("token") || "";
   //     const response = await fetch(apiUrl + "/lesson/number", {
   //       method: "GET",
   //       headers: {
@@ -65,7 +65,7 @@ export default function Lessons() {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         apiUrl + `/lesson/all?page=${numPage.page}&limit=100`,
         {
@@ -95,7 +95,7 @@ export default function Lessons() {
     } finally {
       setLoading(false);
     }
-  }, [numPage.page, numPage.limit, numberOfLessons]); // Added numberOfLessons to dependencies
+  }, [numPage.page]); // Added numberOfLessons to dependencies
 
   // Initial data fetch
   useEffect(() => {
@@ -177,10 +177,13 @@ export default function Lessons() {
                 isIn={item.isInLibrary}
               />
             ))
-          : !loading && (
-              <h3>No lessons found matching your search criteria.</h3>
-            )}
+          : ""}
       </div>
+      {!loading && filteredLessons.length == 0 && (
+        <div className="no-lessons-yet">
+          <h3>No lessons found matching your search criteria.</h3>
+        </div>
+      )}
       {error && !error && <h1>{error}</h1>}
     </div>
   );

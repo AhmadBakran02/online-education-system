@@ -1,5 +1,5 @@
 import { apiUrl } from "../url";
-
+import Cookies from "js-cookie";
 interface Lesson {
   lessonID: string;
 }
@@ -12,7 +12,7 @@ export const AddToMyLessons = async (
   };
 
   try {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       throw new Error("No authentication token found");
     }

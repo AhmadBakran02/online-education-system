@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import UserCard from "@/components/user-card/UserCard";
 import "./style.css";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function UsersPage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,7 +16,7 @@ export default function UsersPage() {
   const handleGetAllUsers = useCallback(async (numberResult: number) => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         `${apiUrl}/user?page=1&limit=${numberResult}`,
         {
@@ -38,7 +39,7 @@ export default function UsersPage() {
 
   const fetchPhotoUrls = useCallback(async (users: Users[]) => {
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const urls: Record<string, string> = {};
 
       await Promise.all(
@@ -110,7 +111,6 @@ export default function UsersPage() {
               </div>
             )}
       </div>
-
     </AuthGuard>
   );
 }

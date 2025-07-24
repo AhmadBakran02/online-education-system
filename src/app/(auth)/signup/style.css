@@ -9,8 +9,9 @@
 }
 
 .login-body {
-  background-color: rgb(250, 250, 250);
+  background-color: #fafafa;
   height: 100vh;
+  height: 100dvh;
 }
 
 .container {
@@ -18,9 +19,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   width: 450px;
-  /* height: 640px; */
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
@@ -31,6 +31,8 @@
 @media (max-width: 507px) {
   .container {
     width: 350px;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 }
 /*------------------Header----------------*/
@@ -124,24 +126,6 @@
   outline: 2px solid rgb(0, 0, 0);
 }
 
-/*------------------Forget----------------*/
-
-.signup-form .In .forget {
-  float: right;
-  font-size: 12px;
-  font-weight: 300;
-}
-
-.signup-form .In .forget:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 507px) {
-  .signup-form .In .forget {
-    font-size: 11px;
-  }
-}
-
 .signup-form .In .input {
   width: 100%;
   height: 40px;
@@ -171,6 +155,12 @@
   width: 22px;
 }
 
+.radio-gender {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
 /*------------------Sigin Button----------------*/
 
 .sigin {
@@ -194,18 +184,6 @@
     font-size: 13px;
   }
 }
-
-/* .gender-selection {
-  border: none;
-  padding: 0;
-  margin: 1rem 0;
-} */
-
-/* .gender-selection legend {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #333;
-} */
 
 .radio-option {
   margin: 0.5rem 0;
@@ -242,7 +220,7 @@
 .radio-option label {
   cursor: pointer;
   font-size: 1rem;
-  color: #000000;
+  color: #000;
 }
 
 .radio-option input[type="radio"]:focus {
@@ -277,9 +255,17 @@
   text-align: center;
   font-size: 15px;
   height: 35px;
-  /* width: 80%; */
   display: flex;
   align-self: center;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 507px) {
+  .success-message {
+    font-size: 12px;
+  }
+  .error-message {
+    font-size: 12px;
+  }
 }

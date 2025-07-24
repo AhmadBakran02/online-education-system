@@ -12,12 +12,12 @@ import { useCallback, useEffect, useState } from "react";
 import { GetBlogsType, GetPost, LessonsType } from "@/types/type";
 import { PostCard } from "@/components/post-card/post-card";
 import { apiUrl } from "@/components/url";
-
+import Cookies from "js-cookie";
 export default function HomePage() {
   const [postItems, setPostItems] = useState<GetPost[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({}); // { photoID: url }
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
+  const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({}); // { photoID: url }
   const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
 
   const handleGetAllPost = useCallback(async () => {
@@ -25,7 +25,7 @@ export default function HomePage() {
     // setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(apiUrl + `/post/all?limit=10&page=1`, {
         method: "GET",
         headers: {
@@ -56,7 +56,7 @@ export default function HomePage() {
   // Fetch photo URLs for all posts
   const fetchPhotoUrls = useCallback(async (posts: GetPost[]) => {
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const urls: Record<string, string> = {};
 
       // Process posts with photoIDs in parallel
@@ -120,7 +120,7 @@ export default function HomePage() {
     // setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(`${apiUrl}/lesson/all?page=1&limit=3`, {
         method: "GET",
         headers: {
@@ -161,7 +161,7 @@ export default function HomePage() {
     // setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(`${apiUrl}/blog/all?page=${1}&limit=${3}`, {
         method: "GET",
         headers: {

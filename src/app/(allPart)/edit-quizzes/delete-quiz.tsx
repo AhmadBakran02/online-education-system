@@ -1,4 +1,5 @@
 import { apiUrl } from "@/components/url";
+import Cookies from "js-cookie";
 
 interface Quiz {
   quizID: string;
@@ -10,7 +11,7 @@ export const DeleteQuiz = async (quizID: string): Promise<boolean> => {
   };
 
   try {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       throw new Error("No authentication token found");
     }

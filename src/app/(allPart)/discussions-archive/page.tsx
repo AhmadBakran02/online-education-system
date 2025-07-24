@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import "./../../globals.css";
 import "./style.css";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function BlogArchive() {
   const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
@@ -17,7 +18,7 @@ export default function BlogArchive() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         `${apiUrl}/blog/my/all?page=${1}&limit=${10}`,
         {

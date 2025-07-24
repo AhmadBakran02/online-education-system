@@ -5,6 +5,7 @@ import { SIDEBAR_ITEMS, NavItem } from "@/types/navigaton"; // Assuming you have
 import { UserRole } from "@/types/user";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,7 +25,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    const role = localStorage.getItem("role") as UserRole | null;
+    const role = Cookies.get("role") as UserRole | null;
     setUserRole(role);
   }, []);
 

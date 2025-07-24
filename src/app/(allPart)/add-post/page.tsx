@@ -4,6 +4,7 @@ import { useState } from "react";
 import Success from "../../../components/Success/success-text";
 import { apiUrl } from "@/components/url";
 import { AuthGuard } from "@/components/AuthGuard";
+import Cookies from "js-cookie";
 
 export default function AddPosts() {
   const [photo, setPhoto] = useState<File | null>(null);
@@ -46,7 +47,7 @@ export default function AddPosts() {
       const response = await fetch(`${apiUrl}/file`, {
         method: "PUT",
         headers: {
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: formData,
       });
@@ -92,7 +93,7 @@ export default function AddPosts() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           title: titleValue,

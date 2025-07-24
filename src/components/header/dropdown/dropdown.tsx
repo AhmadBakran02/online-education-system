@@ -4,6 +4,9 @@ import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
 import { apiUrl } from "@/components/url";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
 interface Screen {
   smallSize: boolean;
 }
@@ -16,7 +19,7 @@ export default function UserDropdown({ smallSize }: Screen) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [photoUrl, setPhotoUrl] = useState<string>("/images/user.svg");
   const [error, setError] = useState<string>("");
-
+  const router = useRouter();
   // Set default value
   useEffect(() => {
     setPhotoID(localStorage.getItem("photoID") || "");
@@ -27,7 +30,7 @@ export default function UserDropdown({ smallSize }: Screen) {
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
-        const token = localStorage.getItem("token") || "";
+        const token = Cookies.get("token") || "";
 
         if (!photoID) {
           return;
@@ -43,13 +46,12 @@ export default function UserDropdown({ smallSize }: Screen) {
         });
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+          // throw new Error(`Error: ${response.status}`);
         }
-
-        const contentType = response.headers.get("content-type");
-        if (!contentType?.startsWith("image/")) {
-          throw new Error("Received data is not an image");
-        }
+        // const contentType = response.headers.get("content-type");
+        // if (!contentType?.startsWith("image/")) {
+        //   throw new Error("Received data is not an image");
+        // }
 
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
@@ -94,12 +96,19 @@ export default function UserDropdown({ smallSize }: Screen) {
     };
   }, []);
 
-  const handleLogOut = () => {
-    localStorage.removeItem("token");
+  // const handleLogOut = () => {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("role");
+  // };
+
+  const handleLogout = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("email");
     localStorage.removeItem("photoID");
-    localStorage.removeItem("role");
+    ["token", "name", "email", "role", "photoID"].forEach((cookie) => {
+      Cookies.remove(cookie);
+    });
+    router.push("/login");
   };
 
   return (
@@ -167,7 +176,7 @@ export default function UserDropdown({ smallSize }: Screen) {
           <Link
             href="/login"
             className="dropdown-item logout"
-            onClick={handleLogOut}
+            onClick={handleLogout}
           >
             Log Out
           </Link>

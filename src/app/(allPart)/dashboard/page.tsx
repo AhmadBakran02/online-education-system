@@ -2,77 +2,20 @@
 
 import Link from "next/link";
 import "./style.css";
-import { useCallback, useEffect } from "react";
-import { useState } from "react";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
-import { Card } from "../../../components/lessons-card/lessons-card";
-// import Calendar from "react-calendar";
-import Loading from "../../../components/loading/Loading";
-import { LessonsType } from "../../../types/type";
-import { apiUrl } from "@/components/url";
 import BlogDashboard from "@/components/blog-dashboard/BlogDaschboard";
-
-interface NumPage {
-  page: string;
-  limit: string;
-}
+import MyLessonsDash from "./@myLessons/page";
+import PostDash from "./@post/page";
 
 export default function Dashboard() {
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       window.location.href = "/login";
     }
   }, []);
-  const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // const [numPage, setNumPage] = useState<NumPage>({
-  //   page: "1",
-  //   limit: "2",
-  // });
-
-  const numPage: NumPage = {
-    page: "1",
-    limit: "2",
-  };
-  const handleGetMyLibrary = useCallback(async () => {
-    setLoading(true);
-    const token = localStorage.getItem("token");
-    try {
-      const response = await fetch(
-        apiUrl +
-          `/lesson/library/all?limit=${numPage.limit}&page=${numPage.page}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token: token || "",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      setLessonsItems(data.lessonMyLibrary);
-      setLoading(false);
-      return data;
-    } catch (error) {
-      console.error("Request failed:", error);
-      setLoading(false);
-      throw error;
-    }
-  }, [numPage.limit, numPage.page]);
-
-  useEffect(() => {
-    handleGetMyLibrary();
-  }, [handleGetMyLibrary]);
 
   return (
     <div className="dashboard-container">
@@ -106,33 +49,15 @@ export default function Dashboard() {
           <div className="news dashboard-box">
             <h3>News & Announcements</h3>
             <Link href="">View All ›</Link>
-            <div className="news-back null-lessons-announcements">
+            {/* <div className="news-back null-lessons-announcements">
               No announcements yet
-            </div>
+            </div> */}
+            <PostDash />
           </div>
           <div className="current-lessons dashboard-box">
-            <h3>My Lessons</h3>
-            <Link href="my-lessons">All Lessons ›</Link>
-            <div className="news-back null-lessons-announcements">
-              {loading && <Loading />}
-              <ul>
-                {Array.isArray(lessonsItems) && lessonsItems.length > 0
-                  ? lessonsItems.map((item) => (
-                      <Card
-                        key={item._id}
-                        title={item.title}
-                        description={item.description}
-                        id={item._id}
-                        action={"remove"}
-                      />
-                    ))
-                  : !loading && (
-                      <div className="no-tasks">
-                        <p>No lessons available</p>
-                      </div>
-                    )}
-              </ul>
-            </div>
+            <h3>My Library</h3>
+            <Link href="my-library">All Lessons ›</Link>
+            <MyLessonsDash />
           </div>
         </div>
         <div className="right-aside">

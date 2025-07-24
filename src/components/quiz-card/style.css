@@ -40,6 +40,24 @@
   background-color: var(--color-red-700);
 }
 
+.todo-quiz {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: #737373;
+  cursor: pointer;
+  font-size: 14px;
+  float: right;
+  transition: background-color 0.3s;
+}
+.todo-quiz:hover {
+  background-color: #e8e8e8;
+}
+
 .quizzes-container .lessons-header h3 {
   font-weight: 600;
   font-size: 25px;
@@ -104,7 +122,7 @@
 /*######################---Select Topic---#######################*/
 .select-task {
   width: 100%;
-  background-color: rgb(245, 245, 245);
+  background-color: #f5f5f5;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -117,7 +135,7 @@
 .tabs button {
   padding: 5px 12px;
   flex: 0.5;
-  color: rgb(115, 115, 115);
+  color: #737373;
   text-align: center;
   cursor: pointer;
   border-radius: 5px;
@@ -183,7 +201,7 @@
 }
 
 .task-card:hover {
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -350,4 +368,94 @@
 
 .btn:hover {
   background-color: rgb(59, 72, 154);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.flow-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  /* width: 70%; */
+  max-width: 200px;
+  /* height: 50%; */
+  min-height: 200px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.flow-card .add-post h3 {
+  font-size: 19px;
+}
+
+.flow-card input {
+  /* background-color: cadetblue; */
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 5px;
+  padding: 8px 40px;
+  margin-top: 15px;
+}
+.flow-card input:focus {
+  outline: 1px solid var(--mainBlue);
+}
+
+.button-group {
+  float: right;
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.button-group button {
+  height: 40px;
+  transition: 0.3s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+.button-group .post-button {
+  width: 120px;
+  /* background-color: var(--mainBlue); */
+  /* color: #ffffff; */
+}
+
+/* .button-group .post-button:hover {
+  background-color: #3b489a;
+} */
+
+.button-group .close-button {
+  width: 90px;
+  background-color: #ffffff;
+}
+
+.button-group button:hover {
+  /* background-color: var(--hoverBlue); */
+  background-color: var(--gray1);
+}
+
+.failed-message {
+  margin-top: 15px;
+  color: #737373;
 }

@@ -8,6 +8,7 @@ import styles from "./VerifyCodePage.module.css";
 import { KeyboardEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
 
 export default function Settings() {
   // const [currentPassword, setCurrentPassword] = useState<string>("");
@@ -107,10 +108,10 @@ export default function Settings() {
       const formData = new FormData();
       formData.append("file", photo);
 
-      const response = await fetch(apiUrl+`/file`, {
+      const response = await fetch(apiUrl + `/file`, {
         method: "PUT",
         headers: {
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: formData,
       });
@@ -139,7 +140,7 @@ export default function Settings() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           photoID: photoUploadSuccess,
@@ -169,7 +170,7 @@ export default function Settings() {
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
-        const token = localStorage.getItem("token") || "";
+        const token = Cookies.get("token") || "";
 
         if (!localStorage.getItem("photoID")) {
           throw new Error("No photo ID provided");
@@ -351,7 +352,7 @@ export default function Settings() {
     setChangePassword(true);
     handleResend();
   };
-  
+
   return (
     <div className="profile-container">
       <main className="main-content">

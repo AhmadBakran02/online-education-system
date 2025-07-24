@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
+import Cookies from "js-cookie";
 
 export default function Post() {
   // const [postsItems, setPostsItems] = useState<GetPost[]>([]);
@@ -40,7 +41,7 @@ export default function Post() {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(`${apiUrl}/post?postID=${id}`, {
         method: "GET",
         headers: {
@@ -79,7 +80,7 @@ export default function Post() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            token: localStorage.getItem("token") || "",
+            token: Cookies.get("token") || "",
           },
         }
       );

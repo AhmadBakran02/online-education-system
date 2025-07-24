@@ -1,5 +1,5 @@
 import { apiUrl } from "../url";
-
+import Cookies from "js-cookie";
 interface Lesson {
   lessonID: string;
 }
@@ -12,13 +12,13 @@ export const deleteLessonFromMyLibrary = async (
   };
 
   try {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       throw new Error("No authentication token found");
     }
 
     const response = await fetch(apiUrl + `/lesson/library`, {
-      method: "DELETE", 
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         token,

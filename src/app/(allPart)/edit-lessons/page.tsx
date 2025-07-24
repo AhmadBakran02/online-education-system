@@ -7,10 +7,11 @@ import { NumPage } from "../../../types/type";
 import { getAllLessons } from "@/app/api/lesson-get-my";
 import { AuthGuard } from "@/components/AuthGuard";
 // import { getAllLessons } from "../../api/lesson-get-my";
+import Cookies from "js-cookie";
 
 export default function Edit() {
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       window.location.href = "/login";
     }
