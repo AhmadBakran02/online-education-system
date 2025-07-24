@@ -204,7 +204,7 @@ export default function LoginBox() {
           Don&apos;t have an account? <Link href="/signup">Register now</Link>
         </div>
       </form>
-      <Link href="https://online-education-system-quch.onrender.com/auth/google/callback">
+      <Link href="https://online-education-system-quch.onrender.com/auth/google">
         google
       </Link>
     </div>
