@@ -33,7 +33,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 } */
 
-.home-page {
+/* .home-page {
   width: 700px;
   background-color: red;
 }
@@ -44,10 +44,12 @@ body {
 }
 
 .home-page h1 {
-  /* width: ; */
   background-color: darkblue;
-}
+} */
 
+.color-main-blue {
+  color: var(--mainBlue);
+}
 .have-account {
   margin-top: 25px;
   text-align: center;

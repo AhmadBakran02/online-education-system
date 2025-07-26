@@ -3,7 +3,9 @@
   grid-area: dashboard-container;
   padding: 15px; */
 }
-
+.color-main-blue {
+  color: var(--mainBlue);
+}
 .dashboard-section {
   padding: 25px;
   border-radius: 8px;
@@ -181,7 +183,6 @@
 
 .dashboard-second .right-aside .forum-activty a {
   font-size: 13px;
-  color: #737373;
   float: right;
 }
 

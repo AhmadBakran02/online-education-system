@@ -213,6 +213,7 @@ export const ForumCard = ({
     console.log(result);
     setShowEdit(true);
   };
+
   return (
     // <div className="topic-card">
     //   <div className="card-header">
@@ -254,7 +255,11 @@ export const ForumCard = ({
     //     </div>
     //   </div>
     // </div>
-    <div className={`topic-card ${deleted ? "hid" : ""}`}>
+    <div
+      className={`topic-card2 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow ${
+        deleted ? "hid" : ""
+      }`}
+    >
       <div className="card-header">
         <div className="flex flex-col justify-end">
           <h4 className="card-title">Practical: {title}</h4>

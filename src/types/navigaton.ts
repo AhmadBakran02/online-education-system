@@ -28,6 +28,12 @@ export interface NavItem {
 // },
 export const SIDEBAR_ITEMS: NavItem[] = [
   {
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: "/dashboard.svg",
+    roles: ["admin", "teacher", "student"],
+  },
+  {
     title: "Users",
     href: "/users",
     icon: "/users.svg",

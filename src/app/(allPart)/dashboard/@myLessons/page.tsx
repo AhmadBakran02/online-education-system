@@ -1,11 +1,13 @@
 "use client";
 
-import { Card } from "@/components/lessons-card/lessons-card";
 import Loading from "@/components/loading/Loading";
 import { apiUrl } from "@/components/url";
 import { LessonsType, NumPage } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import "./style.css";
+
 export default function MyLessonsDash() {
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -59,13 +61,21 @@ export default function MyLessonsDash() {
       <ul>
         {Array.isArray(lessonsItems) && lessonsItems.length > 0
           ? lessonsItems.map((item) => (
-              <Card
+              <div
                 key={item._id}
-                title={item.title}
-                description={item.description}
-                id={item._id}
-                action={"remove"}
-              />
+                className={`card border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow`}
+              >
+                <p className="title">{item.title}</p>
+                <h2 className="subject-name">{item.description}</h2>
+
+                <div className="two-button">
+                  <button className="show-lesson">
+                    <Link href={`/lessons/${item._id}`}>
+                      <span> Show Lesson</span>
+                    </Link>
+                  </button>
+                </div>
+              </div>
             ))
           : !loading && (
               <div className="no-tasks">
@@ -76,3 +86,6 @@ export default function MyLessonsDash() {
     </div>
   );
 }
+// function DeleteFormMyLessons(id: any) {
+//   throw new Error("Function not implemented.");
+// }

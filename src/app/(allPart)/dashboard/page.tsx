@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import "./style.css";
+import "../../globals.css";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 
@@ -48,7 +49,9 @@ export default function Dashboard() {
         <div className="all-dashboard-box">
           <div className="news dashboard-box">
             <h3>News & Announcements</h3>
-            <Link href="">View All ›</Link>
+            <Link className="color-main-blue" href="">
+              View All ›
+            </Link>
             {/* <div className="news-back null-lessons-announcements">
               No announcements yet
             </div> */}
@@ -56,7 +59,9 @@ export default function Dashboard() {
           </div>
           <div className="current-lessons dashboard-box">
             <h3>My Library</h3>
-            <Link href="my-library">All Lessons ›</Link>
+            <Link className="color-main-blue" href="my-library">
+              All Lessons ›
+            </Link>
             <MyLessonsDash />
           </div>
         </div>
@@ -64,7 +69,9 @@ export default function Dashboard() {
           <div className="calendar">
             <div className="head-calendar">
               <h3>School Calendar </h3>
-              <Link href="">View Full Calendar ›</Link>
+              <Link className="color-main-blue" href="">
+                View Full Calendar ›
+              </Link>
             </div>
             {/* <Calendar
               locale="en"
@@ -82,7 +89,32 @@ export default function Dashboard() {
           </div>
           <div className="forum-activty">
             <h3>Recent Forum Activity</h3>
-            <Link href="/discussions">Visit Forum ›</Link>
+            <Link className="color-main-blue" href="/discussions">
+              Visit Forum ›
+            </Link>
+            <div className="news-back null-lessons-announcements">
+              {/* <p>No forum activity yet </p> */}
+              <div className="topics-exist">
+                {/* <ForumCard
+                  show={false}
+                  title={""}
+                  article={""}
+                  category={""}
+                  createdAt={""}
+                  id={""}
+                  name={""}
+                  role={""}
+                  edit={false}
+                /> */}
+                <BlogDashboard />
+              </div>
+            </div>
+          </div>
+          <div className="forum-activty">
+            <h3>Quiz List</h3>
+            <Link className="color-main-blue" href="/discussions">
+              All Quiz ›
+            </Link>
             <div className="news-back null-lessons-announcements">
               {/* <p>No forum activity yet </p> */}
               <div className="topics-exist">
