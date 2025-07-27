@@ -1,5 +1,6 @@
 "use client";
 import "./style.css";
+import "./style2.css";
 import "../../globals.css";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,54 +49,6 @@ export default function LoginBox() {
       [name]: value,
     }));
   };
-
-  // const handleSubmit2 = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   setError(null);
-  //   setSuccess(false);
-
-  //   try {
-  //     console.log(loginData);
-  //     const response = await fetch(`${apiUrl}/auth/login`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(loginData),
-  //     });
-
-  //     const data = await response.json();
-  //     console.log(data.message == "Account not verified");
-  //     if (data.message == "Account not verified") {
-  //       setError("You should verify you account");
-  //       window.location.href = "/verify";
-  //     }
-  //     if (!response.ok) {
-  //       throw new Error(data.error || "Login failed");
-  //     }
-
-  //     // Handle successful login
-  //     setSuccess(true);
-  //     // Store token if needed
-  //     if (data.token) {
-  //       localStorage.setItem("token", data.token);
-  //       localStorage.setItem("name", data.name);
-  //       localStorage.setItem("role", data.role);
-  //       localStorage.setItem("photoID", data.photoID);
-  //       localStorage.setItem("email", loginData.email);
-  //     }
-
-  //     // Redirect using window.location instead of router
-  //     window.location.href = "/home";
-  //   } catch (err) {
-  //     // console.log(err);
-  //     if (error != "You should verify you account")
-  //       setError(err instanceof Error ? err.message : "Login failed");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -204,9 +157,20 @@ export default function LoginBox() {
           Don&apos;t have an account? <Link href="/signup">Register now</Link>
         </div>
       </form>
-      <Link href="https://online-education-system-quch.onrender.com/auth/google">
-        google
-      </Link>
+      <div className="for-or">
+        <p>OR</p>
+      </div>
+      <div className="google-form border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow">
+        <Link href="https://online-education-system-quch.onrender.com/auth/google">
+          <Image
+            src={"/images/google.webp"}
+            alt="google"
+            width={20}
+            height={20}
+          />
+          <p>Continue with Google</p>
+        </Link>
+      </div>
     </div>
   );
 }

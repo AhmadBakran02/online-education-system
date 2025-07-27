@@ -6,12 +6,14 @@ import { UserRole } from "@/types/user";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { usePathname } from "next/navigation";
 
-const Sidebar = () => {
+export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [screenSize, setScreenSize] = useState<number>(800);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const pathName = usePathname();
 
   useEffect(() => {
     const handleResize = () => {
@@ -94,30 +96,38 @@ const Sidebar = () => {
           </div>
 
           <ul className="space-y-2 my-10">
-            {filteredItems.map((link) => (
-              <li key={link.title} className="my-5">
-                <Link
-                  href={link.href}
-                  className="flex items-center p-2 px-3 justify-items-center text-base font-normal my-3 text-gray-900 rounded-lg hover:bg-gray-100"
-                >
-                  <span className="flex-shrink-0">
-                    <Image
-                      src={link.icon}
-                      width={30}
-                      height={30}
-                      alt={link.title}
-                    />
-                  </span>
-                  <span
-                    className={`${
-                      isExpanded ? "md:block" : "md:hidden"
-                    } lg:block ml-3`}
+            {filteredItems.map((link) => {
+              const isActive =
+                pathName == link.href ||
+                (pathName.startsWith(link.href) && link.href !== "");
+
+              return (
+                <li key={link.title} className="my-5">
+                  <Link
+                    href={link.href}
+                    className={`flex items-center p-2 px-3 justify-items-center text-base font-normal my-3 text-gray-900 rounded-lg hover:bg-gray-100 ${
+                      isActive ? "bg-gray-100" : ""
+                    }`}
                   >
-                    {link.title}
-                  </span>
-                </Link>
-              </li>
-            ))}
+                    <span className="flex-shrink-0">
+                      <Image
+                        src={link.icon}
+                        width={30}
+                        height={30}
+                        alt={link.title}
+                      />
+                    </span>
+                    <span
+                      className={`${
+                        isExpanded ? "md:block" : "md:hidden"
+                      } lg:block ml-3`}
+                    >
+                      {link.title}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </aside>
@@ -132,6 +142,4 @@ const Sidebar = () => {
       )}
     </>
   );
-};
-
-export default Sidebar;
+}

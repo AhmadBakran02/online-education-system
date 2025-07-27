@@ -1,5 +1,6 @@
 "use client";
 import "./style.css";
+import "./style2.css";
 import "../../globals.css";
 import { apiUrl } from "@/components/url";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -200,6 +201,20 @@ export default function SignipBox() {
           <Link href="/login">Login</Link>
         </div>
       </form>
+      <div className="for-or">
+        <p>OR</p>
+      </div>
+      <div className="google-form border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow">
+        <Link href="https://online-education-system-quch.onrender.com/auth/google">
+          <Image
+            src={"/images/google.webp"}
+            alt="google"
+            width={20}
+            height={20}
+          />
+          <p>Continue with Google</p>
+        </Link>
+      </div>
     </div>
   );
 }

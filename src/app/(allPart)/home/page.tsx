@@ -197,6 +197,7 @@ export default function HomePage() {
     fetchData();
   }, [handleGetAllBlogs]);
 
+
   return (
     <main className="min-h-screen bg-gray-50 text-gray-800">
       {/* Hero Section */}

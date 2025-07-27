@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import "./style.css";
+// import "./style.css";
 import LoginBox from "./LoginBox";
 
 export const metadata: Metadata = {
