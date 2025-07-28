@@ -1,8 +1,7 @@
 // components/QuizList.tsx
 "use client";
 
-import {  Quiz } from "@/types/quiz";
-
+import { Quiz } from "@/types/quiz";
 
 interface QuizListProps {
   quizzes?: Quiz[] | null; // Explicitly allow null
@@ -10,7 +9,7 @@ interface QuizListProps {
   error?: string | null;
 }
 
-export default function QuizList({
+export default function QuizList2({
   quizzes = null, // Default to null
   loading = false,
   error = null,

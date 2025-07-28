@@ -5,6 +5,7 @@ import "./style.css";
 import "../../app/globals.css";
 import Success from "../Success/success-text";
 import AddToMyTodo from "./add-quiz";
+
 interface QuizCradType {
   id: string;
   title: string;
@@ -95,8 +96,8 @@ export default function QuizCard({
           )}
           {student && (
             <button className="todo-quiz" onClick={() => setShowAdd(true)}>
-              <p>Add To List</p>
               <Image src={"./plus-gray.svg"} width={17} height={17} alt="" />
+              <p>Add To List</p>
             </button>
           )}
         </div>
@@ -107,6 +108,7 @@ export default function QuizCard({
           {description}
         </p>
         <p className="task-course capitalize">{category}</p>
+
         <div className="task-meta">
           <span className="due-date">
             <svg

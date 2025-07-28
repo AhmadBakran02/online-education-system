@@ -1,61 +1,15 @@
 @import "tailwindcss";
 
-.quiz-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.quiz-header h3 {
-  justify-self: start;
-}
-.delete-quiz {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-red-600);
-  border-radius: 6px;
-  padding: 5px 10px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  float: right;
-  transition: background-color 0.3s;
-}
-.delete-quiz:hover {
-  background-color: var(--color-red-700);
-}
-
-.todo-quiz {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f5;
-  border-radius: 6px;
-  padding: 5px 10px;
-  color: #737373;
-  cursor: pointer;
-  font-size: 14px;
-  float: right;
-  transition: background-color 0.3s;
-}
-.todo-quiz:hover {
-  background-color: #e8e8e8;
-}
-
-.quizzes-container .lessons-header h3 {
+.quizzes-container .quizzes-header h3 {
   font-weight: 600;
   font-size: 25px;
 }
 
-.quizzes-container .lessons-header p {
+.quizzes-container .quizzes-header p {
   font-weight: 400;
   font-size: 14px;
   color: rgb(115, 115, 115);
+  display: -webkit-box;
 }
 
 .all-tasks {
@@ -75,7 +29,6 @@
   background-color: #fafafa;
   grid-area: tasks-container;
   padding: 15px;
-  /* min-height: calc(100vh - 80px); */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -124,7 +77,7 @@
 .tabs button {
   padding: 5px 12px;
   flex: 0.5;
-  color: #737373;
+  color: rgb(115, 115, 115);
   text-align: center;
   cursor: pointer;
   border-radius: 5px;
@@ -176,6 +129,10 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background-color: #f0f0f0;
+  padding: 15px;
+  /* min-height: 200px; */
+  border-radius: 6px;
 }
 
 .task-card {
@@ -190,7 +147,6 @@
 }
 
 .task-card:hover {
-  /* transform: translateY(-2px); */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -205,15 +161,15 @@
 }
 
 .task-content {
-  max-height: 300px;
+  flex: 1;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: self-start;
+  max-height: 300px;
 }
 
 .task-content h3 {
+  margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
+  color: #2c3e50;
 }
 
 .task-course {
@@ -292,6 +248,19 @@
   background-color: #fdedec;
 }
 
+.task-card.completed {
+  opacity: 0.7;
+  border-left: 4px solid #2ecc71;
+}
+
+.task-card.pending {
+  border-left: 4px solid #f39c12;
+}
+
+.task-card.overdue {
+  border-left: 4px solid #e74c3c;
+}
+
 .no-tasks {
   text-align: center;
   padding: 2rem;
@@ -341,102 +310,14 @@
   font-weight: 300;
   cursor: pointer;
   transition: 0.2s;
-  /* margin: 10px; */
 }
 
 .btn:hover {
   background-color: rgb(59, 72, 154);
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.quiz-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.flow-card {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  /* width: 70%; */
-  max-width: 200px;
-  /* height: 50%; */
-  min-height: 200px;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
-
-  align-items: center;
-}
-
-.flow-card .add-post h3 {
-  font-size: 19px;
-}
-
-.flow-card input {
-  /* background-color: cadetblue; */
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  border-radius: 5px;
-  padding: 8px 40px;
-  margin-top: 15px;
-}
-.flow-card input:focus {
-  outline: 1px solid var(--mainBlue);
-}
-
-.button-group {
-  float: right;
-  margin-top: 25px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.button-group button {
-  height: 40px;
-  transition: 0.3s;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  border-radius: 5px;
-  background-color: #ffffff;
-}
-.button-group .post-button {
-  width: 120px;
-  /* background-color: var(--mainBlue); */
-  /* color: #ffffff; */
-}
-
-/* .button-group .post-button:hover {
-  background-color: #3b489a;
-} */
-
-.button-group .close-button {
-  width: 90px;
-  background-color: #ffffff;
-}
-
-.button-group button:hover {
-  /* background-color: var(--hoverBlue); */
-  background-color: var(--gray1);
-}
-
-.failed-message {
-  margin-top: 15px;
-  color: #737373;
-}
-
-.score-history {
+  width: 100%;
 }

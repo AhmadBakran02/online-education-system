@@ -78,6 +78,7 @@ export default function BlogArchive() {
               name={item.name}
               role={item.role}
               edit={true}
+              vote={""}
             />
           ))}
         {!loading && blogs.length == 0 && (

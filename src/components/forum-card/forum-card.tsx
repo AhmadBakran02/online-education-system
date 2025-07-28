@@ -10,6 +10,7 @@ import { GetComments } from "@/types/type";
 import Comment from "../comment/Comment";
 import Loading2 from "../loading2/loading2";
 import Loading3 from "../loading3/loading3";
+import Cookies from "js-cookie";
 
 interface TypeOfValue {
   title: string;
@@ -21,7 +22,9 @@ interface TypeOfValue {
   name: string;
   role: string;
   edit: boolean;
+  vote: string;
 }
+
 export const ForumCard = ({
   title,
   article,
@@ -32,10 +35,12 @@ export const ForumCard = ({
   role,
   name,
   edit,
+  vote,
 }: TypeOfValue) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
   const [commentNumber, setCommentNumber] = useState<string>("0");
+  const [likeNumber, setLikeNumber] = useState<string>("0");
   const [success, setSuccess] = useState<boolean>(false);
   const [addingComment, setAddingComment] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
@@ -56,6 +61,8 @@ export const ForumCard = ({
     setIsActive(!isActive);
     if (!isActive) getAllComments();
   }
+
+  console.log(id);
   const dateOnly = createdAt?.split("T")[0] || "N/A";
 
   const addComment = async () => {
@@ -67,11 +74,47 @@ export const ForumCard = ({
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token") || "",
+          token: Cookies.get("token") || "",
         },
         body: JSON.stringify({
           blogID: id,
           comment: comment,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      // Handle successful login
+      setSuccess(true);
+      console.log("add", success);
+      return true;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign up failed");
+      return false;
+      console.log(error);
+    } finally {
+      // setLoading(false);
+      setAddingComment(false);
+    }
+  };
+  const addOrRemove = async () => {
+    const method = vote ? "DELETE" : "PUT";
+
+    setAddingComment(true);
+    try {
+      console.log("start-2");
+
+      const response = await fetch(apiUrl + `/blog/vote/upvote`, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          token: Cookies.get("token") || "",
+        },
+        body: JSON.stringify({
+          blogID: id,
         }),
       });
 
@@ -105,7 +148,7 @@ export const ForumCard = ({
     setCommentsLoading(true);
     console.log("get comments");
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         apiUrl + `/blog/comment/all?limit=99&page=1&blogID=${id}`,
         {
@@ -140,7 +183,7 @@ export const ForumCard = ({
     setCommentsLoading(true);
     console.log("get comments");
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Cookies.get("token") || "";
       const response = await fetch(
         apiUrl + `/blog/comment/number?blogID=${id}`,
         {
@@ -170,6 +213,37 @@ export const ForumCard = ({
     }
   }, [id]);
 
+  const getNumberOfLikes = useCallback(async () => {
+    setCommentsLoading(true);
+    console.log("get likes");
+    try {
+      const token = Cookies.get("token") || "";
+      const response = await fetch(apiUrl + `/blog/vote/number?blogID=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setLikeNumber(data.numberOfUpvotes);
+    } catch (error) {
+      console.error("Request failed:", error);
+      throw error;
+    } finally {
+      setCommentsLoading(false);
+    }
+  }, [id]);
+
   // Initial data fetch
   const handelAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -184,6 +258,10 @@ export const ForumCard = ({
   useEffect(() => {
     getNumberOfComments();
   }, [getNumberOfComments]);
+
+  useEffect(() => {
+    getNumberOfLikes();
+  }, [getNumberOfLikes]);
 
   const handleEditApi = async (e: React.FormEvent) => {
     setIsLoading(true);
@@ -289,18 +367,21 @@ export const ForumCard = ({
           </div>
         )}
       </div>
+
       {show && (
         <div className="card-body">
           <p>{article}</p>
         </div>
       )}
+
       {show && (
         <div className="card-actions hidden">
-          {/* <button className="icon-btn">
-            <Image src="./like.svg" width={20} height={20} alt="" /> 5
-          </button> */}
+          <button onClick={() => addOrRemove()} className="icon-btn">
+            <Image src="./like.svg" width={20} height={20} alt="" />
+            {likeNumber}
+          </button>
           <button onClick={() => answer()} className="icon-btn">
-            <Image src="./comment.svg" width={21} height={21} alt="" />{" "}
+            <Image src="./comment.svg" width={21} height={21} alt="" />
             {commentNumber}
           </button>
         </div>

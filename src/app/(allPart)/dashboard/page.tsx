@@ -5,10 +5,12 @@ import "./style.css";
 import "../../globals.css";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
+import { ClipboardList, Bot } from "lucide-react";
 
 import BlogDashboard from "@/components/blog-dashboard/BlogDaschboard";
 import MyLessonsDash from "./@myLessons/page";
 import PostDash from "./@post/page";
+import QuizList from "./@quizList/page";
 
 export default function Dashboard() {
   useEffect(() => {
@@ -22,6 +24,22 @@ export default function Dashboard() {
     <div className="dashboard-container">
       <div className="dashboard-section">
         <h1>Track your progress and catch up with today&apos;s tasks.</h1>
+
+        <div className="all-quizzes">
+          <Link href="/quiz-history" className="quiz">
+            <div className="icon-back">
+              <ClipboardList className="task-icon" />
+            </div>
+            <p>Quiz Participation History</p>
+          </Link>
+          <Link href="/AI-history" className="quiz">
+            <div className="icon-back">
+              <Bot className="task-icon" />
+            </div>
+            <p>AI Quiz Participation History</p>
+          </Link>
+        </div>
+
         <p>View Assignments</p>
         <h2>Your Progress</h2>
 
@@ -112,24 +130,12 @@ export default function Dashboard() {
           </div>
           <div className="forum-activty">
             <h3>Quiz List</h3>
-            <Link className="color-main-blue" href="/discussions">
+            <Link className="color-main-blue" href="/quiz-list">
               All Quiz ›
             </Link>
             <div className="news-back null-lessons-announcements">
-              {/* <p>No forum activity yet </p> */}
               <div className="topics-exist">
-                {/* <ForumCard
-                  show={false}
-                  title={""}
-                  article={""}
-                  category={""}
-                  createdAt={""}
-                  id={""}
-                  name={""}
-                  role={""}
-                  edit={false}
-                /> */}
-                <BlogDashboard />
+                <QuizList />
               </div>
             </div>
           </div>

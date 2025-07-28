@@ -36,11 +36,11 @@
 
 .dashboard-section .all-progress .progress-box {
   background-color: #f7f7f7;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   border-radius: 6px;
   padding: 15px;
   min-width: 230px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   cursor: pointer;
   flex: 1;
 }
@@ -130,9 +130,10 @@
   flex: 0.5;
 }
 
-@media (max-width: 667px) {
+@media (max-width: 680px) {
   .dashboard-second .right-aside {
     flex: 1;
+    /* background-color: cadetblue; */
   }
 }
 
@@ -269,4 +270,44 @@
 .react-calendar__tile--active {
   background: #006edc;
   color: white;
+}
+
+.all-quizzes {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  /* background-color: saddlebrown; */
+}
+.quiz {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  height: 70px;
+  background-color: #f7f7f7;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+}
+.quiz p {
+  font-weight: 500;
+}
+
+.quiz .icon-back {
+  background-color: var(--color-green-100);
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* align-content: center; */
+}
+.quiz .task-icon {
+  color: var(--color-green-400);
 }

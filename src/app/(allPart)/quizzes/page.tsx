@@ -12,8 +12,8 @@ import Cookies from "js-cookie";
 
 export default function QuizListPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   const [activeTab, setActiveTab] = useState<
     "all" | "programming" | "math" | "english" | "physics"
@@ -56,7 +56,7 @@ export default function QuizListPage() {
   return (
     <div className="quizzes-container mx-auto p-4">
       {/* -----------Quizzes Header----------- */}
-      <div className="lessons-header">
+      <div className="quizzes-header">
         <h3>Quizzes</h3>
         <p>
           Test your knowledge and track your progress with interactive quizzes.

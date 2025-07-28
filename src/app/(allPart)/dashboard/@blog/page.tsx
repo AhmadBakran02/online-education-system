@@ -73,7 +73,7 @@ export default function BlogDash() {
               name={item.name}
               role={item.role}
               edit={false}
-              // commentNumber={"4"}
+              vote={""}
             />
           ))
         : !loading && (

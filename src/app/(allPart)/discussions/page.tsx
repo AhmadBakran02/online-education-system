@@ -200,6 +200,7 @@ export default function Discussions() {
                       name={item.name}
                       role={item.role}
                       edit={false}
+                      vote={item.vote}
                     />
                   ))
                 : !loading && (

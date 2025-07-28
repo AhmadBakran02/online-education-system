@@ -70,3 +70,17 @@ export interface EditQuizPayload {
     _id?: string; // Optional for existing questions
   }[];
 }
+
+export interface TodoList {
+  _id: string;
+  userID: string;
+  quizID: string;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface TodoListResponse {
+  myTodoList: TodoList[];
+}

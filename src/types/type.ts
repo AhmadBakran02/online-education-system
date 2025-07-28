@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface LessonsType {
   category: string;
   isInLibrary: boolean | undefined;
@@ -7,6 +9,16 @@ export interface LessonsType {
   pdfID: string;
   videoID: string;
   level: string;
+}
+
+export interface HistoryType {
+  title: ReactNode;
+  _id: string;
+  quizID: string;
+  studentID: string;
+  answers: number[];
+  score: number;
+  __v: number;
 }
 
 export interface Lesson {
@@ -90,6 +102,7 @@ export interface GetBlogsType {
   name: string;
   role: string;
   __v: number;
+  vote: string;
 }
 
 export interface Users {
