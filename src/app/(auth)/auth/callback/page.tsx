@@ -1,3 +1,5 @@
+"use client";
+import Loading from "@/components/loading/Loading";
 import Cookies from "js-cookie";
 
 export default async function GoogleLogin({
@@ -5,12 +7,16 @@ export default async function GoogleLogin({
 }: {
   searchParams: Promise<{ token?: string }>;
 }) {
+
   const { token } = await searchParams;
-  if (token) Cookies.set("token", token);
+  if (token) {
+    Cookies.set("token", token);
+    window.location.href = "/getinfo";
+  }
 
   return (
     <div>
-      <p>wait please...</p>
+      <Loading />
     </div>
   );
 }

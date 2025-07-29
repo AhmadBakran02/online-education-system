@@ -1,13 +1,12 @@
 "use client";
+import Loading from "@/components/loading/Loading";
 import { apiUrl } from "@/components/url";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function GetInfo() {
   const [error, setError] = useState<string | null>(null);
-  // const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const token = Cookies.get("token");
 
   useEffect(() => {
     const getuserInfo = async () => {
@@ -33,14 +32,19 @@ export default function GetInfo() {
         localStorage.setItem("photoID", data.info.photoID);
         localStorage.setItem("email", data.info.email);
 
-        router.push("/home");
+        window.location.href = "/home";
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       }
     };
 
     getuserInfo();
-  }, [router]);
+  }, [token]);
 
-  return <h1> please wait...{error}</h1>;
+  return (
+    <div>
+      <Loading />
+      {error}
+    </div>
+  );
 }

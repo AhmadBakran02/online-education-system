@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 
-const AUTH_PAGES = ["/login", "/register", "/forgot-password"];
+const AUTH_PAGES = ["/login", "/register", "/forgot-password", "getinfo"];
 
 export default function AuthChecker({
   children,
@@ -17,14 +17,17 @@ export default function AuthChecker({
   const role = Cookies.get("role");
   const photoID = Cookies.get("photoID");
   const email = Cookies.get("email");
+  // console.log(window.location.href);
   if (
-    token != "undefined" &&
-    (name == "undefined" ||
-      role == "undefined" ||
-      photoID == "undefined" ||
-      email == "undefined")
+    token &&
+    (name == undefined ||
+      role == undefined ||
+      photoID == undefined ||
+      email == undefined) &&
+    !AUTH_PAGES.includes(window.location.pathname)
   ) {
     router.push("/getinfo");
+    // window.location.href = "/getinfo";
   }
   useEffect(() => {
     const checkAuth = () => {
