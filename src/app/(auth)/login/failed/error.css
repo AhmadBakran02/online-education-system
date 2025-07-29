@@ -1,0 +1,50 @@
+.lesson-not-found {
+  background-color: #fff;
+  border: 1px solid #d2d2d7;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  color: var(--gray4);
+  height: 100vh;
+}
+
+.lesson-not-found .text {
+  display: flex;
+  /* gap: 10px; */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.lesson-not-found .text .error-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+  /* background-color: cadetblue; */
+}
+
+.lesson-not-found .text p {
+  margin-top: 5px;
+  display: flex;
+  gap: 5px;
+  text-align: center;
+  font-size: 27px;
+  font-weight: 700;
+  color: #454545;
+}
+.lesson-not-found .text p button {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 507px) {
+  .lesson-not-found .text .error-header h1 {
+    font-size: 21px;
+  }
+}

@@ -79,7 +79,7 @@ export default function LoginBox() {
       Cookies.set("email", loginData.email);
       localStorage.setItem("email", loginData.email);
 
-      router.push("/home");
+      router.push("/getinfo");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
