@@ -76,13 +76,7 @@ export default function LoginBox() {
 
       // Store cookies (client-side)
       Cookies.set("token", data.token);
-      Cookies.set("name", data.name);
-      Cookies.set("role", data.role);
-      Cookies.set("photoID", data.photoID);
       Cookies.set("email", loginData.email);
-
-      localStorage.setItem("name", data.name);
-      localStorage.setItem("photoID", data.photoID);
       localStorage.setItem("email", loginData.email);
 
       router.push("/home");

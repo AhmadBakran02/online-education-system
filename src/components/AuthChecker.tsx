@@ -12,9 +12,22 @@ export default function AuthChecker({
 }) {
   const router = useRouter();
 
+  const token = Cookies.get("token");
+  const name = Cookies.get("name");
+  const role = Cookies.get("role");
+  const photoID = Cookies.get("photoID");
+  const email = Cookies.get("email");
+  if (
+    token != "undefined" &&
+    (name == "undefined" ||
+      role == "undefined" ||
+      photoID == "undefined" ||
+      email == "undefined")
+  ) {
+    router.push("/getinfo");
+  }
   useEffect(() => {
     const checkAuth = () => {
-      // const token = localStorage.getItem("token");
       const token = Cookies.get("token");
       const isAuthPage = AUTH_PAGES.includes(window.location.pathname);
 

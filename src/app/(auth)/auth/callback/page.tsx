@@ -1,14 +1,16 @@
+import Cookies from "js-cookie";
+
 export default async function GoogleLogin({
   searchParams,
 }: {
-  searchParams: Promise<{ token?: string; name?: string }>;
+  searchParams: Promise<{ token?: string }>;
 }) {
   const { token } = await searchParams;
-  const { name } = await searchParams;
+  if (token) Cookies.set("token", token);
+
   return (
     <div>
-      <h1>Hello {name}</h1>
-      <p>token: {token}</p>
+      <p>wait please...</p>
     </div>
   );
 }
