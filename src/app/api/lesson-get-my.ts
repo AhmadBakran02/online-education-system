@@ -16,6 +16,7 @@ interface Lesson {
   updatedAt: string; // or Date if you'll convert it
   __v: number;
   isInLibrary: boolean;
+  level: string;
 }
 
 interface LessonResponse {

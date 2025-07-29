@@ -84,6 +84,7 @@ export interface TypeOfParamsCard {
   id: string;
   action: string;
   isIn?: boolean;
+  level: string;
 }
 
 export interface BlogsType {

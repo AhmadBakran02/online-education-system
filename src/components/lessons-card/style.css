@@ -24,6 +24,28 @@
   display: flex;
   justify-content: space-between;
 }
+.header-card a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.level {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.level-1 {
+  background-color: #4caf50;
+}
+.level-2 {
+  background-color: #ffa04d;
+}
+.level-3 {
+  background-color: #ff4d4d;
+}
 
 .title {
   color: #454545;

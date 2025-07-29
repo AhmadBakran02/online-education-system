@@ -22,6 +22,7 @@ export default function Discussions() {
   const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
   const [article, setArticle] = useState<string>("");
   const [category, setCategory] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleGetAllBlogs = useCallback(async () => {
     setLoading(true);
@@ -122,8 +123,9 @@ export default function Discussions() {
     ? blogs.filter((type) => activeTab === "all" || type.category === activeTab)
     : [blogs];
 
-  // console.log(filteredBlogs);
-  // console.log(blogs);
+  const filteredLessonsSearch = filteredBlogs.filter((lesson) =>
+    lesson.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <AuthGuard allowedRoles={["admin", "teacher", "student"]}>
@@ -144,7 +146,12 @@ export default function Discussions() {
         </div>
         <div className="forum-main">
           <div className="forum-first">
-            <input type="search" placeholder="Search topics..." />
+            <input
+              type="search"
+              placeholder="Search topics by title..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
             <div className="select-task">
               <div className="tabs">
                 <button
@@ -187,8 +194,8 @@ export default function Discussions() {
             </div>
             <div className="topics-exist">
               {loading && <Loading />}
-              {filteredBlogs.length > 0
-                ? filteredBlogs.map((item) => (
+              {filteredLessonsSearch.length > 0
+                ? filteredLessonsSearch.map((item) => (
                     <ForumCard
                       key={item._id}
                       title={item.title}

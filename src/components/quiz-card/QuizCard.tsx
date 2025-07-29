@@ -1,4 +1,4 @@
-import DeleteQuiz from "@/app/(allPart)/edit-quizzes/delete-quiz";
+import DeleteQuiz from "@/app/(allPart)/(Quiz)/edit-quizzes/delete-quiz";
 import Image from "next/image";
 import { useState } from "react";
 import "./style.css";

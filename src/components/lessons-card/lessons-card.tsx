@@ -14,6 +14,7 @@ export const Card = ({
   id,
   action,
   isIn,
+  level,
 }: TypeOfParamsCard) => {
   const [message, setMessage] = useState<boolean>(false);
   const [addButton, setAddButton] = useState<boolean>(false);
@@ -58,9 +59,8 @@ export const Card = ({
       setDeleted(true);
     }
   };
-  
-  const handleDelete = async () => {
 
+  const handleDelete = async () => {
     const success = await DeleteLesson(id);
     if (success) {
       setDeleted(true);
@@ -106,12 +106,14 @@ export const Card = ({
       setIsLoading(false);
     }
   };
-
+  const colorlevel =
+    level == "beginner" ? "1" : level == "intermediate" ? "2" : "3";
   return (
     <div key={id} className={`card ${deleted ? "hid" : ""}`}>
       {action === "add" && (
         <div className="header-card">
           <Link href={`/lessons/${id}`}>
+            <p className={`level level-${colorlevel}`}></p>
             <p className="title">{title}</p>
           </Link>
           <p className={`success ${message ? "" : "hid"}`}>
@@ -120,11 +122,21 @@ export const Card = ({
         </div>
       )}
       {action !== "remove" && action !== "add" && (
-        <Link href={`/lessons/${id}`}>
-          <p className="title">{title}</p>
-        </Link>
+        <div className="header-card">
+          <Link href={`/lessons/${id}`}>
+            <p className={`level level-${colorlevel}`}></p>
+            <p className="title">{title}</p>
+          </Link>
+        </div>
       )}
-      {action == "remove" && <p className="title">{title}</p>}
+      {action == "remove" && (
+        <div className="header-card">
+          <Link href={`/lessons/${id}`}>
+            <p className={`level level-${colorlevel}`}></p>
+            <p className="title">{title}</p>
+          </Link>
+        </div>
+      )}
       <h2 className="subject-name">{description}</h2>
 
       {action == "add" && (
@@ -207,7 +219,7 @@ export const Card = ({
                 />
               </div>
               <div className="button-group">
-                <button type="submit" >
+                <button type="submit">
                   {isLoading ? "Updating..." : "Submit"}
                 </button>
                 <button type="button" onClick={() => setIsOpen(false)}>

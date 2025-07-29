@@ -6,7 +6,7 @@ import "./style.css";
 import "../../../globals.css";
 import { apiUrl } from "@/components/url";
 import Loading from "@/components/loading/Loading";
-import QuizzesError from "../../quizzes/QuizzesError";
+import QuizzesError from "../../(Quiz)/quizzes/QuizzesError";
 import Cookies from "js-cookie";
 
 export default function QuizList() {
