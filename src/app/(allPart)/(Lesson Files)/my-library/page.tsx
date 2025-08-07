@@ -60,17 +60,18 @@ export default function MyLessons() {
   const filteredLessonsSearch = lessonsItems.filter((lesson) =>
     lesson.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   return (
     <div className="my-lessons">
-      <h1>My Lessons</h1>
+      <h1>My Library</h1>
       <div className="search">
         <input
           type="search"
-          placeholder="Search by Id coures"
+          placeholder="Search lessons by title"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="btn">Search</button>
+        {/* <button className="btn">Search</button> */}
       </div>
       {loading && (
         <div className="loading-cards">
@@ -79,10 +80,8 @@ export default function MyLessons() {
       )}
       <div className="lesson-cards">
         <ul>
-          {!loading &&
-          Array.isArray(filteredLessonsSearch) &&
-          filteredLessonsSearch.length > 0
-            ? lessonsItems.map((item) => (
+          {!loading && filteredLessonsSearch.length > 0
+            ? filteredLessonsSearch.map((item) => (
                 <Card
                   key={item._id}
                   title={item.title}

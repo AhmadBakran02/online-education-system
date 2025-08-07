@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 export interface Question {
   text: string;
   options: string[];
@@ -53,9 +55,11 @@ export interface Quiz {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  isAtTodoList: boolean;
   category: string;
 }
 export interface QuizResponse {
+  myTodoList: SetStateAction<TodoList[]>;
   quizzes: Quiz[];
 }
 
@@ -72,6 +76,9 @@ export interface EditQuizPayload {
 }
 
 export interface TodoList {
+  category: string;
+  description: string;
+  title: string;
   _id: string;
   userID: string;
   quizID: string;

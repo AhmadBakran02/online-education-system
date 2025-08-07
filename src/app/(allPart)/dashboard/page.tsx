@@ -7,10 +7,11 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { ClipboardList, Bot } from "lucide-react";
 
-import BlogDashboard from "@/components/blog-dashboard/BlogDaschboard";
 import MyLessonsDash from "./@myLessons/page";
 import PostDash from "./@post/page";
 import QuizList from "./@quizList/page";
+import BlogDash from "./@blog/page";
+import Statistics from "./@statistics/page";
 
 export default function Dashboard() {
   useEffect(() => {
@@ -41,7 +42,8 @@ export default function Dashboard() {
         </div>
 
         <p>View Assignments</p>
-        <h2>Your Progress</h2>
+        <Statistics />
+        {/* <h2>Your Progress</h2>
 
         <div className="all-progress">
           <div className="assignments-completed progress-box">
@@ -60,7 +62,7 @@ export default function Dashboard() {
             <p>10 points</p>
             <div className="progress"></div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="dashboard-second">
@@ -124,13 +126,13 @@ export default function Dashboard() {
                   role={""}
                   edit={false}
                 /> */}
-                <BlogDashboard />
+                <BlogDash />
               </div>
             </div>
           </div>
           <div className="forum-activty">
             <h3>Quiz List</h3>
-            <Link className="color-main-blue" href="/quiz-list">
+            <Link className="color-main-blue" href="/dashboard/quiz-list">
               All Quiz ›
             </Link>
             <div className="news-back null-lessons-announcements">

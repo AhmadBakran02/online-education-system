@@ -21,7 +21,7 @@ export default function QuizHistory() {
     setLoading(true);
     try {
       const token = Cookies.get("token") || "";
-      const response = await fetch(apiUrl + `/quiz/Submission`, {
+      const response = await fetch(apiUrl + `/quiz/submission`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -50,35 +50,9 @@ export default function QuizHistory() {
   // Initial data fetch
   useEffect(() => {
     handleGetMyHistory();
-  }, [handleGetMyHistory]); // Now includes the required dependency
+  }, [handleGetMyHistory]);
 
-  // useEffect(() => {
-  //   const fetchQuizzes = async () => {
-  //     try {
-  //       const token = Cookies.get("token") || "";
-  //       const response = await fetch(apiUrl + "/quiz/all?page=1&limit=800", {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           token: token,
-  //         },
-  //       });
-
-  //       if (!response.ok) throw new Error("Failed to fetch quizzes");
-
-  //       const data: QuizResponse = await response.json();
-  //       setQuizzes(data.quizzes);
-  //     } catch (err) {
-  //       setError(err instanceof Error ? err.message : "Unknown error");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchQuizzes();
-  // }, []);
-
-  const filteredTasks = historyItems.filter(() => {
+  const filteredTasks = historyItems?.filter(() => {
     return activeTab === "all" || "math" === activeTab;
   });
 
@@ -87,18 +61,19 @@ export default function QuizHistory() {
   if (error) return <QuizzesError errorType={error} />;
 
   return (
-    <div className="quizzes-container mx-auto p-4">
+    <div className="history-container mx-auto p-4">
       {/* -----------Quizzes Header----------- */}
-      <div className="quizzes-header">
-        <h3>Quizzes</h3>
+      <div className="history-header-page">
+        <h3>Quizzes History</h3>
         <p>
-          Test your knowledge and track your progress with interactive quizzes.
+          Here, you can review all your previous quiz attempts, track your
+          progress, and see how you&apos;ve improved over time.
         </p>
       </div>
 
       {/* -----------Select Category----------- */}
       <div className="select-task my-3">
-        <div className="tabs">
+        <div className="select-history-tabs">
           <button
             className={activeTab === "all" ? "active" : ""}
             onClick={() => setActiveTab("all")}
@@ -133,13 +108,13 @@ export default function QuizHistory() {
       </div>
 
       {/* -----------Quizzes List----------- */}
-      <div className="task-list my-2.5 cursor-pointer">
+      <div className="history-list my-2.5 cursor-pointer">
         {loading && <Loading />}
-        {!loading && filteredTasks.length > 0
+        {!loading && filteredTasks?.length > 0
           ? filteredTasks.map((task) => (
-              <div key={task._id} className={`task-card completed medium `}>
-                <div className="task-content">
-                  <div className="quiz-header">
+              <div key={task._id} className={`history-card completed medium `}>
+                <div className="history-content">
+                  <div className="history-header">
                     <h3 className="!text-black font-medium capitalize">
                       asdas
                     </h3>
@@ -157,7 +132,7 @@ export default function QuizHistory() {
                     )}
                   </div>
 
-                  <p className="task-course capitalize">math</p>
+                  <p className="history-course capitalize">math</p>
                 </div>
               </div>
             ))

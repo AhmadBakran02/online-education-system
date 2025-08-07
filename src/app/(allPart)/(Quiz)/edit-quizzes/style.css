@@ -1,15 +1,5 @@
 @import "tailwindcss";
 
-.all-tasks {
-  /* padding: 2rem;
-  max-width: 1200px; */
-  /* margin: 0 auto;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
-}
-
-.quizzes-container {
-  /* background-color: #fff; */
-}
 .quiz-header {
   display: flex;
   justify-content: space-between;
@@ -43,7 +33,7 @@
 .quizzes-container .lessons-header p {
   font-weight: 400;
   font-size: 14px;
-  color: rgb(115, 115, 115);
+  color: #737373;
 }
 
 .all-tasks {
@@ -63,7 +53,6 @@
   background-color: #fafafa;
   grid-area: tasks-container;
   padding: 15px;
-  /* min-height: calc(100vh - 80px); */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -93,13 +82,13 @@
 }
 
 .tabs button.active {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  color: #000000;
 }
 /*######################---Select Topic---#######################*/
 .select-task {
   width: 100%;
-  background-color: rgb(245, 245, 245);
+  background-color: #f5f5f5;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -112,7 +101,7 @@
 .tabs button {
   padding: 5px 12px;
   flex: 0.5;
-  color: rgb(115, 115, 115);
+  color: #737373;
   text-align: center;
   cursor: pointer;
   border-radius: 5px;
@@ -221,7 +210,7 @@
   gap: 0.25rem;
   color: #7f8c8d;
 }
-
+/* 
 .priority {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -243,7 +232,7 @@
 .priority.high {
   background-color: #ffebee;
   color: #d32f2f;
-}
+} */
 
 .task-actions {
   display: flex;

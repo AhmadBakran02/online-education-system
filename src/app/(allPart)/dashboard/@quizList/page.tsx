@@ -42,20 +42,22 @@ export default function QuizList() {
 
   if (error) return <QuizzesError errorType={error} />;
 
+  const firstTwoTasks = todoList.slice(0, 2);
+
   return (
     <div className="task-list my-2.5 cursor-pointer ">
       {loading && <Loading />}
-      {!loading && todoList.length > 0
-        ? todoList.map((task) => (
+      {!loading && firstTwoTasks.length > 0
+        ? firstTwoTasks.map((task) => (
             <div key={task._id} className={`task-card completed`}>
               <div className="task-content">
                 <div className="quiz-header">
                   <h3 className="!text-black font-medium capitalize">
-                    {"task.title"}
+                    {task.title}
                   </h3>
                 </div>
-                <p className="text-gray-700 !mb-3.5 ">{"description"}</p>
-                <p className="task-course capitalize">{"category"}</p>
+                <p className="text-gray-700 !mb-3.5 ">{task.description}</p>
+                <p className="task-course capitalize">{task.category}</p>
 
                 <div className="task-meta">
                   <span className="due-date">
@@ -84,9 +86,6 @@ export default function QuizList() {
                     </svg>
                     {task.date?.split("T")[0] || "N/A"}
                   </span>
-                  {/* <span className={`priority ${task.priority}`}>
-                      {task.priority}
-                    </span> */}
                 </div>
               </div>
             </div>

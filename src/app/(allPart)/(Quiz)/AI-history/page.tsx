@@ -21,7 +21,7 @@ export default function QuizHistory() {
     setLoading(true);
     try {
       const token = Cookies.get("token") || "";
-      const response = await fetch(apiUrl + `/quiz/AI/Submission`, {
+      const response = await fetch(apiUrl + `/quiz/AI/submission`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function QuizHistory() {
     handleGetMyHistory();
   }, [handleGetMyHistory]); // Now includes the required dependency
 
-  const filteredTasks = historyItems.filter(() => {
+  const filteredTasks = historyItems?.filter(() => {
     return activeTab === "all" || "math" === activeTab;
   });
 
@@ -109,13 +109,13 @@ export default function QuizHistory() {
       {/* -----------Quizzes List----------- */}
       <div className="task-list my-2.5 cursor-pointer">
         {loading && <Loading />}
-        {!loading && filteredTasks.length > 0
+        {!loading && filteredTasks?.length > 0
           ? filteredTasks.map((task) => (
               <div key={task._id} className={`task-card completed medium `}>
                 <div className="task-content">
                   <div className="quiz-header">
                     <h3 className="!text-black font-medium capitalize">
-                      asdas
+                      {task.title}
                     </h3>
 
                     {task.score >= 0 && (
@@ -131,7 +131,7 @@ export default function QuizHistory() {
                     )}
                   </div>
 
-                  <p className="task-course capitalize">math</p>
+                  <p className="task-course capitalize">{task.category}</p>
                 </div>
               </div>
             ))

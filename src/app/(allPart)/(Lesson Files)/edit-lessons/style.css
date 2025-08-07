@@ -6,7 +6,7 @@
 .edit-container .resource-tabs p {
   font-weight: 400;
   font-size: 14px;
-  color: rgb(115, 115, 115);
+  color: #737373;
 }
 
 .my-lessons {
@@ -17,7 +17,7 @@
   min-height: calc(100vh - 170px);
 }
 .my-lessons .lesson-cards {
-  background-color: #f0f0f0;
+  background-color: var(--gray11);
   border-radius: 9px;
   padding: 15px;
   display: flex;
@@ -26,7 +26,7 @@
   justify-content: center;
 }
 .my-lessons .loading-cards {
-  background-color: #f0f0f0;
+  background-color: var(--gray11);
   border-radius: 9px;
   padding: 15px;
   display: flex;
@@ -74,7 +74,7 @@
 }
 
 .no-task-card {
-  background-color: #f0f0f0;
+  background-color: var(--gray11);
   border-radius: 6px;
   margin-top: 15px;
 }
@@ -89,7 +89,7 @@
   align-items: center;
   font-weight: bold;
   width: 50%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: #0000001a 0px 1px 3px 0px,
+    #0000000f 0px 1px 2px 0px;
   margin: 25px auto;
 }

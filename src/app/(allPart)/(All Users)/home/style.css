@@ -3,12 +3,7 @@
 .text-text {
   opacity: 0.4;
 }
-.contain-show {
-  /* display: flex;
-  justify-content: space-evenly; */
-  /* padding: 15px; */
-  /* background-color: saddlebrown; */
-}
+
 
 .shadow-box {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,

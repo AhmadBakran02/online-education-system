@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import "./style.css";
-
 import Image from "next/image";
 import { apiUrl } from "../url";
 import EditBlog from "./EditBlog";
@@ -52,6 +51,7 @@ export const ForumCard = ({
   const [newTitle, setNewTitle] = useState<string>("");
   const [newArticle, setNewArticle] = useState<string>("");
   const [comments, setComments] = useState<GetComments[]>([]);
+  const [isVote, setIsVote] = useState<string>(vote);
   const [result, setResult] = useState<{
     success?: boolean;
     message?: string;
@@ -62,7 +62,7 @@ export const ForumCard = ({
     if (!isActive) getAllComments();
   }
 
-  console.log(id);
+  // console.log(id);
   const dateOnly = createdAt?.split("T")[0] || "N/A";
 
   const addComment = async () => {
@@ -100,10 +100,26 @@ export const ForumCard = ({
       setAddingComment(false);
     }
   };
+
   const addOrRemove = async () => {
-    const method = vote ? "DELETE" : "PUT";
+    const method = isVote == "upvote" ? "DELETE" : "PUT";
+    console.log(method);
+    console.log(isVote);
+    console.log(vote);
+
+    if (method == "DELETE") {
+      const x: number = Number(likeNumber) - 1;
+      setLikeNumber(x.toString());
+      setIsVote("none");
+    }
+    if (method == "PUT") {
+      const x: number = Number(likeNumber) + 1;
+      setLikeNumber(x.toString());
+      setIsVote("upvote");
+    }
 
     setAddingComment(true);
+
     try {
       console.log("start-2");
 
@@ -123,6 +139,8 @@ export const ForumCard = ({
         throw new Error(data.error || "Login failed");
       }
 
+      console.log(isVote);
+
       // Handle successful login
       setSuccess(true);
       console.log("add", success);
@@ -130,7 +148,7 @@ export const ForumCard = ({
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       return false;
-      console.log(error);
+      // console.log(error);
     } finally {
       // setLoading(false);
       setAddingComment(false);
@@ -291,7 +309,8 @@ export const ForumCard = ({
     console.log(result);
     setShowEdit(true);
   };
-
+  console.log(vote);
+  console.log(isVote);
   return (
     // <div className="topic-card">
     //   <div className="card-header">
@@ -334,7 +353,7 @@ export const ForumCard = ({
     //   </div>
     // </div>
     <div
-      className={`topic-card2 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow ${
+      className={`topic-card2 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow bg-white ${
         deleted ? "hid" : ""
       }`}
     >
@@ -377,11 +396,16 @@ export const ForumCard = ({
       {show && (
         <div className="card-actions hidden">
           <button onClick={() => addOrRemove()} className="icon-btn">
-            <Image src="./like.svg" width={20} height={20} alt="" />
+            <Image
+              src={`/images/like${isVote == "upvote" ? "2" : "1"}.png`}
+              width={20}
+              height={20}
+              alt=""
+            />
             {likeNumber}
           </button>
           <button onClick={() => answer()} className="icon-btn">
-            <Image src="./comment.svg" width={21} height={21} alt="" />
+            <Image src="/comment.svg" width={23} height={23} alt="" />
             {commentNumber}
           </button>
         </div>

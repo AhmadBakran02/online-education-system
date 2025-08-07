@@ -5,11 +5,13 @@ import "../../globals.css";
 import { ForumCard } from "../../../components/forum-card/forum-card";
 import { useCallback, useEffect, useState } from "react";
 import { apiUrl } from "@/components/url";
-import Success from "../../../components/Success/success-text";
 import { GetBlogsType } from "@/types/type";
 import Loading from "@/components/loading/Loading";
 import { AuthGuard } from "@/components/AuthGuard";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import SuccessCard from "@/components/success-card/SuccessCard";
+import Loading5 from "@/components/loading5/Loading5";
 
 export default function Discussions() {
   const [showAdd, setShowAdd] = useState<boolean>(false);
@@ -23,6 +25,7 @@ export default function Discussions() {
   const [article, setArticle] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const router = useRouter();
 
   const handleGetAllBlogs = useCallback(async () => {
     setLoading(true);
@@ -97,6 +100,7 @@ export default function Discussions() {
       // Handle successful login
       setSuccess(true);
       console.log("successful ");
+      setShowAdd(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
     } finally {
@@ -126,6 +130,9 @@ export default function Discussions() {
   const filteredLessonsSearch = filteredBlogs.filter((lesson) =>
     lesson.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  const handleGetBlog = (id: string) => {
+    router.push(`discussions/${id}`);
+  };
 
   return (
     <AuthGuard allowedRoles={["admin", "teacher", "student"]}>
@@ -152,6 +159,7 @@ export default function Discussions() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+
             <div className="select-task">
               <div className="tabs">
                 <button
@@ -192,23 +200,26 @@ export default function Discussions() {
                 </button>
               </div>
             </div>
+
             <div className="topics-exist">
               {loading && <Loading />}
               {filteredLessonsSearch.length > 0
                 ? filteredLessonsSearch.map((item) => (
-                    <ForumCard
-                      key={item._id}
-                      title={item.title}
-                      article={item.article}
-                      category={item.category}
-                      show={true}
-                      createdAt={item.createdAt}
-                      id={item._id}
-                      name={item.name}
-                      role={item.role}
-                      edit={false}
-                      vote={item.vote}
-                    />
+                    <div onClick={() => handleGetBlog(item._id)} key={item._id}>
+                      <ForumCard
+                        key={item._id}
+                        title={item.title}
+                        article={item.article}
+                        category={item.category}
+                        show={true}
+                        createdAt={item.createdAt}
+                        id={item._id}
+                        name={item.name}
+                        role={item.role}
+                        edit={false}
+                        vote={item.vote}
+                      />
+                    </div>
                   ))
                 : !loading && (
                     <div className="forum-file">
@@ -239,7 +250,13 @@ export default function Discussions() {
             </button>
           </div>
         </div>
-
+        {success && (
+          <SuccessCard
+            text="The topic added succesfully"
+            onClose={() => setSuccess(false)}
+            duration={3000} // 3 seconds
+          />
+        )}
         {showAdd && (
           <div className="modal-overlay">
             <div className="flow-card">
@@ -290,7 +307,6 @@ export default function Discussions() {
                   />
                 </div>
                 <div className="button-group">
-                  {success && <Success text={"The topic added succesfully"} />}
                   {emptyCategory && (
                     <div className="failed-message">
                       Please fill in all fields
@@ -304,7 +320,13 @@ export default function Discussions() {
                     Cancel
                   </button>
                   <button type="submit" className="post-button">
-                    {blogAdd ? "Updating..." : "Post Topic"}
+                    {blogAdd ? (
+                      <div className="mt-1.5">
+                        <Loading5 />
+                      </div>
+                    ) : (
+                      "Post Topic"
+                    )}
                   </button>
                 </div>
               </form>

@@ -159,7 +159,11 @@ export default function QuizListPage() {
                 description={task.description}
                 createdAt={task.createdAt}
                 category={task.category}
-                edit={true} student={false}              />
+                edit={true}
+                student={false}
+                list={false}
+                isAt={false}
+              />
             ))
           ) : (
             <div className="no-tasks">

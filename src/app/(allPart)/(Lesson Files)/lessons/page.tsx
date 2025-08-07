@@ -147,7 +147,7 @@ export default function Lessons() {
         </select>
       </div>
       <div className="select-task">
-        <div className="tabs">
+        <div className="lessons-tabs">
           <button
             className={activeTab === "all" ? "active" : ""}
             onClick={() => setActiveTab("all")}

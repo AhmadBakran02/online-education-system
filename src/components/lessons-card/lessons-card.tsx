@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./style.css";
 import Image from "next/image";
 import AddToMyLessons from "./add-lesson";
@@ -7,6 +7,8 @@ import { EditLesson } from "./EditLesson";
 import { TypeOfParamsCard } from "../../types/type";
 import Link from "next/link";
 import { DeleteLesson } from "./delete-lesson";
+import Loading4 from "../loading4/Loading4";
+import SuccessCard from "../success-card/SuccessCard";
 
 export const Card = ({
   title,
@@ -67,16 +69,16 @@ export const Card = ({
     }
   };
 
-  useEffect(() => {
-    if (message) {
-      setMessage(true);
-      const timer = setTimeout(() => {
-        setMessage(false);
-      }, 3000);
+  // useEffect(() => {
+  //   if (message) {
+  //     setMessage(true);
+  //     const timer = setTimeout(() => {
+  //       setMessage(false);
+  //     }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [message]);
 
   const handleEdit = async () => {
     setNewTitle(title);
@@ -106,11 +108,13 @@ export const Card = ({
       setIsLoading(false);
     }
   };
+
   const colorlevel =
     level == "beginner" ? "1" : level == "intermediate" ? "2" : "3";
+
   return (
     <div key={id} className={`card ${deleted ? "hid" : ""}`}>
-      {action === "add" && (
+      {/* {action === "add" && (
         <div className="header-card">
           <Link href={`/lessons/${id}`}>
             <p className={`level level-${colorlevel}`}></p>
@@ -120,8 +124,9 @@ export const Card = ({
             Lesson Added Successfully
           </p>
         </div>
-      )}
-      {action !== "remove" && action !== "add" && (
+      )} */}
+
+      {action !== "remove" && (
         <div className="header-card">
           <Link href={`/lessons/${id}`}>
             <p className={`level level-${colorlevel}`}></p>
@@ -129,6 +134,7 @@ export const Card = ({
           </Link>
         </div>
       )}
+
       {action == "remove" && (
         <div className="header-card">
           <Link href={`/lessons/${id}`}>
@@ -137,6 +143,7 @@ export const Card = ({
           </Link>
         </div>
       )}
+
       <h2 className="subject-name">{description}</h2>
 
       {action == "add" && (
@@ -146,7 +153,9 @@ export const Card = ({
           className={isIn || addButton ? "is-in" : "add"}
         >
           {isLoading ? (
-            "Adding..."
+            <div className="mt-1">
+              <Loading4 />
+            </div>
           ) : (
             <>
               <Image src={"./plus-gray-s.svg"} width={20} height={20} alt="" />
@@ -229,6 +238,14 @@ export const Card = ({
             </form>
           </div>
         </div>
+      )}
+
+      {message && (
+        <SuccessCard
+          text="Added Successfully"
+          onClose={() => setMessage(false)}
+          duration={3000} // 3 seconds
+        />
       )}
     </div>
   );

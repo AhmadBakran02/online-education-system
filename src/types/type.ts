@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 
 export interface LessonsType {
   category: string;
@@ -12,13 +11,17 @@ export interface LessonsType {
 }
 
 export interface HistoryType {
-  title: ReactNode;
   _id: string;
   quizID: string;
   studentID: string;
   answers: number[];
   score: number;
   __v: number;
+  createdAt?: string;
+  updatedAt?: string;
+  title: string;
+  description: string;
+  category: string;
 }
 
 export interface Lesson {
@@ -95,14 +98,15 @@ export interface BlogsType {
 export interface GetBlogsType {
   _id: string;
   title: string;
-  BlogedBy: string;
+  blogedBy: string;
   article: string;
   category: string;
   createdAt: string;
   updatedAt: string;
+  __v: 0;
   name: string;
   role: string;
-  __v: number;
+  photoID: string;
   vote: string;
 }
 

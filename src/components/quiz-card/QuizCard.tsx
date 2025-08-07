@@ -3,8 +3,12 @@ import Image from "next/image";
 import { useState } from "react";
 import "./style.css";
 import "../../app/globals.css";
-import Success from "../Success/success-text";
 import AddToMyTodo from "./add-quiz";
+import AddToList from "../AddToList";
+import RemoveFromList from "../RemoveFromList";
+import ModalPortal from "../ModalPortal";
+import Loading4 from "../loading4/Loading4";
+import SuccessCard from "../success-card/SuccessCard";
 
 interface QuizCradType {
   id: string;
@@ -14,6 +18,8 @@ interface QuizCradType {
   category: string;
   edit: boolean;
   student: boolean;
+  list: boolean;
+  isAt: boolean;
 }
 
 export default function QuizCard({
@@ -24,9 +30,12 @@ export default function QuizCard({
   category,
   edit,
   student,
+  list,
+  isAt,
 }: QuizCradType) {
   const [deleting, setDeleting] = useState<boolean>(true);
   const [deleted, setDeleted] = useState<boolean>(false);
+  const [Added, setAdded] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [showAdd, setShowAdd] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -62,8 +71,10 @@ export default function QuizCard({
 
       if (response.success) {
         setMessage(true);
+        setShowAdd(false);
         // setAddButton(true);
         console.log("Success:", response.message);
+        setAdded(true);
       } else {
         setError("Quiz is already added");
         // console.error("Error:", response.message);
@@ -73,12 +84,12 @@ export default function QuizCard({
     }
   };
 
-  console.log(quizDate);
-
   return (
     <div
       key={id}
-      className={`task-card completed medium ${deleted ? "!hidden" : ""}`}
+      className={`task-card completed medium ${
+        deleted && list ? "!hidden" : ""
+      }`}
     >
       <div className="task-content">
         <div className="quiz-header">
@@ -94,12 +105,16 @@ export default function QuizCard({
               <Image src={"./delete-white.svg"} width={20} height={20} alt="" />
             </button>
           )}
-          {student && (
-            <button className="todo-quiz" onClick={() => setShowAdd(true)}>
-              <Image src={"./plus-gray.svg"} width={17} height={17} alt="" />
-              <p>Add To List</p>
-            </button>
+          {student && !list && !Added && (!isAt || deleted) && (
+            <AddToList setShowAdd={setShowAdd} />
           )}
+          {student && list && (
+            <RemoveFromList setDeleted={setDeleted} id={id} />
+          )}
+          {isAt && !deleted && (
+            <RemoveFromList setDeleted={setDeleted} id={id} />
+          )}
+          {Added && <RemoveFromList setDeleted={setDeleted} id={id} />}
         </div>
         <p
           className="text-gray-700 !mb-3.5 cursor-pointer"
@@ -134,38 +149,53 @@ export default function QuizCard({
                     </span> */}
         </div>
       </div>
-
+      {message && (
+        <ModalPortal>
+          <SuccessCard
+            text="Added Successfully"
+            onClose={() => setMessage(false)}
+            duration={3000} // 3 seconds
+          />
+        </ModalPortal>
+      )}
       {showAdd && (
-        <div className="modal-overlay">
-          <div className="flow-card">
-            <div className="add-post">
-              <h3>Add Quiz To My List</h3>
-              {/* <p>
-                Start a discussion, ask a question, or share information with
-                your peers.
-              </p> */}
-            </div>
-            <input type="date" onChange={(e) => setQuizDate(e.target.value)} />
-            {message && <Success text={"Added succesfully"} />}
-            {error && <div className="failed-message">{error}</div>}
-            <div className="button-group">
-              <button
-                type="button"
-                className="close-button"
-                onClick={() => setShowAdd(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="post-button"
-                onClick={handleAddToMyTodo}
-              >
-                {isLoading ? "Add..." : "Add"}
-              </button>
+        <ModalPortal>
+          <div className="modal-overlay">
+            <div className="flow-card">
+              <div className="add-post">
+                <h3>Add Quiz To My List</h3>
+              </div>
+              <input
+                type="date"
+                onChange={(e) => setQuizDate(e.target.value)}
+              />
+
+              {error && <div className="failed-message">{error}</div>}
+              <div className="button-group">
+                <button
+                  type="button"
+                  className="close-button"
+                  onClick={() => setShowAdd(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="post-button"
+                  onClick={handleAddToMyTodo}
+                >
+                  {isLoading ? (
+                    <div className="mt-2">
+                      <Loading4 />
+                    </div>
+                  ) : (
+                    "Add"
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </ModalPortal>
       )}
     </div>
   );

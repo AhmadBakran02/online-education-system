@@ -7,11 +7,13 @@ import Cookies from "js-cookie";
 import { apiUrl } from "@/components/url";
 import { ForumCard } from "@/components/forum-card/forum-card";
 import Loading from "@/components/loading/Loading";
+import { useRouter } from "next/navigation";
 
 export default function BlogDash() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [blogs, setBlogs] = useState<GetBlogsType[]>([]);
+  const router = useRouter();
 
   const handleGetAllBlogs = useCallback(async () => {
     setLoading(true);
@@ -57,24 +59,32 @@ export default function BlogDash() {
     fetchData();
   }, [handleGetAllBlogs]);
 
+  const handleGetBlog = (id: string) => {
+    router.push(`discussions/${id}`);
+  };
   return (
     <div className="topics-exist">
       {loading && <Loading />}
       {blogs.length > 0
         ? blogs.map((item) => (
-            <ForumCard
+            <div
+              onClick={() => handleGetBlog(item._id)}
+              className="cursor-pointer"
               key={item._id}
-              title={item.title}
-              article={item.article}
-              category={item.category}
-              show={false}
-              createdAt={item.createdAt}
-              id={item._id}
-              name={item.name}
-              role={item.role}
-              edit={false}
-              vote={""}
-            />
+            >
+              <ForumCard
+                title={item.title}
+                article={item.article}
+                category={item.category}
+                show={false}
+                createdAt={item.createdAt}
+                id={item._id}
+                name={item.name}
+                role={item.role}
+                edit={false}
+                vote={""}
+              />
+            </div>
           ))
         : !loading && (
             <div className="forum-file">

@@ -15,9 +15,7 @@ export default function QuizListPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
-  const [activeTab, setActiveTab] = useState<
-    "all" | "programming" | "math" | "english" | "physics"
-  >("all");
+  const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -34,6 +32,7 @@ export default function QuizListPage() {
         if (!response.ok) throw new Error("Failed to fetch quizzes");
 
         const data: QuizResponse = await response.json();
+        console.log(data.quizzes);
         setQuizzes(data.quizzes);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -53,6 +52,14 @@ export default function QuizListPage() {
 
   if (error) return <QuizzesError errorType={error} />;
 
+  const categories = [
+    { id: "all", label: "All" },
+    { id: "programming", label: "Programming" },
+    { id: "math", label: "Math" },
+    { id: "english", label: "English" },
+    { id: "physics", label: "Physics" },
+  ];
+
   return (
     <div className="quizzes-container mx-auto p-4">
       {/* -----------Quizzes Header----------- */}
@@ -65,37 +72,16 @@ export default function QuizListPage() {
 
       {/* -----------Select Category----------- */}
       <div className="select-task my-3">
-        <div className="tabs">
-          <button
-            className={activeTab === "all" ? "active" : ""}
-            onClick={() => setActiveTab("all")}
-          >
-            All
-          </button>
-          <button
-            className={activeTab === "programming" ? "active" : ""}
-            onClick={() => setActiveTab("programming")}
-          >
-            Programming
-          </button>
-          <button
-            className={activeTab === "math" ? "active" : ""}
-            onClick={() => setActiveTab("math")}
-          >
-            Math
-          </button>
-          <button
-            className={activeTab === "english" ? "active" : ""}
-            onClick={() => setActiveTab("english")}
-          >
-            English
-          </button>
-          <button
-            className={activeTab === "physics" ? "active" : ""}
-            onClick={() => setActiveTab("physics")}
-          >
-            Physics
-          </button>
+        <div className="quiz-tabs">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={activeTab === cat.id ? "active" : ""}
+              onClick={() => setActiveTab(cat.id)}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -104,50 +90,6 @@ export default function QuizListPage() {
         {loading && <Loading />}
         {!loading && filteredTasks.length > 0
           ? filteredTasks.map((task) => (
-              // <div
-              //   key={task._id}
-              //   className={`task-card completed medium`}
-              //   onClick={() => handleEnterQuiz(task._id)}
-              // >
-              //   <div className="task-content">
-              //     <h3 className="!text-black font-medium capitalize !mb-1.5">
-              //       {task.title}
-              //     </h3>
-              //     <p className="text-gray-700 !mb-3.5">{task.description}</p>
-              //     <p className="task-course capitalize">{task.category}</p>
-              //     <div className="task-meta">
-              //       <span className="due-date">
-              //         <svg
-              //           xmlns="http://www.w3.org/2000/svg"
-              //           width="14"
-              //           height="14"
-              //           viewBox="0 0 24 24"
-              //           fill="none"
-              //           stroke="currentColor"
-              //           strokeWidth="2"
-              //           strokeLinecap="round"
-              //           strokeLinejoin="round"
-              //         >
-              //           <rect
-              //             x="3"
-              //             y="4"
-              //             width="18"
-              //             height="18"
-              //             rx="2"
-              //             ry="2"
-              //           ></rect>
-              //           <line x1="16" y1="2" x2="16" y2="6"></line>
-              //           <line x1="8" y1="2" x2="8" y2="6"></line>
-              //           <line x1="3" y1="10" x2="21" y2="10"></line>
-              //         </svg>
-              //         {task.createdAt?.split("T")[0] || "N/A"}
-              //       </span>
-              //       {/* <span className={`priority ${task.priority}`}>
-              //         {task.priority}
-              //       </span> */}
-              //     </div>
-              //   </div>
-              // </div>
               <QuizCard
                 key={task._id}
                 id={task._id}
@@ -157,6 +99,8 @@ export default function QuizListPage() {
                 category={task.category}
                 edit={false}
                 student={true}
+                list={false}
+                isAt={task.isAtTodoList}
               />
             ))
           : !loading && (

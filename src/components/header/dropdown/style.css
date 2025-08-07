@@ -44,6 +44,12 @@
   color: #2c3e50;
 }
 
+@media (max-width: 720px) {
+  .user-name {
+    font-size: 14px;
+  }
+}
+
 .dropdown-icon {
   width: 16px;
   height: 16px;

@@ -1,105 +1,28 @@
 @import "tailwindcss";
 
+.aside-icon {
+  margin-top: 25px;
+  background-color: cadetblue;
+  display: none;
+  padding-top: 44px;
+}
+
 .aside-button {
+  background-color: aqua;
   margin-top: 22px;
 }
-/* .aside {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 35px;
+
+.aside {
   grid-area: aside;
-  background-color: rgb(255, 255, 255);
-  overflow: hidden;
-  z-index: 10;
-  transition: 0.5s;
 }
 
-@media (max-width: 760px) {
-  .aside {
-    position: absolute;
-    top: 70px;
-    width: 50px;
-  }
-  .aside:hover {
-    width: 250px;
-  }
-}
-
-.aside ul {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  width: 95%;
-  border-radius: 8px;
-}
-
-.aside ul li {
-  width: 90%;
-  height: 40px;
-  display: flex;
-  align-items: center;
-}
-.aside ul li a {
-  padding: 5px 8px;
-  border-radius: 8px;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  gap: 5px;
-  color: rgb(69, 69, 69);
-  transition: 0.3s;
-}
-
-.aside ul li a:hover {
-  background-color: rgb(250, 250, 250);
-  color: black;
-}
-
-.aside .aside-footer {
-  width: 95%;
-  padding: 25px 10px;
-}
-.aside .aside-footer h3 {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.aside .aside-footer p {
-  color: rgb(115, 115, 115);
-  font-size: 11px;
-}
-
-.aside .aside-footer a {
-  font-size: 13px;
-}
-
-.aside .aside-footer img {
-  display: inline;
-} */
-
-aside {
-  grid-area: aside;
-  /* margin-top: 60px; */
-  /* background-color: red !important; */
-  /* display: inline; */
-  /* width: 100px; */
-}
-
-aside .logo {
+.aside .logo {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
 }
 
-aside .logo span {
+.aside .logo span {
   font-size: 16px;
 }
-/* .aside ul li a image{
-  display: inline;
-} */

@@ -35,6 +35,17 @@ export default function Sidebar() {
     return <div></div>;
   }
 
+  // Close sidebar on mobile when a link is clicked
+  const handleLinkClick = () => {
+    if (screenSize < 1024) {
+      // lg breakpoint (you can adjust this)
+      setIsMobileSidebarOpen(false);
+    }
+  };
+
+  if (!userRole) {
+    return <div></div>;
+  }
   // Fixed the type for the filter callback
   const filteredItems = SIDEBAR_ITEMS.filter((item: NavItem) =>
     item.roles.includes(userRole)
@@ -43,7 +54,19 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile menu button */}
-      <div className="lg:hidden md:hidden top-4 left-4">
+      {/* <div className="lg:hidden md:hidden top-4 left-4">
+        <button
+          name="sidebar"
+          aria-label="Toggle sidebar"
+          onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          className="aside-button p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none my-3.5 ml-5"
+        >
+          {!isMobileSidebarOpen && (
+            <Image src="/sidebar-right.svg" width={25} height={25} alt="Menu" />
+          )}
+        </button>
+      </div> */}
+      <div className="aside-icon lg:hidden md:hidden top-4 left-4 mt-1">
         <button
           name="sidebar"
           aria-label="Toggle sidebar"
@@ -55,10 +78,9 @@ export default function Sidebar() {
           )}
         </button>
       </div>
-
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 ease-in-out
+        className={`aside fixed top-0 left-0 z-40 h-screen transition-all duration-300 ease-in-out
           ${isMobileSidebarOpen ? "translate-x-0 w-64" : "-translate-x-full"} 
           lg:translate-x-0 lg:w-64 
           md:translate-x-0 ${isExpanded ? "md:w-64" : "md:w-20"}`}
@@ -95,6 +117,40 @@ export default function Sidebar() {
             )}
           </div>
 
+          {/* <ul className="space-y-2 my-10">
+            {filteredItems.map((link) => {
+              const isActive =
+                pathName == link.href ||
+                (pathName.startsWith(link.href) && link.href !== "");
+
+              return (
+                <li key={link.title} className="my-5">
+                  <Link
+                    href={link.href}
+                    className={`flex items-center p-2 px-3 justify-items-center text-base font-normal my-3 text-gray-900 rounded-lg hover:bg-gray-100 ${
+                      isActive ? "bg-gray-100" : ""
+                    }`}
+                  >
+                    <span className="flex-shrink-0">
+                      <Image
+                        src={link.icon}
+                        width={30}
+                        height={30}
+                        alt={link.title}
+                      />
+                    </span>
+                    <span
+                      className={`${
+                        isExpanded ? "md:block" : "md:hidden"
+                      } lg:block ml-3`}
+                    >
+                      {link.title}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul> */}
           <ul className="space-y-2 my-10">
             {filteredItems.map((link) => {
               const isActive =
@@ -105,6 +161,7 @@ export default function Sidebar() {
                 <li key={link.title} className="my-5">
                   <Link
                     href={link.href}
+                    onClick={handleLinkClick} // Add click handler here
                     className={`flex items-center p-2 px-3 justify-items-center text-base font-normal my-3 text-gray-900 rounded-lg hover:bg-gray-100 ${
                       isActive ? "bg-gray-100" : ""
                     }`}
