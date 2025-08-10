@@ -74,6 +74,7 @@
   font-size: 13px;
   color: #737373;
 }
+
 /*################--Right-aside--####################*/
 .dashboard-second .right-aside {
   min-width: 290px;
@@ -83,43 +84,11 @@
 @media (max-width: 680px) {
   .dashboard-second .right-aside {
     flex: 1;
-    /* background-color: cadetblue; */
   }
 }
 
-.dashboard-second .calendar {
-  /* height: 360px; */
-  padding: 25px;
-  border-radius: 8px;
-  background-color: var(--white);
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.head-calendar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  /* gap: 15px; */
-  /* background-color: saddlebrown; */
-}
-
-.head-calendar h3 {
-  font-weight: 600;
-  color: var(--gray5);
-}
-.dashboard-second .right-aside .calendar a {
-  float: right;
-  font-size: 0.8rem;
-}
-
 .dashboard-second .forum-activty {
-  margin-top: 15px;
+  margin-bottom: 15px;
   padding: 25px;
   border-radius: 8px;
   background-color: var(--white);
@@ -146,93 +115,16 @@
 
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/* Calendar.css */
-.react-calendar {
-  color: var(--gray5);
-  width: 350px;
-  max-width: 100%;
-  /* background: var(--gray11); */
-  /* border: 1px solid #a0a096; */
-  border-radius: 8px;
-  padding: 5px;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
-}
-
-.react-calendar--doubleView {
-  width: 700px;
-  /* background-color: salmon; */
-}
-
-.react-calendar__navigation {
-  text-align: center;
-}
-.react-calendar__navigation button {
-  min-width: 20px;
-  background: none;
-  /* background-color: saddlebrown; */
-}
-
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
-}
-
-.react-calendar__navigation button[disabled] {
-  background-color: #f0f0f0;
-}
-
-.react-calendar__month-view__weekdays {
-  text-align: center;
-  text-transform: uppercase;
-  /* font-weight: bold; */
-  text-decoration: none;
-  font-size: 0.75em;
-  color: var(--gray4);
-}
-
-.react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
-}
-
-.react-calendar__month-view__days__day--weekend {
-  color: #d10000;
-}
-
-.react-calendar__tile {
-  max-width: 100%;
-  padding: 10px 6.6667px;
-  background: none;
-  text-align: center;
-  line-height: 16px;
-  border-radius: 6px;
-}
-
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
-}
-
-.react-calendar__tile--now {
-  background: #ffff76;
-}
-
-.react-calendar__tile--active {
-  background: #006edc;
-  color: white;
-}
-
 .all-quizzes {
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  /* background-color: saddlebrown; */
 }
+
 .quiz {
   flex: 1;
-  /* min-width: 250px; */
   padding: 25px 20px;
   height: 70px;
   background-color: #f7f7f7;
@@ -244,13 +136,13 @@
   gap: 15px;
   cursor: pointer;
 }
+
 .quiz p {
   font-weight: 500;
-  /* font-size: 13px; */
 }
+
 @media (max-width: 680px) {
   .quiz p {
-    /* font-weight: 500; */
     font-size: 13px;
   }
 }
@@ -263,7 +155,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* align-content: center; */
 }
 .quiz .task-icon {
   color: var(--color-green-400);

@@ -86,27 +86,14 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="right-aside">
-          <div className="calendar">
+          {/* <div className="calendar">
             <div className="head-calendar">
               <h3>School Calendar </h3>
               <Link className="color-main-blue" href="">
                 View Full Calendar ›
               </Link>
             </div>
-            {/* <Calendar
-              locale="en"
-              tileClassName={({ date, view }) => {
-                if (view !== "month") return null;
-                const day = date.getDay();
-                // Set Friday (5) and Saturday (6) as weekends
-                return day === 5 || day === 6 ? "weekend" : null;
-              }}
-              // locale="en"
-              navigationLabel={({ date, label, locale, view }) => (
-                <div className="custom-navigation-label">{label}</div>
-              )}
-            /> */}
-          </div>
+          </div> */}
           <div className="forum-activty">
             <h3>Recent Forum Activity</h3>
             <Link className="color-main-blue" href="/discussions">

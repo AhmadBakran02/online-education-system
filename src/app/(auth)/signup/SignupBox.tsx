@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loading5 from "@/components/loading5/Loading5";
 
 interface signupData {
   email: string;
@@ -187,7 +188,13 @@ export default function SignipBox() {
           />
         </div>
         <button className="sigin" type="submit" disabled={loading}>
-          {loading ? "Please Wait..." : "Sign up"}
+          {loading ? (
+            <div className="mt-1">
+              <Loading5 />
+            </div>
+          ) : (
+            "Sign up"
+          )}
         </button>
         {error && <div className="error-message">{error}</div>}
         {success && (

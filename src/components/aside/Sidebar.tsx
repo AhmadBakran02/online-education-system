@@ -54,7 +54,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile menu button */}
-      {/* <div className="lg:hidden md:hidden top-4 left-4">
+      <div className="lg:hidden md:hidden top-4 left-4">
         <button
           name="sidebar"
           aria-label="Toggle sidebar"
@@ -65,7 +65,7 @@ export default function Sidebar() {
             <Image src="/sidebar-right.svg" width={25} height={25} alt="Menu" />
           )}
         </button>
-      </div> */}
+      </div>
       <div className="aside-icon lg:hidden md:hidden top-4 left-4 mt-1">
         <button
           name="sidebar"

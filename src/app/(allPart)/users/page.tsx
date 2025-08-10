@@ -102,6 +102,7 @@ export default function UsersPage() {
                 role={item.role}
                 gender={item.gender}
                 photoID={photoUrls[item.photoID]}
+                userID={item._id}
               />
             ))
           : !loading && (

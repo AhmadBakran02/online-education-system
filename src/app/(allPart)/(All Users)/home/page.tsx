@@ -13,6 +13,7 @@ import { GetBlogsType, GetPost, LessonsType } from "@/types/type";
 import { PostCard } from "@/components/post-card/post-card";
 import { apiUrl } from "@/components/url";
 import Cookies from "js-cookie";
+import LoadingCard from "@/components/loadingCard/loadingCard";
 export default function HomePage() {
   const [postItems, setPostItems] = useState<GetPost[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -197,7 +198,6 @@ export default function HomePage() {
     fetchData();
   }, [handleGetAllBlogs]);
 
-
   return (
     <main className="min-h-screen bg-gray-50 text-gray-800">
       {/* Hero Section */}
@@ -232,32 +232,7 @@ export default function HomePage() {
       {/* Latest School Events */}
       <section className="px-6 py-12 bg-white max-w-6xl mx-auto rounded-md shadow-box">
         <h2 className="text-3xl font-semibold mb-6">Latest Academy Events</h2>
-        {/* <div className="grid md:grid-cols-3 gap-6">
-          {["ICPC 2027", "ICPC 2026", "Workshop 2025"].map((event, index) => (
-            <div
-              key={index}
-              className="bg-gray-100 rounded-xl shadow p-4 text-center"
-            >
-              <Image
-                src="/event-logo.png" // Replace with your actual logo
-                alt={event}
-                width={120}
-                height={120}
-                className="mx-auto mb-4"
-              />
-              <h3 className="text-xl font-bold mb-2">{event}</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit.
-              </p>
-              <Link
-                href="#"
-                className="text-blue-600 hover:underline font-medium"
-              >
-                Read More
-              </Link>
-            </div>
-          ))}
-        </div> */}
+
         <div className="grid grid-cols-1 gap-6 bg-gray-100 round rounded-xl">
           <div className="last-events mx-auto ">
             <Swiper
@@ -291,22 +266,13 @@ export default function HomePage() {
                   </div>
                 ))}
 
-              {loading &&
-                [1, 2, 3, 4, 5].map((index) => (
-                  <SwiperSlide key={index}>
-                    <PostCard
-                      key={index.toString()}
-                      _id={index.toString()}
-                      postedBy={""}
-                      title={"Loading..."}
-                      article={"Loading content..."}
-                      photoUrl={""}
-                      __v={0}
-                      editPost={false}
-                      photoID={""}
-                      showFull={false}
-                    />
-                  </SwiperSlide>
+              {loading  &&
+                [1, 2, 3].map((index) => (
+                  <div key={index}>
+                    <SwiperSlide key={index}>
+                      <LoadingCard />
+                    </SwiperSlide>
+                  </div>
                 ))}
             </Swiper>
           </div>

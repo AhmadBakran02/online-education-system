@@ -10,6 +10,7 @@ import Link from "next/link";
 import { apiUrl } from "@/components/url";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Loading5 from "@/components/loading5/Loading5";
 
 interface LoginData {
   email: string;
@@ -139,8 +140,15 @@ export default function LoginBox() {
           />
         </div>
         <button className="sigin" type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? (
+            <div className="mt-1">
+              <Loading5 />
+            </div>
+          ) : (
+            "Login"
+          )}
         </button>
+
         {error && (
           <div className="error-message">
             This username / password combination is not valid

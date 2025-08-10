@@ -5,6 +5,7 @@ import { deletePost } from "./delete-post";
 import { EditPost } from "./Edit-post";
 import { Post } from "@/types/type";
 import { redirect } from "next/navigation";
+import LoadingImage from "../loadingImage/loadingImage";
 
 export const PostCard = ({
   title,
@@ -87,7 +88,6 @@ export const PostCard = ({
     }
   }
 
-  console.log(photoUrl);
   return (
     <div
       key={_id}
@@ -95,7 +95,21 @@ export const PostCard = ({
         deleted ? "hid" : ""
       }  ${showFull ? "show-full-post" : "dont-show-full-post"}`}
     >
-      <Image
+      {!isValidUrl(photoUrl) && <LoadingImage />}
+      {isValidUrl(photoUrl) && (
+        <Image
+          src={photoUrl && isValidUrl(photoUrl) ? photoUrl : "/images/pic2.jpg"}
+          alt={`Event ${_id}`}
+          width={200}
+          height={200}
+          className="object-cover w-full h-48"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/images/pic2.jpg";
+          }}
+        />
+      )}
+
+      {/* <Image
         src={photoUrl && isValidUrl(photoUrl) ? photoUrl : "/images/pic2.jpg"}
         alt={`Event ${_id}`}
         width={200}
@@ -104,7 +118,7 @@ export const PostCard = ({
         onError={(e) => {
           (e.target as HTMLImageElement).src = "/images/pic2.jpg";
         }}
-      />
+      /> */}
       <div
         className={`post-body ${
           editPost ? "justify-between" : "justify-evenly gap-6"

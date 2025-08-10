@@ -8,6 +8,7 @@ export default async function GoogleLogin({
   searchParams: Promise<{ token?: string }>;
 }) {
   const { token } = await searchParams;
+  
   if (token) {
     Cookies.set("token", token);
     window.location.href = "/getinfo";

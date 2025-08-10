@@ -1,0 +1,19 @@
+.loader-image {
+  flex: 1;
+  height: 250px;
+  background: linear-gradient(0.25turn, transparent, #fff, transparent),
+    linear-gradient(#ddd, #ddd), linear-gradient(#ddd, #ddd),
+    linear-gradient(#ddd, #ddd);
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-size: 100% 250px;
+  background-position: -215px 0, 0 0;
+  animation: loading-image 1.5s infinite;
+  margin-bottom: 0;
+}
+
+@keyframes loading-image {
+  to {
+    background-position: 250px 0, 0 0;
+  }
+}
