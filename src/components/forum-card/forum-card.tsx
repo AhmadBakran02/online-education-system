@@ -8,8 +8,8 @@ import deleteBlog from "./delete-blog";
 import { GetComments } from "@/types/type";
 import Comment from "../comment/Comment";
 import Loading2 from "../loading2/loading2";
-import Loading3 from "../loading3/loading3";
 import Cookies from "js-cookie";
+import Loading5 from "../loading5/Loading5";
 
 interface TypeOfValue {
   title: string;
@@ -423,7 +423,13 @@ export const ForumCard = ({
             onClick={handelAddComment}
             disabled={comment == ""}
           >
-            {!addingComment ? "Post Answer" : <Loading3 />}
+            {!addingComment ? (
+              "Post Answer"
+            ) : (
+              <div className="mt-1">
+                <Loading5 />
+              </div>
+            )}
           </button>
         </div>
         <div className="answers-list">

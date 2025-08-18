@@ -1,19 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import "tailwindcss";
 
-/* * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-} */
-
 .login-body {
   background-color: var(--gray1);
   height: 100vh;
 }
 
-.container {
+.login-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -28,7 +21,7 @@
 }
 
 @media (max-width: 507px) {
-  .container {
+  .login-container {
     width: 350px;
   }
 }
@@ -41,13 +34,13 @@
   flex-direction: column;
 }
 
-.login-head h1 {
+.login-head .login-header-title {
   font-size: 24px;
   margin-top: -10px;
   font-weight: 500;
 }
 
-.login-head p {
+.login-head .login-header-desc {
   font-size: 12px;
   font-weight: 300;
   color: #7f7974;
@@ -59,65 +52,63 @@
     height: 60px;
   }
 
-  .login-head h1 {
+  .login-head .login-header-title {
     font-size: 22px;
-    margin-top: -10px;
-    font-weight: 500;
   }
 
-  .login-head p {
+  .login-head .login-header-desc {
     font-size: 11px;
-    font-weight: 300;
   }
 }
 
 /*------------------Form----------------*/
 
-form {
+.login-form {
   margin-top: 35px;
 }
 
-form .In {
+.login-form .In {
   margin-top: 12px;
 }
 
-form .In .input::placeholder {
+.login-form .In .input::placeholder {
   font-size: 13px;
 }
-form .In label {
+
+.login-form .In label {
   cursor: pointer;
   font-size: 13px;
   font-weight: 400;
 }
 
 @media (max-width: 507px) {
-  form .In .input::placeholder {
+  .login-form .In .input::placeholder {
     font-size: 12px;
   }
-  form .In label {
+  .login-form .In label {
     font-size: 12px;
   }
 }
 
 /*------------------Forget----------------*/
 
-form .In .forget {
+.login-form .In .forget {
   float: right;
   font-size: 12px;
   font-weight: 300;
 }
 
-form .In .forget:hover {
+.login-form .In .forget:hover {
   text-decoration: underline;
 }
 
 @media (max-width: 507px) {
-  form .In .forget {
+  .login-form .In .forget {
     font-size: 11px;
   }
 }
 
-form .In .input {
+.login-form .In .input {
   width: 100%;
   height: 40px;
   border-radius: 6px;
@@ -128,16 +119,16 @@ form .In .input {
   transition: 0.1s;
 }
 
-form .In .input:focus {
+.login-form .In .input:focus {
   outline: 2px solid #000;
 }
 
-form .In .pass-icon {
+.login-form .In .pass-icon {
   position: relative;
   cursor: pointer;
 }
 
-form .In .pass-icon .fa-eye,
+.login-form .In .pass-icon .fa-eye,
 .fa-eye-slash {
   position: absolute;
   color: #7f7974;
@@ -146,9 +137,9 @@ form .In .pass-icon .fa-eye,
   width: 22px;
 }
 
-/*------------------Sigin Button----------------*/
+/*------------------Login Button----------------*/
 
-.sigin {
+.login {
   color: #fff;
   width: 100%;
   background-color: var(--mainBlue);
@@ -160,21 +151,20 @@ form .In .pass-icon .fa-eye,
   font-size: 15px;
 }
 
-.sigin:hover {
+.login:hover {
   background-color: var(--hoverBlue);
 }
 
 @media (max-width: 507px) {
-  .sigin {
+  .login {
     font-size: 13px;
   }
 }
 
-/*------------------Error Message----------------*/
+/*------------------ Error Message ----------------*/
 
 .error-message {
   color: var(--color-red-400);
-  /* color: red; */
   border: 1px solid var(--color-red-400);
   border-radius: 6px;
   padding: 5px;
@@ -184,7 +174,9 @@ form .In .pass-icon .fa-eye,
   margin: 15px auto;
   text-align: center;
 }
-/*------------------Success Message----------------*/
+
+/*------------------ Success Message ----------------*/
+
 .success-message {
   color: var(--color-green-400);
   border: 1px solid var(--color-green-400);
@@ -197,11 +189,62 @@ form .In .pass-icon .fa-eye,
   text-align: center;
 }
 
-/*------------------Google----------------*/
-/* 
-.container .google-form {
-  background-color: rgb(21, 203, 8) !important;
-  width: 150px;
-  height: 50px;
-  color: #203a9a;
-} */
+/*------------------ Google ----------------*/
+
+.for-or {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-gray-300);
+  font-weight: 200;
+  margin: 15px auto;
+  letter-spacing: 2px;
+}
+
+.for-or::before {
+  content: "";
+  display: block;
+  background-color: var(--color-gray-200);
+  width: 40%;
+  height: 1px;
+}
+.for-or::after {
+  content: "";
+  display: block;
+  background-color: var(--color-gray-200);
+  width: 40%;
+  height: 1px;
+}
+
+.login-container .google-form {
+  height: 40px;
+  font-size: 14px;
+  color: white;
+  border-radius: 7px;
+  background-color: #fff;
+  min-width: 120px;
+  height: 40px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: 0.2s;
+  color: black;
+  align-content: center;
+  overflow: hidden;
+}
+
+.google-form a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-direction: row;
+  height: 100%;
+  font-weight: 400;
+  font-optical-sizing: auto;
+}
+
+.login-container .google-form:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}

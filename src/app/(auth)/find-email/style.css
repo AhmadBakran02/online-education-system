@@ -1,19 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import "tailwindcss";
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.login-body {
+.find-email-body {
   background-color: rgb(250, 250, 250);
   height: 100vh;
 }
 
-.container {
+.find-email-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -28,96 +21,63 @@
 }
 
 @media (max-width: 507px) {
-  .container {
+  .find-email-container {
     width: 350px;
   }
 }
 /*------------------Header----------------*/
 
-.login-head {
+.find-email-head {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.login-head h1 {
+.find-email-head .find-email-header-title {
   font-size: 24px;
   margin-top: -10px;
   font-weight: 500;
 }
 
-.login-head p {
+.find-email-head .find-email-header-desc {
   font-size: 12px;
   font-weight: 300;
   color: rgb(127, 121, 116);
 }
 
 @media (max-width: 507px) {
-  .login-head .logo-icon {
+  .find-email-head .logo-icon {
     width: 60px;
     height: 60px;
   }
 
-  .login-head h1 {
+  .find-email-head .find-email-header-title {
     font-size: 22px;
-    margin-top: -10px;
-    font-weight: 500;
   }
 
-  .login-head p {
+  .find-email-head .find-email-header-desc {
     font-size: 11px;
-    font-weight: 300;
   }
 }
 
 /*------------------Form----------------*/
 
-form {
+.find-email-form {
   margin-top: 35px;
 }
 
-form .In {
+.find-email-form .In {
   margin-top: 12px;
 }
 
-form .In .input::placeholder {
-  font-size: 13px;
-}
-form .In label {
+.find-email-form .In label {
   cursor: pointer;
   font-size: 13px;
   font-weight: 400;
 }
 
-@media (max-width: 507px) {
-  form .In .input::placeholder {
-    font-size: 12px;
-  }
-  form .In label {
-    font-size: 12px;
-  }
-}
-
-/*------------------Forget----------------*/
-
-form .In .forget {
-  float: right;
-  font-size: 12px;
-  font-weight: 300;
-}
-
-form .In .forget:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 507px) {
-  form .In .forget {
-    font-size: 11px;
-  }
-}
-
-form .In .input {
+.find-email-form .In .input {
   width: 100%;
   height: 40px;
   border-radius: 6px;
@@ -128,27 +88,26 @@ form .In .input {
   transition: 0.1s;
 }
 
-form .In .input:focus {
+.find-email-form .In .input::placeholder {
+  font-size: 13px;
+}
+
+.find-email-form .In .input:focus {
   outline: 2px solid rgb(0, 0, 0);
 }
 
-form .In .pass-icon {
-  position: relative;
-  cursor: pointer;
+@media (max-width: 507px) {
+  .find-email-form .In label {
+    font-size: 12px;
+  }
+  .find-email-form .In .input::placeholder {
+    font-size: 12px;
+  }
 }
 
-form .In .pass-icon .fa-eye,
-.fa-eye-slash {
-  position: absolute;
-  color: rgb(127, 121, 116);
-  top: 24px;
-  left: 90%;
-  width: 22px;
-}
+/*------------------Next Button----------------*/
 
-/*------------------Sigin Button----------------*/
-
-.sigin {
+.next-btn {
   color: #ffffff;
   width: 100%;
   background-color: var(--mainBlue);
@@ -160,12 +119,12 @@ form .In .pass-icon .fa-eye,
   font-size: 15px;
 }
 
-.sigin:hover {
+.next-btn:hover {
   background-color: #3b489a;
 }
 
 @media (max-width: 507px) {
-  .sigin {
+  .next-btn {
     font-size: 13px;
   }
 }
@@ -174,7 +133,6 @@ form .In .pass-icon .fa-eye,
 
 .error-message {
   color: var(--color-red-400);
-  /* color: red; */
   border: 1px solid var(--color-red-400);
   border-radius: 6px;
   padding: 5px;
@@ -184,6 +142,7 @@ form .In .pass-icon .fa-eye,
   margin: 15px auto;
   text-align: center;
 }
+
 /*------------------Success Message----------------*/
 .success-message {
   color: var(--color-green-400);

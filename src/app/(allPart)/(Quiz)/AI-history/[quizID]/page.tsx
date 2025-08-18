@@ -3,7 +3,7 @@ import "../../../../globals.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
-import { Quiz } from "@/types/quiz";
+import { QuizAiHistory } from "@/types/quiz";
 import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
@@ -14,7 +14,7 @@ export default function QuizPage() {
   const params = useParams();
   const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
   const [userAnswers2, setUserAnswers2] = useState<Record<string, number>>({});
-  const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [quiz, setQuiz] = useState<QuizAiHistory | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>();
@@ -36,9 +36,8 @@ export default function QuizPage() {
     const fetchQuiz = async () => {
       try {
         const token = Cookies.get("token") || "";
-        const quizId = params.quizId as string; // Type assertion
 
-        const response = await fetch(apiUrl + `/quiz?quizID=${quizId}`, {
+        const response = await fetch(apiUrl + `/quiz/AI?quizID=${id}`, {
           method: "GET", // Changed to POST since you're sending body
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +58,7 @@ export default function QuizPage() {
     };
 
     fetchQuiz();
-  }, [params.quizId]);
+  }, [params.quizId, id]);
 
   const answersArray: number[] = Object.keys(userAnswers)
     .sort((a, b) => parseInt(a) - parseInt(b))

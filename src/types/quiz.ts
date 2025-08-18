@@ -58,6 +58,18 @@ export interface Quiz {
   isAtTodoList: boolean;
   category: string;
 }
+
+export interface QuizAiHistory {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  questions: QuizQuestion[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface QuizResponse {
   myTodoList: SetStateAction<TodoList[]>;
   quizzes: Quiz[];

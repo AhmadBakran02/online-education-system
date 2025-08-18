@@ -1,6 +1,5 @@
 "use client";
 import "./style.css";
-import "./style2.css";
 import "../../globals.css";
 import { apiUrl } from "@/components/url";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -102,8 +101,8 @@ export default function SignipBox() {
   };
 
   return (
-    <div className="container">
-      <div className="login-head">
+    <div className="signup-container">
+      <div className="signup-head">
         <Image
           src={"./logo.svg"}
           alt="logo"
@@ -111,10 +110,10 @@ export default function SignipBox() {
           width={70}
           height={70}
         />
-        <h1>Educational Academy</h1>
-        <p>Create your account</p>
+        <h1 className="signup-title">Educational Academy</h1>
+        <p className="signup-desc">Create your account</p>
       </div>
-      {/* ********* ---------- Form -------------- ********** */}
+      {/* **** ---------- Form -------------- **** */}
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="In">
           <label htmlFor="uname">Email</label>
@@ -187,7 +186,7 @@ export default function SignipBox() {
             placeholder="Enter your password"
           />
         </div>
-        <button className="sigin" type="submit" disabled={loading}>
+        <button className="signup-btn" type="submit" disabled={loading}>
           {loading ? (
             <div className="mt-1">
               <Loading5 />
@@ -208,10 +207,12 @@ export default function SignipBox() {
           <Link href="/login">Login</Link>
         </div>
       </form>
+
+      {/* ---------- Google ---------- */}
       <div className="for-or">
         <p>OR</p>
       </div>
-      <div className="google-form border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow">
+      <div className="google-form border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
         <Link href="https://online-education-system-quch.onrender.com/auth/google">
           <Image
             src={"/images/google.webp"}

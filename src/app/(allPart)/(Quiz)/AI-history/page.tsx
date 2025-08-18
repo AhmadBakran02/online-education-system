@@ -7,6 +7,7 @@ import Loading from "@/components/loading/Loading";
 import QuizzesError from "../quizzes/QuizzesError";
 import Cookies from "js-cookie";
 import { HistoryType } from "@/types/type";
+import Link from "next/link";
 
 export default function QuizHistory() {
   const [historyItems, setHistoryItems] = useState<HistoryType[]>([]);
@@ -111,29 +112,31 @@ export default function QuizHistory() {
         {loading && <Loading />}
         {!loading && filteredTasks?.length > 0
           ? filteredTasks.map((task) => (
-              <div key={task._id} className={`task-card completed medium `}>
-                <div className="task-content">
-                  <div className="quiz-header">
-                    <h3 className="!text-black font-medium capitalize">
-                      {task.title}
-                    </h3>
+              <Link key={task.quizID} href={`AI-history/${task.quizID}`}>
+                <div className={`task-card completed medium `}>
+                  <div className="task-content">
+                    <div className="quiz-header">
+                      <h3 className="!text-black font-medium capitalize">
+                        {task.title}
+                      </h3>
 
-                    {task.score >= 0 && (
-                      <div
-                        className={`border rounded p-1  ${
-                          task.score > 59
-                            ? "bg-green-200 text-green-500"
-                            : "bg-red-200 text-red-500"
-                        }`}
-                      >
-                        {task.score}%
-                      </div>
-                    )}
+                      {task.score >= 0 && (
+                        <div
+                          className={`border rounded p-1  ${
+                            task.score > 59
+                              ? "bg-green-200 text-green-500"
+                              : "bg-red-200 text-red-500"
+                          }`}
+                        >
+                          {task.score}%
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="task-course capitalize">{task.category}</p>
                   </div>
-
-                  <p className="task-course capitalize">{task.category}</p>
                 </div>
-              </div>
+              </Link>
             ))
           : !loading && (
               <div className="no-tasks">
