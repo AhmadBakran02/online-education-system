@@ -2,8 +2,7 @@
 import "../../../../globals.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
-import { Quiz } from "@/types/quiz";
+import { QuizAiHistory } from "@/types/quiz";
 import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
@@ -11,10 +10,9 @@ import QuizError from "../../quizzes/[quizId]/QuizError";
 import Cookies from "js-cookie";
 
 export default function QuizPage() {
-  const params = useParams();
   const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
   const [userAnswers2, setUserAnswers2] = useState<Record<string, number>>({});
-  const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [quiz, setQuiz] = useState<QuizAiHistory | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>();
@@ -35,10 +33,10 @@ export default function QuizPage() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
+        if (!id) return;
         const token = Cookies.get("token") || "";
-        const quizId = params.quizId as string; // Type assertion
 
-        const response = await fetch(apiUrl + `/quiz?quizID=${quizId}`, {
+        const response = await fetch(apiUrl + `/quiz?quizID=${id}`, {
           method: "GET", // Changed to POST since you're sending body
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +57,7 @@ export default function QuizPage() {
     };
 
     fetchQuiz();
-  }, [params.quizId]);
+  }, [id]);
 
   const answersArray: number[] = Object.keys(userAnswers)
     .sort((a, b) => parseInt(a) - parseInt(b))
@@ -205,36 +203,6 @@ export default function QuizPage() {
         {!submiting ? "Submit Answers" : "Submiting..."}
       </button>
       {message && <div className="select-all">{message}</div>}
-
-      {/* {!submitted ? (
-        <button
-          onClick={handleSubmit}
-          disabled={Object.keys(userAnswers).length !== quiz.questions.length}
-          className={`mt-6 px-6 py-3 rounded-lg text-white font-medium w-full ${
-            Object.keys(userAnswers).length === quiz.questions.length
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Submit Answers
-        </button>
-      ) : (
-        <div className="mt-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
-          <h3 className="text-xl font-semibold text-center mb-2">
-            Quiz Results
-          </h3>
-          <div className="text-3xl font-bold text-center mb-4">
-            {calculateScore()} / {quiz.questions.length}
-          </div>
-          <p className="text-center text-gray-600">
-            {calculateScore() === quiz.questions.length
-              ? "Perfect score! 🎉"
-              : calculateScore() >= quiz.questions.length / 2
-              ? "Good job! 👍"
-              : "Keep practicing! 💪"}
-          </p>
-        </div>
-      )} */}
     </div>
   );
 }

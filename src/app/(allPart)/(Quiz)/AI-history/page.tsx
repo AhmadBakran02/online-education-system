@@ -65,41 +65,51 @@ export default function QuizHistory() {
     <div className="quizzes-container mx-auto p-4">
       {/* -----------Quizzes Header----------- */}
       <div className="quizzes-header">
-        <h3>Quizzes</h3>
-        <p>
+        <h3 className="font-semibold text-2xl">Quizzes</h3>
+        <p className="text-sm text-[#737373]">
           Test your knowledge and track your progress with interactive quizzes.
         </p>
       </div>
 
       {/* -----------Select Category----------- */}
       <div className="select-task my-3">
-        <div className="tabs">
+        <div className="quiz-tabs">
           <button
-            className={activeTab === "all" ? "active" : ""}
+            className={`select-category-quiz ${
+              activeTab === "all" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("all")}
           >
             All
           </button>
           <button
-            className={activeTab === "programming" ? "active" : ""}
+            className={`select-category-quiz ${
+              activeTab === "programming" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("programming")}
           >
             Programming
           </button>
           <button
-            className={activeTab === "math" ? "active" : ""}
+            className={`select-category-quiz ${
+              activeTab === "math" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("math")}
           >
             Math
           </button>
           <button
-            className={activeTab === "english" ? "active" : ""}
+            className={`select-category-quiz ${
+              activeTab === "english" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("english")}
           >
             English
           </button>
           <button
-            className={activeTab === "physics" ? "active" : ""}
+            className={`select-category-quiz ${
+              activeTab === "physics" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("physics")}
           >
             Physics
@@ -116,7 +126,7 @@ export default function QuizHistory() {
                 <div className={`task-card completed medium `}>
                   <div className="task-content">
                     <div className="quiz-header">
-                      <h3 className="!text-black font-medium capitalize">
+                      <h3 className="font-medium capitalize text-lg">
                         {task.title}
                       </h3>
 

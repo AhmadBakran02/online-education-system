@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import "./style.css";
-import "../../globals.css";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { ClipboardList, Bot } from "lucide-react";
@@ -69,50 +68,27 @@ export default function Dashboard() {
         <div className="all-dashboard-box">
           <div className="news dashboard-box">
             <h3>News & Announcements</h3>
-            <Link className="color-main-blue" href="">
+            <Link className="text-[#4351af]" href="/">
               View All ›
             </Link>
-            {/* <div className="news-back null-lessons-announcements">
-              No announcements yet
-            </div> */}
             <PostDash />
           </div>
           <div className="current-lessons dashboard-box">
             <h3>My Library</h3>
-            <Link className="color-main-blue" href="my-library">
+            <Link className="text-[#4351af]" href="/my-library">
               All Lessons ›
             </Link>
             <MyLessonsDash />
           </div>
         </div>
         <div className="right-aside">
-          {/* <div className="calendar">
-            <div className="head-calendar">
-              <h3>School Calendar </h3>
-              <Link className="color-main-blue" href="">
-                View Full Calendar ›
-              </Link>
-            </div>
-          </div> */}
           <div className="forum-activty">
             <h3>Recent Forum Activity</h3>
             <Link className="color-main-blue" href="/discussions">
               Visit Forum ›
             </Link>
             <div className="news-back null-lessons-announcements">
-              {/* <p>No forum activity yet </p> */}
               <div className="topics-exist">
-                {/* <ForumCard
-                  show={false}
-                  title={""}
-                  article={""}
-                  category={""}
-                  createdAt={""}
-                  id={""}
-                  name={""}
-                  role={""}
-                  edit={false}
-                /> */}
                 <BlogDash />
               </div>
             </div>

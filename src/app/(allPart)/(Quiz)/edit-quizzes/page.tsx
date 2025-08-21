@@ -46,9 +46,6 @@ export default function QuizListPage() {
     fetchQuizzes();
   }, []);
 
-  // const handleEnterQuiz = (quizid: string) => {
-  //   window.location.href = `/quizzes/${quizid}`;
-  // };
   const filteredTasks = quizzes.filter((task) => {
     return activeTab === "all" || task.category === activeTab;
   });
@@ -56,13 +53,14 @@ export default function QuizListPage() {
   if (loading) return <Loading />;
   if (error)
     return <div className="text-red-500 text-center py-8">Error: {error}</div>;
+
   return (
     <AuthGuard allowedRoles={["admin", "teacher"]}>
       <div className="quizzes-container mx-auto p-4">
         {/* -----------Quizzes Header----------- */}
         <div className="lessons-header">
-          <h3>Quizzes</h3>
-          <p>
+          <h3 className="font-semibold text-2xl">Quizzes</h3>
+          <p className="text-[#737373] text-sm">
             Test your knowledge and track your progress with interactive
             quizzes.
           </p>
@@ -70,33 +68,43 @@ export default function QuizListPage() {
 
         {/* -----------Select Category----------- */}
         <div className="select-task my-3">
-          <div className="tabs">
+          <div className="edit-quiz-tabs">
             <button
-              className={activeTab === "all" ? "active" : ""}
+              className={`edit-quiz-category ${
+                activeTab === "all" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("all")}
             >
               All
             </button>
             <button
-              className={activeTab === "programming" ? "active" : ""}
+              className={`edit-quiz-category ${
+                activeTab === "programming" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("programming")}
             >
               Programming
             </button>
             <button
-              className={activeTab === "math" ? "active" : ""}
+              className={`edit-quiz-category ${
+                activeTab === "math" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("math")}
             >
               Math
             </button>
             <button
-              className={activeTab === "english" ? "active" : ""}
+              className={`edit-quiz-category ${
+                activeTab === "english" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("english")}
             >
               English
             </button>
             <button
-              className={activeTab === "physics" ? "active" : ""}
+              className={`edit-quiz-category ${
+                activeTab === "physics" ? "active" : ""
+              }`}
               onClick={() => setActiveTab("physics")}
             >
               Physics
@@ -108,50 +116,6 @@ export default function QuizListPage() {
         <div className="task-list my-2.5 cursor-pointer">
           {filteredTasks.length > 0 ? (
             filteredTasks.map((task) => (
-              // <div
-              //   key={task._id}
-              //   className={`task-card completed medium`}
-              //   onClick={() => handleEnterQuiz(task._id)}
-              // >
-              //   <div className="task-content">
-              //     <h3 className="!text-black font-medium capitalize !mb-1.5">
-              //       {task.title}
-              //     </h3>
-              //     <p className="text-gray-700 !mb-3.5">{task.description}</p>
-              //     <p className="task-course capitalize">{task.category}</p>
-              //     <div className="task-meta">
-              //       <span className="due-date">
-              //         <svg
-              //           xmlns="http://www.w3.org/2000/svg"
-              //           width="14"
-              //           height="14"
-              //           viewBox="0 0 24 24"
-              //           fill="none"
-              //           stroke="currentColor"
-              //           strokeWidth="2"
-              //           strokeLinecap="round"
-              //           strokeLinejoin="round"
-              //         >
-              //           <rect
-              //             x="3"
-              //             y="4"
-              //             width="18"
-              //             height="18"
-              //             rx="2"
-              //             ry="2"
-              //           ></rect>
-              //           <line x1="16" y1="2" x2="16" y2="6"></line>
-              //           <line x1="8" y1="2" x2="8" y2="6"></line>
-              //           <line x1="3" y1="10" x2="21" y2="10"></line>
-              //         </svg>
-              //         {task.createdAt?.split("T")[0] || "N/A"}
-              //       </span>
-              //       {/* <span className={`priority ${task.priority}`}>
-              //         {task.priority}
-              //       </span> */}
-              //     </div>
-              //   </div>
-              // </div>
               <QuizCard
                 key={task._id}
                 id={task._id}

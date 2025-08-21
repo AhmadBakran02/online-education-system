@@ -4,7 +4,6 @@ import Loading from "@/components/loading/Loading";
 import { apiUrl } from "@/components/url";
 import { GetBlogsType } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
-import "./../../globals.css";
 import "./style.css";
 import { AuthGuard } from "@/components/AuthGuard";
 import Cookies from "js-cookie";
@@ -49,7 +48,7 @@ export default function BlogArchive() {
     } finally {
       setLoading(false);
     }
-  }, []); // Added numberOfLessons to dependencies
+  }, []);
 
   // Initial data fetch
   useEffect(() => {
@@ -59,11 +58,9 @@ export default function BlogArchive() {
     fetchData();
   }, [handleGetAllBlogs]);
 
-  // return loading && <Loading />;
-
   return (
     <AuthGuard allowedRoles={["admin", "teacher", "student"]}>
-      <div className="my-blog">
+      <div className="flex flex-col gap-5 justify-center">
         {loading && <Loading />}
         {!loading &&
           blogs.map((item) => (
@@ -83,7 +80,7 @@ export default function BlogArchive() {
           ))}
         {!loading && blogs.length == 0 && (
           <h3 className="no-item">No posts found</h3>
-        )}{" "}
+        )}
         {error && !error && <h1>{error}</h1>}
       </div>
     </AuthGuard>

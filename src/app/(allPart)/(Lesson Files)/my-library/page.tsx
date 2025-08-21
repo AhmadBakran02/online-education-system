@@ -1,11 +1,11 @@
 "use client";
-import { Card } from "@/components/lessons-card/lessons-card";
-import "./style.css";
 import { useEffect, useState, useCallback } from "react";
-import Loading from "@/components/loading/Loading";
 import { LessonsType, NumPage } from "../../../../types/type";
 import { apiUrl } from "@/components/url";
+import { Card } from "@/components/lessons-card/lessons-card";
+import Loading from "@/components/loading/Loading";
 import Cookies from "js-cookie";
+import "./style.css";
 
 export default function MyLessons() {
   const [lessonsItems, setLessonsItems] = useState<LessonsType[]>([]);
@@ -62,7 +62,7 @@ export default function MyLessons() {
   );
 
   return (
-    <div className="my-lessons">
+    <div className="my-library">
       <h1>My Library</h1>
       <div className="search">
         <input
@@ -70,16 +70,16 @@ export default function MyLessons() {
           placeholder="Search lessons by title"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input-library"
         />
-        {/* <button className="btn">Search</button> */}
       </div>
       {loading && (
         <div className="loading-cards">
           <Loading />
         </div>
       )}
-      <div className="lesson-cards">
-        <ul>
+      <div className="library-cards">
+        <ul className="library-list">
           {!loading && filteredLessonsSearch.length > 0
             ? filteredLessonsSearch.map((item) => (
                 <Card

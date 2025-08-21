@@ -70,7 +70,7 @@ export default function UserCard({
       console.log(err);
     }
   };
-  console.log(showUser);
+  
   const handleShowUser = () => {
     if (showUser) setShowUser(false);
     else setShowUser(true);

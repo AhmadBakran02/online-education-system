@@ -1,29 +1,4 @@
-.lessons-container .lessons-header h3 {
-  font-weight: 600;
-  font-size: 25px;
-}
-
-.lessons-container .lessons-header p {
-  font-weight: 400;
-  font-size: 14px;
-  color: #737373;
-}
-
-.lessons-container .lessons-search {
-  display: flex;
-  margin-top: 15px;
-  gap: 15px;
-}
-
-/*##################---select-section--##################*/
-
-.lessons-container .select-section ul li:hover {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  border-radius: 5px;
-}
-
-.lessons-container .lessons-main {
+.edit-post-container .edit-post-main {
   width: 100%;
   display: grid;
   padding-top: 30px;
@@ -31,38 +6,31 @@
 }
 
 @media (min-width: 0px) and (max-width: 620px) {
-  .lessons-container .lessons-main {
+  .edit-post-container .edit-post-main {
     grid-template-columns: repeat(1, 1fr);
   }
 }
 @media (min-width: 621px) and (max-width: 767px) {
-  .lessons-container .lessons-main {
+  .edit-post-container .edit-post-main {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 768px) and (max-width: 1080px) {
-  .lessons-container .lessons-main {
+  .edit-post-container .edit-post-main {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1081px) {
-  .lessons-container .lessons-main {
+  .edit-post-container .edit-post-main {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.lessons-container .lessons-main h3 {
-  margin-top: 60px;
-  font-weight: 300;
-  color: rgba(115, 115, 115, 0.564);
-}
-
-/* HTML: <div class="loader"></div> */
-
 .no-item {
   margin: 0 auto;
+  margin-top: 60px;
   text-align: center;
   background-color: #fff;
   padding: 25px;

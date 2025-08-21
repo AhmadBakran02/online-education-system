@@ -1,61 +1,5 @@
 @import "tailwindcss";
 
-.main-content h1 {
-  font-weight: 600;
-  font-size: 25px;
-}
-
-.main-content p {
-  font-weight: 400;
-  font-size: 14px;
-  color: rgb(115, 115, 115);
-  margin-bottom: 15px;
-}
-
-.layout {
-  display: flex;
-  gap: 30px;
-}
-
-.sidebar {
-  width: 250px;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-.sidebar h3 {
-  color: #2c3e50;
-  margin-bottom: 15px;
-  font-size: 18px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li {
-  padding: 10px 0;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.sidebar li.active {
-  color: #3498db;
-  font-weight: bold;
-}
-
-.main-content {
-  flex: 1;
-  /* max-width: 900px; */
-}
-
-.main-content h2 {
-  color: #2c3e50;
-  margin-bottom: 10px;
-}
-
 .message {
   padding: 10px;
   margin-bottom: 20px;
@@ -71,16 +15,10 @@
 }
 
 .settings-card {
-  background-color: white;
+  background-color: #fff;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.settings-card h3 {
-  color: #2c3e50;
-  margin-top: 0;
-  margin-bottom: 20px;
 }
 
 .profile-image-container {
@@ -98,88 +36,22 @@
   border: 3px solid #eee;
 }
 
-.upload-button {
-  background-color: var(--mainBlue);
-  color: white;
-  padding: 8px 15px;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.upload-button:hover {
-  background-color: var(--hoverBlue);
-}
-
 .formAndResend {
   width: min(80%, 500px);
   margin: 0 auto;
 }
-.form-group {
-  margin-bottom: 15px;
-}
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-}
-
-.save-button {
-  background-color: var(--mainBlue);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.save-button:hover {
-  background-color: var(--hoverBlue);
-}
-
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-  }
-}
-
-.reset-password {
-  margin-top: 12px;
-  /* width: min(80%, 500px); */
-}
-
-.reset-password .input::placeholder {
+.input-reset-pass::placeholder {
   font-size: 13px;
-}
-.reset-password label {
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 400;
 }
 
 @media (max-width: 507px) {
-  .reset-password .input::placeholder {
-    font-size: 12px;
-  }
-  .reset-password label {
+  .input-reset-pass::placeholder {
     font-size: 12px;
   }
 }
 
-.reset-password .input {
+.input-reset-pass {
   width: 100%;
   height: 40px;
   border-radius: 6px;
@@ -190,16 +62,16 @@
   transition: 0.1s;
 }
 
-.reset-password .input:focus {
+.input-reset-pass:focus {
   outline: 2px solid rgb(0, 0, 0);
 }
 
-.reset-password .pass-icon {
+.pass-icon-profile {
   position: relative;
   cursor: pointer;
 }
 
-.reset-password .pass-icon .fa-eye,
+.pass-icon-profile .fa-eye,
 .fa-eye-slash {
   position: absolute;
   color: rgb(127, 121, 116);
@@ -280,24 +152,22 @@
   cursor: not-allowed;
 }
 
-.success-message {
-  background-color: var(--color-green-50);
-  color: var(--color-green-400);
+.profile-message {
   border-radius: 6px;
-  border: 1px solid var(--color-green-400);
-  padding: 5px;
+  padding: 8px 5px;
   text-align: center;
   margin-top: 15px;
   font-size: 14px;
 }
 
+.success-message {
+  background-color: var(--color-green-50);
+  color: var(--color-green-400);
+  border: 1px solid var(--color-green-400);
+}
+
 .error-message {
   background-color: var(--color-red-50);
   color: var(--color-red-400);
-  border-radius: 6px;
   border: 1px solid var(--color-red-400);
-  padding: 5px;
-  text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
 }

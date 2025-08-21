@@ -13,10 +13,6 @@
   transition: transform 0.2s;
 }
 
-/* .user-card:hover {
-  transform: translateY(-6px);
-} */
-
 .user-card .user-image {
   width: 70px;
   height: 70px;

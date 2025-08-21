@@ -42,9 +42,9 @@ export default function QuizCard({
   const [message, setMessage] = useState<boolean>(false);
   const [quizDate, setQuizDate] = useState<string>("");
 
-  const handleEnterQuiz = (quizid: string) => {
-    window.location.href = `/quizzes/${quizid}`;
-  };
+  // const handleEnterQuiz = (quizid: string) => {
+  //   window.location.href = `/quizzes/${quizid}`;
+  // };
 
   const handelDeleteQuiz = async () => {
     setDeleting(true);
@@ -72,12 +72,10 @@ export default function QuizCard({
       if (response.success) {
         setMessage(true);
         setShowAdd(false);
-        // setAddButton(true);
         console.log("Success:", response.message);
         setAdded(true);
       } else {
         setError("Quiz is already added");
-        // console.error("Error:", response.message);
       }
     } finally {
       setIsLoading(false);
@@ -93,12 +91,7 @@ export default function QuizCard({
     >
       <div className="task-content">
         <div className="quiz-header">
-          <h3
-            className="!text-black font-medium capitalize cursor-pointer"
-            onClick={() => handleEnterQuiz(id)}
-          >
-            {title}
-          </h3>
+          <h3 className="!text-black font-medium capitalize">{title}</h3>
           {edit && (
             <button className="delete-quiz" onClick={() => handelDeleteQuiz()}>
               {deleting ? <p>Delete Quiz</p> : <p>Deleting Quiz...</p>}
@@ -116,12 +109,7 @@ export default function QuizCard({
           )}
           {Added && <RemoveFromList setDeleted={setDeleted} id={id} />}
         </div>
-        <p
-          className="text-gray-700 !mb-3.5 cursor-pointer"
-          onClick={() => handleEnterQuiz(id)}
-        >
-          {description}
-        </p>
+        <p className="text-gray-700 !mb-3.5">{description}</p>
         <p className="task-course capitalize">{category}</p>
 
         <div className="task-meta">
@@ -144,9 +132,6 @@ export default function QuizCard({
             </svg>
             {createdAt?.split("T")[0] || "N/A"}
           </span>
-          {/* <span className={`priority ${task.priority}`}>
-                      {task.priority}
-                    </span> */}
         </div>
       </div>
       {message && (

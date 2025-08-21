@@ -110,13 +110,15 @@ export default function EditePosts() {
 
   return (
     <AuthGuard allowedRoles={["admin"]}>
-      <div className="lessons-container">
-        <div className="lessons-header">
-          <h3>Post</h3>
-          <p>Post Management – Edit & Delete.</p>
+      <div className="edit-post-container">
+        <div>
+          <h3 className="font-semibold text-2xl">Post</h3>
+          <p className="text-sm text-[#737373]">
+            Post Management – Edit & Delete.
+          </p>
         </div>
 
-        <div className="lessons-main">
+        <div className="edit-post-main">
           {loading &&
             [1, 2, 3, 4, 5].map((index) => (
               <PostCard

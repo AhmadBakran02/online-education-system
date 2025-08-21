@@ -63,7 +63,7 @@ export default function MyLessonsDash() {
           ? lessonsItems.map((item) => (
               <div
                 key={item._id}
-                className={`card border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow`}
+                className={`card-my-lessons border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow`}
               >
                 <p className="title">{item.title}</p>
                 <h2 className="subject-name">{item.description}</h2>
@@ -86,6 +86,3 @@ export default function MyLessonsDash() {
     </div>
   );
 }
-// function DeleteFormMyLessons(id: any) {
-//   throw new Error("Function not implemented.");
-// }

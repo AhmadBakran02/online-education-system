@@ -1,19 +1,7 @@
-.edit-container .resource-tabs h1 {
-  font-weight: 600;
-  font-size: 25px;
-}
-
-.edit-container .resource-tabs p {
-  font-weight: 400;
-  font-size: 14px;
-  color: #737373;
-}
-
 .my-lessons {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: saddlebrown; */
   min-height: calc(100vh - 170px);
 }
 .my-lessons .lesson-cards {
@@ -35,7 +23,7 @@
   margin-top: 15px;
 }
 
-.my-lessons .lesson-cards ul {
+.my-lessons .lesson-cards .lessons-list {
   list-style: none;
   width: 100%;
   gap: 10px;
@@ -43,25 +31,25 @@
 }
 
 @media (min-width: 0px) and (max-width: 620px) {
-  .my-lessons .lesson-cards ul {
+  .my-lessons .lesson-cards .lessons-list {
     grid-template-columns: repeat(1, 1fr);
   }
 }
 
 @media (min-width: 621px) and (max-width: 767px) {
-  .my-lessons .lesson-cards ul {
+  .my-lessons .lesson-cards .lessons-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 768px) and (max-width: 1080px) {
-  .my-lessons .lesson-cards ul {
+  .my-lessons .lesson-cards .lessons-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1081px) {
-  .my-lessons .lesson-cards ul {
+  .my-lessons .lesson-cards .lessons-list {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -73,13 +61,13 @@
   bottom: 0;
 }
 
-.no-task-card {
+.no-lesson-card {
   background-color: var(--gray11);
   border-radius: 6px;
   margin-top: 15px;
 }
 
-.no-tasks {
+.no-lessons {
   background-color: #ffffff;
   padding: 25px 20px;
   border-radius: 6px;
@@ -89,7 +77,6 @@
   align-items: center;
   font-weight: bold;
   width: 50%;
-  box-shadow: #0000001a 0px 1px 3px 0px,
-    #0000000f 0px 1px 2px 0px;
+  box-shadow: #0000001a 0px 1px 3px 0px, #0000000f 0px 1px 2px 0px;
   margin: 25px auto;
 }

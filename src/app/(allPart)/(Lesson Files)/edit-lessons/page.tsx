@@ -16,6 +16,7 @@ export default function Edit() {
       window.location.href = "/login";
     }
   }, []);
+
   interface Lesson {
     _id: string;
     title: string;
@@ -31,9 +32,7 @@ export default function Edit() {
     isInLibrary: boolean;
     level: string;
   }
-  // interface LessonsResponse {
-  //   lessons: Lesson[];
-  // }
+
   const [loading, setLoading] = useState<boolean>(true);
   const [lessonsItems, setLessonsItems] = useState<Lesson[]>([]);
 
@@ -63,8 +62,8 @@ export default function Edit() {
     <AuthGuard allowedRoles={["admin", "teacher"]}>
       <div className="edit-container">
         <div className="resource-tabs">
-          <h1>Edit Lessons</h1>
-          <p>
+          <h1 className="font-semibold text-3xl">Edit Lessons</h1>
+          <p className="text-[#737373] text-sm">
             Explore our colltion of e-book, references, and learing resouces
           </p>
         </div>
@@ -76,15 +75,15 @@ export default function Edit() {
             </div>
           )}
           {!loading && lessonsItems.length < 1 && (
-            <div className="no-task-card">
-              <div className="no-tasks">
+            <div className="no-lesson-card">
+              <div className="no-lessons">
                 <p>No Lessons Available Yet</p>
               </div>
             </div>
           )}
           {lessonsItems.length > 0 && (
             <div className="lesson-cards">
-              <ul>
+              <ul className="lessons-list">
                 {lessonsItems.map((item) => (
                   <Card
                     key={item._id}
@@ -98,11 +97,6 @@ export default function Edit() {
               </ul>
             </div>
           )}
-          {/* <div className="help-section">
-            <p>
-              Need help? <a href="#">View Support Center →</a>
-            </p>
-          </div> */}
         </div>
       </div>
     </AuthGuard>

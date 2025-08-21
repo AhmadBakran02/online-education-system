@@ -40,7 +40,6 @@ export interface QuizQuestion {
 
 export interface QuizApiResponse {
   quizzes: Quiz[];
-  // Include other response fields if they exist
   total?: number;
   page?: number;
   limit?: number;
@@ -68,6 +67,7 @@ export interface QuizAiHistory {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  // score: number;
 }
 
 export interface QuizResponse {

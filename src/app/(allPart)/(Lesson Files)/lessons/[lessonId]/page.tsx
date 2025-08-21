@@ -4,12 +4,12 @@ import { Lesson } from "@/types/type";
 import { apiUrl } from "@/components/url";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { Download, Sparkles } from "lucide-react";
 import "./style.css";
 import Loading from "@/components/loading/Loading";
 import Link from "next/link";
 import Downloading from "@/components/downloading/downloading";
 import VideoDownload from "@/components/video-download/VideoDownload";
-import { Download, Sparkles } from "lucide-react";
 import LessonError from "./LessonError";
 import Cookies from "js-cookie";
 
@@ -194,76 +194,6 @@ export default function LessonPage() {
     };
   }, [lessonItems?.videoID, videoUrl, videoLoading]);
 
-  //   return (
-  //     <div className="post-page">
-  //       {!loading && (
-  //         <div className="post-body">
-  //           <div className="lesson-title">
-  //             <h1>{lessonItems?.title}</h1>
-  //           </div>
-  //           <p className="lesson-description">{lessonItems?.description}</p>
-  //           {(lessonItems?.videoID.length || 0) > 1 && !loading && (
-  //             <div
-  //               className="video-container"
-  //               style={{
-  //                 border: "2px solid #ddd",
-  //                 borderRadius: "8px",
-  //                 width: "100%",
-  //                 maxWidth: "800px",
-  //                 aspectRatio: "16/9",
-  //                 display: "flex",
-  //                 justifyContent: "center",
-  //                 alignItems: "center",
-  //                 backgroundColor: "#f5f5f5",
-  //                 position: "relative",
-  //                 overflow: "hidden",
-  //               }}
-  //             >
-  //               {error && (
-  //                 <div className="error-message">
-  //                   <p>Error: {error}</p>
-  //                 </div>
-  //               )}
-
-  //
-  //           <div className="pdf-body">
-  //             <p className="pdf-text">You can download the PDF File from here</p>
-  //             <button
-  //               type="button"
-  //               name="download-button"
-  //               className="download-button"
-  //               onClick={handleDownload}
-  //             >
-  //               {downloading ? (
-  //                 <div className="downloading-button">
-  //                   Downloading
-  //                   <Downloading />
-  //                 </div>
-  //               ) : (
-  //                 "Download"
-  //               )}
-  //             </button>
-  //           </div>
-
-  //           <Link href={`${lessonId}/ai-quiz`}>
-  //             <div className="ai-body">
-  //               <p className="ai-text">Give me practice questions by</p>
-  //               <div className="ai-text-animation">
-  //                 <span className="letter">G</span>
-  //                 <span className="letter">e</span>
-  //                 <span className="letter">m</span>
-  //                 <span className="letter">i</span>
-  //                 <span className="letter">n</span>
-  //                 <span className="letter">i</span>
-  //               </div>
-  //             </div>
-  //           </Link>
-  //         </div>
-  //       )}
-  //       {loading && <Loading />}
-  //     </div>
-  //   );
-  // }
   console.log(lessonItems?.videoID);
   if (error) return <LessonError />;
   return (
@@ -329,7 +259,7 @@ export default function LessonPage() {
                   <button
                     type="button"
                     name="download-button"
-                    className="download-button w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg transition-colors"
+                    className="download-button w-full flex items-center justify-center gap-2  py-3 px-4 rounded-lg transition-colors"
                     onClick={handleDownload}
                   >
                     {downloading ? (

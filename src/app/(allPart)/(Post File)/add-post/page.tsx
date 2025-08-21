@@ -131,15 +131,17 @@ export default function AddPosts() {
 
   return (
     <AuthGuard allowedRoles={["admin", "teacher", "student"]}>
-      <div className="add-lesson">
-        <h1>Add New Post</h1>
+      <div className="add-post">
+        <h1 className="text-[#2c3e50] font-semibold mb-5 text-2xl">
+          Add New Post
+        </h1>
         <p>Add the latest events and activities in the academy</p>
 
         <hr />
 
         {/* --------------- Title --------------- */}
         <div className="form-group">
-          <label htmlFor="lesson-title">Post Title</label>
+          <label htmlFor="title">Post Title</label>
           <input
             type="text"
             id="title"
@@ -151,7 +153,7 @@ export default function AddPosts() {
         </div>
         {/* --------------- Article --------------- */}
         <div className="form-group">
-          <label htmlFor="lesson-description">Article</label>
+          <label htmlFor="article">Article</label>
           <textarea
             name="article"
             id="article"
@@ -165,14 +167,15 @@ export default function AddPosts() {
         <div className="form-group">
           <label>Upload Image</label>
           <div className="file-upload">
-            {/* <span className="file-upload-text">No file selected</span> */}
+            <span className="file-upload-text">
+              {!photo ? "No file selected" : photo.name}
+            </span>
             <label className="file-upload-button" htmlFor="file-upload">
               Select Image
             </label>
             <input
               id="file-upload"
               type="file"
-              // className="bg-amber-300 border-amber-300"
               accept="image/*"
               className="hidden"
               onChange={handleFileChange}
@@ -187,7 +190,10 @@ export default function AddPosts() {
 
         {/* --------------- Button --------------- */}
         <div className="button-group">
-          <button className="button button-secondary" onClick={handleCancel}>
+          <button
+            className="button-post button-secondary"
+            onClick={handleCancel}
+          >
             Cancel
           </button>
           {/* <button className="button button-secondary">Save Draft</button> */}
@@ -195,7 +201,7 @@ export default function AddPosts() {
             type="button"
             onClick={handleSubmit}
             // disabled={!file || isUploading}
-            className="button button-primary"
+            className="button-post button-primary"
           >
             {isUploading ? "Uploading..." : "Publish Post"}
           </button>
@@ -205,11 +211,7 @@ export default function AddPosts() {
             <Success text={"The lesson has been added successfully."} />
           </div>
         )}
-        {/* {error && (
-        <div className="text-red-500 border-solid border-red-500 border rounded-sm my-5 text-center">
-          {error} {message}
-        </div>
-      )} */}
+
         {message && <div className="message-error">{message}</div>}
       </div>
     </AuthGuard>

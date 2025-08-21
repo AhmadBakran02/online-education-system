@@ -14,18 +14,7 @@
   justify-content: center;
 }
 
-.forum-container .forum-header h3 {
-  font-weight: 600;
-  font-size: 25px;
-}
-
-.forum-container .forum-header p {
-  font-weight: 400;
-  font-size: 14px;
-  color: rgb(115, 115, 115);
-}
-
-.forum-container .forum-header button {
+.forum-container .forum-header .add-topic-button {
   color: white;
   border-radius: 7px;
   background-color: #4351af;
@@ -39,16 +28,8 @@
   transition: 0.2s;
 }
 
-.forum-container .forum-header button:hover {
+.forum-container .forum-header .add-topic-button:hover {
   background-color: #3b489a;
-}
-
-.forum-container .forum-header button image {
-  display: inline;
-}
-
-.forum-container .forum-header button span {
-  font-size: 13px;
 }
 
 .forum-container .forum-main {
@@ -74,9 +55,9 @@
 }
 /*########################---Input---#####################*/
 
-.forum-container .forum-main .forum-first input {
+.forum-container .forum-main .forum-first .forum-input {
   border-radius: 8px;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   height: 40px;
@@ -84,49 +65,8 @@
   font-size: 13px;
 }
 
-.forum-container .forum-main .forum-first input::placeholder {
-  font-size: 13px;
-}
-
-.forum-container .forum-main .forum-first input:focus {
-  outline: 2px solid rgb(0, 0, 0);
-}
-/*######################---Select Topic---#######################*/
-.forum-container .forum-main .forum-first .select-topic {
-  background-color: rgb(245, 245, 245);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.forum-container .forum-main .forum-first .select-topic ul {
-  display: flex;
-  gap: 5px;
-  padding: 5px;
-}
-.forum-container .forum-main .forum-first .select-topic ul li {
-  padding: 5px 12px;
-  flex: 0.5;
-  color: rgb(115, 115, 115);
-  text-align: center;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-@media (max-width: 573px) {
-  .forum-container .forum-main .forum-first .select-topic ul {
-    flex-wrap: wrap;
-  }
-  .forum-container .forum-main .forum-first .select-topic ul li {
-    flex: 1;
-    min-width: 100%;
-  }
-}
-.forum-container .forum-main .forum-first .select-topic ul li:first-child {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-}
-
-.forum-container .forum-main .forum-first .select-topic ul li:hover {
-  background-color: rgb(255, 255, 255);
+.forum-container .forum-main .forum-first .forum-input:focus {
+  outline: 2px solid #000;
 }
 
 /*######################---Show File---#######################*/
@@ -134,17 +74,18 @@
 .forum-container .forum-main .forum-first .topics-exist {
   padding: 25px;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
+
 .forum-container .forum-main .forum-first .forum-file {
   padding: 25px;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   display: flex;
@@ -153,20 +94,20 @@
   text-align: center;
 }
 
-.forum-container .forum-main .forum-first .forum-file h3 {
+.forum-container .forum-main .forum-first .forum-file .forum-file-h3 {
   font-size: 19px;
   margin: 10px;
 }
 
-.forum-container .forum-main .forum-first .forum-file p {
+.forum-container .forum-main .forum-first .forum-file .forum-file-p {
   font-size: 12px;
-  color: rgb(150, 150, 150);
+  color: #969696;
   margin: 18px auto 20px;
 }
 
-.forum-container .forum-main .forum-first .forum-file button {
+.forum-container .forum-main .forum-first .forum-file .forum-file-button {
   border-radius: 8px;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   padding: 2px;
@@ -183,7 +124,7 @@
   flex: 1;
   padding: 25px;
   border-radius: 8px;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   display: flex;
@@ -200,65 +141,26 @@
   }
 }
 
-.forum-container .forum-main .forum-second h3 {
+.forum-container .forum-main .forum-second .forum-second-h3 {
   font-size: 19px;
   margin: 10px;
 }
 
-.forum-container .forum-main .forum-second p {
+.forum-container .forum-main .forum-second .forum-second-p {
   font-size: 12px;
-  color: rgb(150, 150, 150);
+  color: #969696;
   margin: 18px auto 20px;
-  /* background-color: red; */
 }
 
-.btn {
-  font-size: 14px;
-  color: white;
-  border-radius: 7px;
-  background-color: #4351af;
-  padding: 2px;
-  min-width: 120px;
-  height: 40px;
-  font-weight: 300;
-  cursor: pointer;
-  transition: 0.2s;
-  margin: 10px;
-}
-
-.btn:hover {
-  background-color: #3b489a;
-}
-
-.add-post {
-  /* background-color: saddlebrown; */
-}
-
-.add-post h3 {
-  font-weight: 500;
-  font-size: 22px;
-}
-.add-post p {
-  font-weight: 500;
-  font-size: 14px;
-  color: #737373;
-}
-label {
-  /* font-weight: 400; */
-  /* color: #3b489a; */
-  font-size: 15px;
-}
 .input-group {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 7px;
   margin-top: 15px;
-  /* background-color: beige; */
 }
 
 .blog-input {
-  /* background-color: saddlebrown; */
   border-radius: 8px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
@@ -276,7 +178,6 @@ label {
   min-height: 120px;
   padding: 10px 15px;
   border: none;
-  /* outline: black; */
 }
 
 .select-group {
@@ -297,7 +198,8 @@ label {
   padding: 9px;
   font-size: 13px;
 }
-.signup-select:focus {
+
+.category-select:focus {
   outline: 2px solid black;
 }
 
@@ -309,11 +211,7 @@ label {
   gap: 10px;
   align-items: center;
 }
-.button-group button {
-  height: 40px;
-  transition: 0.3s;
-  cursor: pointer;
-}
+
 .button-group .post-button {
   border-radius: 5px;
   width: 120px;
@@ -321,24 +219,27 @@ label {
   color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    height: 40px;
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 .button-group .post-button:hover {
   background-color: #3b489a;
-  /* color: red; */
 }
 
 .button-group .close-button {
   border-radius: 5px;
   width: 90px;
-
+  height: 40px;
+  transition: 0.3s;
+  cursor: pointer;
   background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .button-group .close-button:hover {
-  /* background-color: var(--hoverBlue); */
   background-color: var(--gray1);
 }
 
@@ -350,12 +251,13 @@ label {
   margin-top: 15px;
 }
 
-.tabs {
+.forum-tabs {
   display: flex;
   gap: 5px;
   padding: 5px;
 }
-.tabs button {
+
+.forum-tabs .forum-category {
   padding: 5px 12px;
   flex: 0.5;
   color: rgb(115, 115, 115);
@@ -364,22 +266,24 @@ label {
   border-radius: 5px;
   transition: 0.3s;
 }
+
 @media (max-width: 573px) {
-  .tabs {
+  .forum-tabs {
     flex-wrap: wrap;
   }
-  .tabs button {
+  .forum-tabs .forum-category {
     flex: 1;
     min-width: 100%;
   }
 }
 
-.tabs button:hover {
-  background-color: rgb(255, 255, 255);
+.forum-tabs .forum-category:hover {
+  background-color: #fff;
 }
-.tabs button.active {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
+
+.forum-tabs .forum-category.active {
+  background-color: #fff;
+  color: #000;
 }
 
 .modal-overlay {
@@ -430,7 +334,6 @@ label {
 .failed-message {
   color: var(--color-red-400);
   background-color: var(--color-red-200);
-  /* height: 100%; */
   height: 40px;
   font-size: 14px;
   display: flex;

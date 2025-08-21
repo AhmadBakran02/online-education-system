@@ -27,41 +27,6 @@ export default function Lessons() {
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // Check authentication
-
-  // const handleGetNumber = useCallback(async () => {
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const token = Cookies.get("token") || "";
-  //     const response = await fetch(apiUrl + "/lesson/number", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         token,
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(
-  //         errorData.message || `HTTP error! status: ${response.status}`
-  //       );
-  //     }
-
-  //     const data = await response.json();
-  //     setNumPage((prev) => ({ ...prev, limit: data.numberOfLessons }));
-  //     setNumberOfLessons(data.numberOfLessons);
-  //   } catch (err) {
-  //     const errorMessage = err instanceof Error ? err.message : "Unknown error";
-  //     setError(errorMessage);
-  //     console.error("Request failed:", errorMessage);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, []); // Removed error from dependencies since we're using local variable
-
   const handleGetAllLessons = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -123,8 +88,8 @@ export default function Lessons() {
   return (
     <div className="lessons-container">
       <div className="lessons-header">
-        <h3>Lessons</h3>
-        <p>
+        <h3 className="font-semibold text-3xl">Lessons</h3>
+        <p className="text-sm text-gray-500">
           Access your course materials, assignments, and practice questions.
         </p>
       </div>
@@ -134,8 +99,10 @@ export default function Lessons() {
           placeholder="Search lessons, assignments, or questions.."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="lessons-input"
         />
         <select
+          className="select-level"
           id="subjects"
           name="subjects"
           onChange={(e) => setActiveSelect(e.target.value)}
@@ -146,41 +113,54 @@ export default function Lessons() {
           <option value="advanced">Advanced</option>
         </select>
       </div>
+
       <div className="select-task">
         <div className="lessons-tabs">
           <button
-            className={activeTab === "all" ? "active" : ""}
+            className={`lessons-category ${
+              activeTab === "all" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("all")}
           >
             All
           </button>
           <button
-            className={activeTab === "programming" ? "active" : ""}
+            className={`lessons-category ${
+              activeTab === "programming" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("programming")}
           >
             Programming
           </button>
           <button
-            className={activeTab === "math" ? "active" : ""}
+            className={`lessons-category ${
+              activeTab === "math" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("math")}
           >
             Math
           </button>
           <button
-            className={activeTab === "english" ? "active" : ""}
+            className={`lessons-category ${
+              activeTab === "english" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("english")}
           >
             English
           </button>
           <button
-            className={activeTab === "physics" ? "active" : ""}
+            className={`lessons-category ${
+              activeTab === "physics" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("physics")}
           >
             Physics
           </button>
         </div>
       </div>
+
       {loading && <Loading />}
+
       <div className="lessons-main">
         {filteredLessonsSearch.length > 0
           ? filteredLessonsSearch.map((item) => (
@@ -196,11 +176,13 @@ export default function Lessons() {
             ))
           : ""}
       </div>
+
       {!loading && filteredLessonsSearch.length == 0 && (
         <div className="no-lessons-yet">
           <h3>No lessons found matching your search criteria.</h3>
         </div>
       )}
+
       {error && !error && <h1>{error}</h1>}
     </div>
   );

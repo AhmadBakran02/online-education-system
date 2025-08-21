@@ -14,16 +14,11 @@ export default function BlogID() {
   const [blog, setBlog] = useState<GetBlogsType>();
   const pathName = usePathname();
   const id = pathName.split("/").pop();
-  // console.log(id);
 
   const handleGetAllBlog = useCallback(async () => {
     setLoading(true);
-    // setError(null);
-    // console.log(1);
-
+ 
     try {
-      // console.log(2);
-
       const token = Cookies.get("token") || "";
       const response = await fetch(`${apiUrl}/blog?blogID=${id}`, {
         method: "GET",
@@ -42,7 +37,6 @@ export default function BlogID() {
 
       const data = await response.json();
       setBlog(data.blog);
-      // console.log(data.blog);
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
@@ -62,7 +56,6 @@ export default function BlogID() {
     fetchData();
   }, [handleGetAllBlog]);
 
-  // console.log(blog);
   if (loading) return <Loading />;
   return (
     <div className="one-blog-page">

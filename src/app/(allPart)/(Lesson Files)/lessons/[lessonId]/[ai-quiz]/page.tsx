@@ -9,6 +9,7 @@ import Image from "next/image";
 import Loading from "@/components/loading/Loading";
 import "./style.css";
 import Cookies from "js-cookie";
+import Loading4 from "@/components/loading4/Loading4";
 
 export default function QuizPage() {
   const params = useParams();
@@ -24,34 +25,17 @@ export default function QuizPage() {
   const router = useRouter();
   const pathname = usePathname();
   const [answers, setAnswers] = useState<boolean[]>([]);
-  // const getLessonID = () => {
-  //   const newId = pathname.split("/")[2];
-  //   setId(newId);
-  //   console.log(newId);
-  //   return newId;
-  // };
-
-  // useEffect(() => {
-  //   const newId = pathname.split("/")[2];
-  //   setId(newId);
-  //   console.log(newId);
-  // }, [pathname]);
+  const [submitted, setSubmitted] = useState<boolean>();
 
   useEffect(() => {
-    // console.log(id);
-
     const fetchQuiz = async () => {
-      // const lID = getLessonID();
-      // if (!lID) return;
-
       try {
         const token = Cookies.get("token") || "";
-        // const quizId = params.quizId as string; // Type assertion
 
         const response = await fetch(
           apiUrl + `/quiz/AI/generate?lessonID=${pathname.split("/")[2]}`,
           {
-            method: "GET", // Changed to POST since you're sending body
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
               token: token,
@@ -102,15 +86,13 @@ export default function QuizPage() {
         throw new Error(data.error || "Login failed");
       }
 
-      // Handle successful login
       setSuccess(true);
-      // console.log("successful ");
-      // console.log(data.score);
-      // console.log(data.isCorrect);
+
       setAnswers(data.isCorrect);
       setUserAnswers2(userAnswers);
       setUserAnswers({});
       setScore(data.score);
+      setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       console.log(error);
@@ -121,7 +103,6 @@ export default function QuizPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log(quiz?.questions.length);
     if (Object.keys(userAnswers).length != quiz?.questions.length) {
       setMessage("Please answer all questions before submitting");
       return;
@@ -136,22 +117,11 @@ export default function QuizPage() {
     }));
   };
 
-  // console.log(userAnswers);
-
-  // const calculateScore = () => {
-  //   if (!quiz) return 0;
-  //   return quiz.questions.reduce((score, question) => {
-  //     return (
-  //       score + (userAnswers[question._id] === question.correctAnswer ? 1 : 0)
-  //     );
-  //   }, 0);
-  // };
-
   if (loading) return <Loading />;
   if (error)
     return <div className="text-red-500 text-center py-8">Error: {error}</div>;
   if (!quiz) return <div className="text-center py-8">Quiz not found</div>;
-  console.log(answers);
+
   return (
     <div className="container mx-auto p-4 max-w-2xl">
       <button onClick={() => router.push("/quizzes")} className="back-button">
@@ -218,40 +188,20 @@ export default function QuizPage() {
         ))}
       </div>
 
-      <button onClick={handleSubmit} className="submitted-button">
-        {!submiting ? "Submit Answers" : "Submiting..."}
+      <button
+        onClick={handleSubmit}
+        className="submitted-button"
+        disabled={submitted}
+      >
+        {!submiting ? (
+          "Submit Answers"
+        ) : (
+          <div className="mt-1">
+            <Loading4 />
+          </div>
+        )}
       </button>
       {message && <div className="select-all">{message}</div>}
-
-      {/* {!submitted ? (
-          <button
-            onClick={handleSubmit}
-            disabled={Object.keys(userAnswers).length !== quiz.questions.length}
-            className={`mt-6 px-6 py-3 rounded-lg text-white font-medium w-full ${
-              Object.keys(userAnswers).length === quiz.questions.length
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-gray-400 cursor-not-allowed"
-            }`}
-          >
-            Submit Answers
-          </button>
-        ) : (
-          <div className="mt-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
-            <h3 className="text-xl font-semibold text-center mb-2">
-              Quiz Results
-            </h3>
-            <div className="text-3xl font-bold text-center mb-4">
-              {calculateScore()} / {quiz.questions.length}
-            </div>
-            <p className="text-center text-gray-600">
-              {calculateScore() === quiz.questions.length
-                ? "Perfect score! 🎉"
-                : calculateScore() >= quiz.questions.length / 2
-                ? "Good job! 👍"
-                : "Keep practicing! 💪"}
-            </p>
-          </div>
-        )} */}
     </div>
   );
 }

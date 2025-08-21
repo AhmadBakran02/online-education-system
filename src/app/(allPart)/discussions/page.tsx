@@ -1,17 +1,16 @@
 "use client";
 import Image from "next/image";
 import "./style.css";
-import "../../globals.css";
-import { ForumCard } from "../../../components/forum-card/forum-card";
 import { useCallback, useEffect, useState } from "react";
-import { apiUrl } from "@/components/url";
 import { GetBlogsType } from "@/types/type";
-import Loading from "@/components/loading/Loading";
+import { ForumCard } from "../../../components/forum-card/forum-card";
 import { AuthGuard } from "@/components/AuthGuard";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { apiUrl } from "@/components/url";
 import SuccessCard from "@/components/success-card/SuccessCard";
 import Loading5 from "@/components/loading5/Loading5";
+import Loading from "@/components/loading/Loading";
+import Cookies from "js-cookie";
 
 export default function Discussions() {
   const [showAdd, setShowAdd] = useState<boolean>(false);
@@ -139,61 +138,81 @@ export default function Discussions() {
       <div className="forum-container">
         <div className="forum-header">
           <div className="text-header">
-            <h3>Forum</h3>
-            <p>
+            <h3 className="font-semibold text-2xl">Forum</h3>
+            <p className="text-sm text-[#737373]">
               Discuss topics, ask questions, and share ideas with calssmates and
               teachers.
             </p>
           </div>
 
-          <button className="new-topics" onClick={() => setShowAdd(true)}>
-            <Image src="./plus.svg" width={13} height={13} alt="" />
-            <span>New Topics</span>
+          <button className="add-topic-button" onClick={() => setShowAdd(true)}>
+            <Image
+              src="./plus.svg"
+              width={13}
+              height={13}
+              alt=""
+              className="inline"
+            />
+            <span className="text-sm">New Topics</span>
           </button>
         </div>
+
         <div className="forum-main">
           <div className="forum-first">
             <input
+              className="placeholder-text-sm forum-input"
               type="search"
               placeholder="Search topics by title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            <div className="select-task">
-              <div className="tabs">
+            <div className="bg-[#f5f5f5] rounded-md overflow-hidden">
+              <div className="forum-tabs ">
                 <button
-                  className={activeTab === "all" ? "active" : ""}
+                  className={`forum-category ${
+                    activeTab === "all" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("all")}
                 >
                   All
                 </button>
                 <button
-                  className={activeTab === "general" ? "active" : ""}
+                  className={`forum-category ${
+                    activeTab === "general" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("general")}
                 >
                   General
                 </button>
                 <button
-                  className={activeTab === "programming" ? "active" : ""}
+                  className={`forum-category ${
+                    activeTab === "programming" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("programming")}
                 >
                   Programming
                 </button>
                 <button
-                  className={activeTab === "math" ? "active" : ""}
+                  className={`forum-category ${
+                    activeTab === "math" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("math")}
                 >
                   Math
                 </button>
                 <button
-                  className={activeTab === "english" ? "active" : ""}
+                  className={`forum-category ${
+                    activeTab === "english" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("english")}
                 >
                   English
                 </button>
                 <button
-                  className={activeTab === "physics" ? "active" : ""}
+                  className={`forum-category ${
+                    activeTab === "physics" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("physics")}
                 >
                   Physics
@@ -205,7 +224,11 @@ export default function Discussions() {
               {loading && <Loading />}
               {filteredLessonsSearch.length > 0
                 ? filteredLessonsSearch.map((item) => (
-                    <div onClick={() => handleGetBlog(item._id)} key={item._id}>
+                    <div
+                      onClick={() => handleGetBlog(item._id)}
+                      key={item._id}
+                      className="cursor-pointer"
+                    >
                       <ForumCard
                         key={item._id}
                         title={item.title}
@@ -229,9 +252,14 @@ export default function Discussions() {
                         height={40}
                         alt=""
                       />
-                      <h3>No topics found</h3>
-                      <p>Be the first to start a discussion</p>
-                      <button onClick={() => setShowAdd(true)}>
+                      <h3 className="forum-file-h3">No topics found</h3>
+                      <p className="forum-file-p">
+                        Be the first to start a discussion
+                      </p>
+                      <button
+                        className="forum-file-button cursor-pointer"
+                        onClick={() => setShowAdd(true)}
+                      >
                         Create topic
                       </button>
                     </div>
@@ -240,16 +268,21 @@ export default function Discussions() {
           </div>
           <div className="forum-second">
             <Image src="./message2.svg" width={40} height={40} alt="" />
-            <h3>Select a Topic</h3>
-            <p>
+            <h3 className="forum-second-h3">Select a Topic</h3>
+            <p className="forum-second-p">
               Choose a discussion topic from the list to view replies or start a
               new discussion by clicking the &quot;New Topic&quot; button.
             </p>
-            <button className="btn" onClick={() => setShowAdd(true)}>
+            <button
+              content="forum-second-button"
+              className="bg-[#4351af] text-white p-3 rounded-md"
+              onClick={() => setShowAdd(true)}
+            >
               Create topic
             </button>
           </div>
         </div>
+
         {success && (
           <SuccessCard
             text="The topic added succesfully"
@@ -261,16 +294,19 @@ export default function Discussions() {
           <div className="modal-overlay">
             <div className="flow-card">
               <div className="add-post">
-                <h3>Create New Topic</h3>
-                <p>
+                <h3 className="text-xl font-medium">Create New Topic</h3>
+                <p className="text-sm text-gray-500">
                   Start a discussion, ask a question, or share information with
                   your peers.
                 </p>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="input-group">
-                  <label>Title</label>
+                  <label htmlFor="title" className="text-lg">
+                    Title
+                  </label>
                   <input
+                    id="title"
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -280,7 +316,9 @@ export default function Discussions() {
                   />
                 </div>
                 <div className="select-group">
-                  <label htmlFor="category">Category</label>
+                  <label htmlFor="category" className="text-lg">
+                    Category
+                  </label>
                   <select
                     value={category}
                     id="category"
@@ -297,8 +335,11 @@ export default function Discussions() {
                   </select>
                 </div>
                 <div className="input-group">
-                  <label>Content</label>
+                  <label htmlFor="content" className="text-lg">
+                    Content
+                  </label>
                   <textarea
+                    id="content"
                     value={article}
                     onChange={(e) => setArticle(e.target.value)}
                     placeholder="Describe your topic or qquestion in detail"

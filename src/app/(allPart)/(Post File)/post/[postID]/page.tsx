@@ -1,6 +1,5 @@
 "use client";
 import "./style.css";
-// import { Card } from "../lessons-card/lessons-card";
 import { useCallback, useEffect, useState } from "react";
 import { OnePost } from "../../../../../types/type";
 import { usePathname } from "next/navigation";
@@ -10,11 +9,9 @@ import Loading from "@/components/loading/Loading";
 import Cookies from "js-cookie";
 
 export default function Post() {
-  // const [postsItems, setPostsItems] = useState<GetPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("/images/pic2.jpg");
-  // const [photoUrl, setPhotoUrl] = useState<Record<string, string>>({});
   const [postItems, setPostItems] = useState<OnePost>({
     _id: "685985e93a6ce92e99a654b2",
     postedBy: "6855b2861b2eec2da05b4415",
@@ -117,8 +114,6 @@ export default function Post() {
     fetchData();
   }, [handleGetPost, fetchPhotoUrl]);
 
-  console.log(postItems);
-  // console.log(postItems._id);
   function isValidUrl(string: string) {
     try {
       new URL(string);
@@ -127,32 +122,29 @@ export default function Post() {
       return false;
     }
   }
+
+  if (loading || error) return <Loading />;
   return (
-    <>
-      {loading || (error && <Loading />)}
+    <div
+      key={postItems._id}
+      className={`post bg-white rounded-lg overflow-hidden`}
+    >
+      <Image
+        src={url && isValidUrl(url) ? url : "/images/pic2.jpg"}
+        alt={`Event ${postItems._id}`}
+        width={200}
+        height={200}
+        className="object-cover w-full h-48"
+      />
       <div
-        key={postItems._id}
-        className={`post bg-white rounded-lg overflow-hidden show-full-post`}
-      >
-        <Image
-          src={url && isValidUrl(url) ? url : "/images/pic2.jpg"}
-          alt={`Event ${postItems._id}`}
-          width={200}
-          height={200}
-          className="object-cover w-full h-48"
-        />
-        <div
-          className={`post-body "justify-evenly gap-6"
+        className={`post-body "justify-evenly gap-6"
         `}
-        >
-          <h3 className="text-lg font-semibold post-title">
-            {postItems.title}
-          </h3>
-          <p className={`text-sm text-gray-600 show-full my-5`}>
-            {postItems.article}
-          </p>
-        </div>
+      >
+        <h3 className="text-lg font-semibold">{postItems.title}</h3>
+        <p className={`text-sm text-gray-600 show-full my-5`}>
+          {postItems.article}
+        </p>
       </div>
-    </>
+    </div>
   );
 }

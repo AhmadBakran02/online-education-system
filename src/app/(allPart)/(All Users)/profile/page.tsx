@@ -9,12 +9,11 @@ import { KeyboardEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
+import Loading5 from "@/components/loading5/Loading5";
+import Loading4 from "@/components/loading4/Loading4";
 
 export default function Settings() {
-  // const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-  // const [confirmPassword, setConfirmPassword] = useState<string>("");
-  // const [profileImage, setProfileImage] = useState<string>("/images/pic2.jpg");
   const [message, setMessage] = useState<string>("");
   const [passwordMessage, setPasswordMessage] = useState<string>("");
   const [newName, setNewName] = useState<string>("");
@@ -25,6 +24,11 @@ export default function Settings() {
   const [photo, setPhoto] = useState<File | null>(null);
   const [showIcon, setIcon] = useState(faEye);
   const [passType, setType] = useState<string>("password");
+  const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [emailValue, setEmailValue] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   function showPass() {
     if (showIcon === faEye) {
@@ -35,10 +39,12 @@ export default function Settings() {
       setType("password");
     }
   }
+
   useEffect(() => {
     setNewName(localStorage.getItem("name") || "");
     setPhotoID(localStorage.getItem("photoID") || "");
   }, []);
+
   // const handleChangeImageApi = async (e: React.FormEvent) => {
   //   e.preventDefault();
   //   setIsLoading(true);
@@ -220,12 +226,6 @@ export default function Settings() {
     };
   }, [photoID]);
 
-  const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const [emailValue, setEmailValue] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
-
   // Initialize email from localStorage
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -355,15 +355,17 @@ export default function Settings() {
 
   return (
     <div className="profile-container">
-      <main className="main-content">
-        <h1>User Settings</h1>
-        <p>Manage your account settings and preferences.</p>
+      <main className="main-content flex-1">
+        <h1 className="font-semibold text-3xl">User Settings</h1>
+        <p className="text-sm text-[#737373] mb-[15px]">
+          Manage your account settings and preferences.
+        </p>
 
         {message && <div className="message">{message}</div>}
         {success && <></>}
         <div className="settings-section">
           <div className="settings-card">
-            <h3>Change Profile Picture</h3>
+            <h3 className=" text-[#2c3e50] mb-20">Change Profile Picture</h3>
             <div className="profile-image-container">
               <Image
                 width={100}
@@ -373,8 +375,12 @@ export default function Settings() {
                 className="profile-image"
                 priority
               />
+
               <div className="image-upload">
-                <label htmlFor="profile-upload" className="upload-button">
+                <label
+                  htmlFor="profile-upload"
+                  className="bg-[#4251ad] hover:bg-[#3b489a] text-white px-5 py-2.5 rounded-md text-md cursor-pointer inline-block"
+                >
                   Choose Image
                 </label>
                 <input
@@ -382,16 +388,16 @@ export default function Settings() {
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  style={{ display: "none" }}
+                  className="hidden"
                 />
               </div>
             </div>
           </div>
 
           <div className="settings-card">
-            <h3>Change Username</h3>
+            <h3 className=" text-[#2c3e50] mb-5">Change Username</h3>
             <form onSubmit={handleEditNameApi}>
-              <div className="form-group">
+              <div className="mb-[15px]">
                 <label htmlFor="username">New Username</label>
                 <input
                   type="text"
@@ -400,51 +406,27 @@ export default function Settings() {
                   placeholder="Enter your new username"
                   onChange={(e) => setNewName(e.target.value)}
                   required
+                  className="input-reset-pass"
                 />
               </div>
-              <button type="submit" className="save-button">
-                {isLoading ? "Saving Change..." : "Save Change"}
+
+              <button
+                type="submit"
+                className="bg-[#4251ad] text-white rounded-md px-5 py-2.5 text-md cursor-pointer hover:bg-[#3b489a]"
+              >
+                {isLoading ? (
+                  <div className="mt-1.5">
+                    <Loading5 />
+                  </div>
+                ) : (
+                  "Save Change"
+                )}
               </button>
             </form>
           </div>
 
           <div className="settings-card">
-            <h3>Change Password</h3>
-            {/* <form onSubmit={handlePasswordChange}>
-              <div className="form-group">
-                <label htmlFor="current-password">Current Password</label>
-                <input
-                  type="password"
-                  id="current-password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="new-password">New Password</label>
-                <input
-                  type="password"
-                  id="new-password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="confirm-password">Confirm New Password</label>
-                <input
-                  type="password"
-                  id="confirm-password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="save-button">
-                Change Password
-              </button>
-            </form> */}
+            <h3 className=" text-[#2c3e50] mb-5">Change Password</h3>
             {!changePassword && (
               <button
                 className="change-password-button"
@@ -456,7 +438,7 @@ export default function Settings() {
 
             {changePassword && (
               <div className="formAndResend">
-                <form onSubmit={handleSubmit} className="form">
+                <form onSubmit={handleSubmit} className="">
                   <label className="text-gray-600 text-xs">
                     Enter the 6-digit code sent to {emailValue}
                   </label>
@@ -481,44 +463,24 @@ export default function Settings() {
                       />
                     ))}
                   </div>
-                  {/* <div className="In">
-                  <label htmlFor="pass">Password</label>
-                  <div className="pass-icon" onClick={() => showPass()}>
+
+                  <div className="pass-icon-profile" onClick={() => showPass()}>
                     <FontAwesomeIcon
                       icon={showIcon}
                       className={` ${showIcon}`}
                     ></FontAwesomeIcon>
-                    <input
-                      type={passType}
-                      className="input"
-                      name="password"
-                      id="pass"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      required
-                      placeholder="Enter your password"
-                    />
                   </div>
-                </div> */}
-                  <div className="reset-password">
-                    <div className="pass-icon" onClick={() => showPass()}>
-                      <FontAwesomeIcon
-                        icon={showIcon}
-                        className={` ${showIcon}`}
-                      ></FontAwesomeIcon>
-                    </div>
 
-                    <input
-                      type={passType}
-                      className="input"
-                      name="password"
-                      id="pass"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      required
-                      placeholder="Enter new password"
-                    />
-                  </div>
+                  <input
+                    type={passType}
+                    className="input-reset-pass"
+                    name="password"
+                    id="pass"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                    placeholder="Enter new password"
+                  />
 
                   <button
                     className={`${styles.submitButton} ${
@@ -527,14 +489,22 @@ export default function Settings() {
                     type="submit"
                     disabled={loading || isSubmitDisabled || !newPassword}
                   >
-                    {loading ? "Verifying..." : "Change Password"}
+                    {loading ? (
+                      <div className="mt-1.5">
+                        <Loading4 />
+                      </div>
+                    ) : (
+                      "Change Password"
+                    )}
                   </button>
                 </form>
                 {passwordMessage && (
-                  <div className="success-message">{passwordMessage}</div>
+                  <div className="profile-message  success-message">
+                    {passwordMessage}
+                  </div>
                 )}
                 {error && (
-                  <div className="error-message">
+                  <div className="profile-message  error-message">
                     Something went wrong. Please try again later.
                   </div>
                 )}

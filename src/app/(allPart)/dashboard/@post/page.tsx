@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { GetPost } from "@/types/type";
 import "./style.css";
-// import { useRouter } from "next/navigation";
 import { MegaphoneIcon } from "lucide-react";
 import Link from "next/link";
 import Loading from "@/components/loading/Loading";
@@ -12,10 +11,9 @@ import Loading from "@/components/loading/Loading";
 export default function PostDash() {
   const [loading, setLoading] = useState<boolean>(false);
   const [postItems, setPostItems] = useState<GetPost[]>([]);
-  // const router = useRouter();
+
   const handleGetAllPost = useCallback(async () => {
     setLoading(true);
-    // setError(null);
 
     try {
       const token = Cookies.get("token") || "";
@@ -58,9 +56,6 @@ export default function PostDash() {
     fetchData();
   }, [handleGetAllPost]);
 
-  // const handleShowPost = (id: string) => {
-  //   router.push(`/post/${id}`);
-  // };
 
   return (
     // <div className="all-post-dash">

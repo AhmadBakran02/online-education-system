@@ -5,10 +5,12 @@
 .show-lesson {
   flex: 1;
 }
+
 .card .show-lesson:hover {
   background-color: #e6e6e6;
 }
-button {
+
+.show-lesson {
   color: #454545;
   background-color: #f0f0f0;
   cursor: pointer;
@@ -24,7 +26,8 @@ button {
   gap: 10px;
   cursor: pointer;
 }
-.card {
+
+.card-my-lessons {
   min-width: 250px;
   height: 130px;
   border-radius: 8px;

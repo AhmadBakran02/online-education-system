@@ -7,6 +7,7 @@ import Loading from "@/components/loading/Loading";
 import QuizzesError from "../quizzes/QuizzesError";
 import Cookies from "js-cookie";
 import { HistoryType } from "@/types/type";
+import Link from "next/link";
 
 export default function QuizHistory() {
   const [historyItems, setHistoryItems] = useState<HistoryType[]>([]);
@@ -61,11 +62,11 @@ export default function QuizHistory() {
   if (error) return <QuizzesError errorType={error} />;
 
   return (
-    <div className="history-container mx-auto p-4">
+    <div className="history-container">
       {/* -----------Quizzes Header----------- */}
       <div className="history-header-page">
-        <h3>Quizzes History</h3>
-        <p>
+        <h3 className="text-2xl font-semibold">Quizzes History</h3>
+        <p className="text-sm text-[#737373]">
           Here, you can review all your previous quiz attempts, track your
           progress, and see how you&apos;ve improved over time.
         </p>
@@ -75,31 +76,41 @@ export default function QuizHistory() {
       <div className="select-task my-3">
         <div className="select-history-tabs">
           <button
-            className={activeTab === "all" ? "active" : ""}
+            className={`quiz-history-category ${
+              activeTab === "all" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("all")}
           >
             All
           </button>
           <button
-            className={activeTab === "programming" ? "active" : ""}
+            className={`quiz-history-category ${
+              activeTab === "programming" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("programming")}
           >
             Programming
           </button>
           <button
-            className={activeTab === "math" ? "active" : ""}
+            className={`quiz-history-category ${
+              activeTab === "math" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("math")}
           >
             Math
           </button>
           <button
-            className={activeTab === "english" ? "active" : ""}
+            className={`quiz-history-category ${
+              activeTab === "english" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("english")}
           >
             English
           </button>
           <button
-            className={activeTab === "physics" ? "active" : ""}
+            className={`quiz-history-category ${
+              activeTab === "physics" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("physics")}
           >
             Physics
@@ -112,29 +123,31 @@ export default function QuizHistory() {
         {loading && <Loading />}
         {!loading && filteredTasks?.length > 0
           ? filteredTasks.map((task) => (
-              <div key={task._id} className={`history-card completed medium `}>
-                <div className="history-content">
-                  <div className="history-header">
-                    <h3 className="!text-black font-medium capitalize">
-                      asdas
-                    </h3>
+              <Link key={task._id} href={`/quiz-history/${task._id}`}>
+                <div className={`history-card completed medium`}>
+                  <div className="history-content">
+                    <div className="history-header">
+                      <h3 className="!text-black font-medium capitalize">
+                        asdas
+                      </h3>
 
-                    {task.score >= 0 && (
-                      <div
-                        className={`border rounded p-1  ${
-                          task.score > 59
-                            ? "bg-green-200 text-green-500"
-                            : "bg-red-200 text-red-500"
-                        }`}
-                      >
-                        {task.score}%
-                      </div>
-                    )}
+                      {task.score >= 0 && (
+                        <div
+                          className={`border rounded p-1  ${
+                            task.score > 59
+                              ? "bg-green-200 text-green-500"
+                              : "bg-red-200 text-red-500"
+                          }`}
+                        >
+                          {task.score}%
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="history-course capitalize">math</p>
                   </div>
-
-                  <p className="history-course capitalize">math</p>
                 </div>
-              </div>
+              </Link>
             ))
           : !loading && (
               <div className="no-tasks">

@@ -223,7 +223,9 @@ export default function AddLessons() {
   return (
     <AuthGuard allowedRoles={["admin", "teacher"]}>
       <div className="add-lesson">
-        <h1>Add New Lesson</h1>
+        <h1 className="text-2xl font-semibold mb-3 text-gray-700">
+          Add New Lesson
+        </h1>
         <p>
           Upload lesson materials, share resources, and organize content for
           your className.
@@ -235,7 +237,9 @@ export default function AddLessons() {
 
         {/* --------------- Title --------------- */}
         <div className="form-group">
-          <label htmlFor="lesson-title">Lesson Title</label>
+          <label htmlFor="title" className="lesson-title mt-5">
+            Lesson Title
+          </label>
           <input
             type="text"
             id="title"
@@ -248,8 +252,11 @@ export default function AddLessons() {
         </div>
         {/* --------------- Description --------------- */}
         <div className="form-group">
-          <label htmlFor="lesson-description">Description</label>
+          <label htmlFor="description" className="lesson-title">
+            Description
+          </label>
           <textarea
+            className="add-lesson-textarea"
             name="description"
             id="description"
             value={lessonInforamtion.description}
@@ -261,10 +268,15 @@ export default function AddLessons() {
         {/* --------------- File --------------- */}
 
         <div className="form-group">
-          <label>Upload Materials</label>
-          <div className="file-upload">
-            {/* <span className="file-upload-text">No file selected</span> */}
-            <label className="file-upload-button" htmlFor="file-upload">
+          <label className="lesson-title">Upload Materials</label>
+          <div className="flex items-center justify-between file-upload">
+            <span className="text-gray-600">
+              {file ? file.name : "No file selected"}
+            </span>
+            <label
+              className="lesson-title file-upload-button"
+              htmlFor="file-upload"
+            >
               Select File
             </label>
             <input
@@ -277,23 +289,27 @@ export default function AddLessons() {
               disabled={isUploading}
             />
           </div>
-          <div className="file-footer">
+          <div className="flex gap-3">
             <p className="my-5">(Maximum file size: 25MB)</p>
             <p className="my-5">(Supports PDF, DOCX, PPT)</p>
           </div>
         </div>
         {/* --------------- Video --------------- */}
         <div className="form-group">
-          <label>Upload Video</label>
-          <div className="file-upload">
-            {/* <span className="file-upload-text">No file selected</span> */}
-            <label className="file-upload-button" htmlFor="video-upload">
+          <label className="lesson-title">Upload Video</label>
+          <div className="flex items-center justify-between file-upload">
+            <span className="text-gray-600">
+              {video ? video.name : "No video selected"}
+            </span>
+            <label
+              className="lesson-title file-upload-button"
+              htmlFor="video-upload"
+            >
               Select Video
             </label>
             <input
               id="video-upload"
               type="file"
-              // className="bg-amber-300 border-amber-300"
               accept="video/*"
               className="hidden"
               onChange={handleVideoChange}
@@ -308,14 +324,16 @@ export default function AddLessons() {
 
         {/* --------------- Category --------------- */}
 
-        <div className="select">
-          <label htmlFor="gender">Category</label>
+        <div className="add-lesson-select-group">
+          <label className="lesson-title" htmlFor="gender">
+            Category
+          </label>
           <select
             value={lessonInforamtion.category}
             id="category"
             name="category"
             onChange={handleChange}
-            className="signup-select"
+            className="add-lesson-select"
             required
           >
             <option value="null">Select Topic</option>
@@ -327,14 +345,16 @@ export default function AddLessons() {
         </div>
         {/* --------------- Level --------------- */}
 
-        <div className="select">
-          <label htmlFor="gender">Level</label>
+        <div className="add-lesson-select-group">
+          <label className="lesson-title" htmlFor="gender">
+            Level
+          </label>
           <select
             value={lessonInforamtion.level}
             id="level"
             name="level"
             onChange={handleChange}
-            className="signup-select"
+            className="add-lesson-select"
             required
           >
             <option value="null">Select Level</option>
@@ -351,14 +371,17 @@ export default function AddLessons() {
               <Success text={"The lesson has been added successfully."} />
             </div>
           )}
-          <button className="button button-secondary" onClick={handleCancel}>
+          <button
+            className="add-lesson-button button-secondary"
+            onClick={handleCancel}
+          >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleSubmit}
             // disabled={!file || isUploading}
-            className="button button-primary"
+            className="add-lesson-button button-primary"
           >
             {isUploading ? "Uploading..." : "Publish Lesson"}
           </button>
@@ -373,11 +396,11 @@ export default function AddLessons() {
 
         <div className="tips">
           <h4>Tips for Effective Lessons</h4>
-          <ul>
-            <li>Clearly state learning objectives</li>
-            <li>Break content into manageable sections</li>
-            <li>Include real-world examples</li>
-            <li>Provide practice exercises</li>
+          <ul className="pl-5">
+            <li className="mb-1">Clearly state learning objectives</li>
+            <li className="mb-1">Break content into manageable sections</li>
+            <li className="mb-1">Include real-world examples</li>
+            <li className="mb-1">Provide practice exercises</li>
           </ul>
         </div>
 

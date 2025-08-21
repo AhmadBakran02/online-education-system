@@ -1,70 +1,6 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
-.post-page {
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  padding: 25px 35px;
-  /* font-size: 16px; */
-  height: 100%;
-}
-
-.post-page h1 {
-  position: relative;
-  padding: 0;
-  margin: 0;
-  font-family: "Raleway", sans-serif;
-  font-weight: 400;
-  font-size: 40px;
-  color: var(--color-gray-800);
-  -webkit-transition: all 0.4s ease 0s;
-  -o-transition: all 0.4s ease 0s;
-  transition: all 0.4s ease 0s;
-}
-
-.lesson-title h1 {
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 26px;
-  letter-spacing: 1px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-rows: 16px 0;
-  grid-gap: 22px;
-}
-
-.lesson-title h1:after,
-.lesson-title h1:before {
-  content: "  ";
-  display: block;
-}
-
-.post-page .post-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 55px;
-}
-/* -----------Description----------- */
-.lesson-description {
-  color: var(--color-gray-800);
-  /* border: 1px solid red; */
-  width: 100%;
-  min-height: 100px;
-  padding: 15px;
-  border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 2px;
-}
-.lesson-description::first-letter {
-  text-transform: uppercase;
-}
 
 /* -----------Video----------- */
 .lesson-video {
@@ -74,16 +10,6 @@
 }
 
 /* -----------PDF----------- */
-.pdf-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-}
-
-.pdf-text {
-  color: var(--color-gray-800);
-}
 
 .download-button {
   background-color: var(--mainBlue);
@@ -104,16 +30,6 @@
   background-color: var(--hoverBlue);
 }
 
-@media (max-width: 507px) {
-  .pdf-body {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .pdf-text {
-    font-size: 14px;
-  }
-}
 /* -----------AI----------- */
 
 .ai-body {
@@ -176,7 +92,6 @@
   .ai-body {
     display: flex;
     flex-direction: column;
-    /* background-color: red; */
     text-align: center;
     height: auto;
     gap: 5px;
@@ -190,7 +105,6 @@
   cursor: pointer;
   cursor: pointer;
   float: right;
-  /* font-size: 1.1rem; */
   font-weight: bold;
   display: flex;
   gap: 0.5rem;
@@ -292,6 +206,7 @@
     border-color: #439ddf;
   }
 }
+
 .ai-button {
   transition: 0.3s;
 }
