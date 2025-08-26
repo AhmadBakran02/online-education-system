@@ -241,6 +241,7 @@ export default function Discussions() {
                         role={item.role}
                         edit={false}
                         vote={item.vote}
+                        showComment={false}
                       />
                     </div>
                   ))
@@ -290,6 +291,7 @@ export default function Discussions() {
             duration={3000} // 3 seconds
           />
         )}
+        
         {showAdd && (
           <div className="modal-overlay">
             <div className="flow-card">

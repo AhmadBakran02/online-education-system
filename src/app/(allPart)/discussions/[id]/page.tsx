@@ -1,12 +1,11 @@
 "use client";
 import { ForumCard } from "@/components/forum-card/forum-card";
 import { useCallback, useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { apiUrl } from "@/components/url";
 import { GetBlogsType } from "@/types/type";
 import { usePathname } from "next/navigation";
-import "./style.css";
+import { apiUrl } from "@/components/url";
 import Loading from "@/components/loading/Loading";
+import Cookies from "js-cookie";
 
 export default function BlogID() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,7 +16,7 @@ export default function BlogID() {
 
   const handleGetAllBlog = useCallback(async () => {
     setLoading(true);
- 
+
     try {
       const token = Cookies.get("token") || "";
       const response = await fetch(`${apiUrl}/blog?blogID=${id}`, {
@@ -57,6 +56,7 @@ export default function BlogID() {
   }, [handleGetAllBlog]);
 
   if (loading) return <Loading />;
+
   return (
     <div className="one-blog-page">
       <ForumCard
@@ -70,6 +70,7 @@ export default function BlogID() {
         role={blog?.role || "..."}
         edit={false}
         vote={blog?.vote || "null"}
+        showComment={true}
       />
     </div>
   );

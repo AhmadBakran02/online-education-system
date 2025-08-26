@@ -1,15 +1,15 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import "./style.css";
-import Image from "next/image";
-import { apiUrl } from "../url";
-import EditBlog from "./EditBlog";
-import deleteBlog from "./delete-blog";
 import { GetComments } from "@/types/type";
-import Comment from "../comment/Comment";
-import Loading2 from "../loading2/loading2";
-import Cookies from "js-cookie";
+import { apiUrl } from "../url";
 import Loading5 from "../loading5/Loading5";
+import Loading2 from "../loading2/loading2";
+import Comment from "../comment/Comment";
+import deleteBlog from "./delete-blog";
+import EditBlog from "./EditBlog";
+import Cookies from "js-cookie";
+import Image from "next/image";
+import "./style.css";
 
 interface TypeOfValue {
   title: string;
@@ -22,6 +22,7 @@ interface TypeOfValue {
   role: string;
   edit: boolean;
   vote: string;
+  showComment: boolean;
 }
 
 export const ForumCard = ({
@@ -35,8 +36,9 @@ export const ForumCard = ({
   name,
   edit,
   vote,
+  showComment,
 }: TypeOfValue) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<boolean>(showComment);
   const [comment, setComment] = useState<string>("");
   const [commentNumber, setCommentNumber] = useState<string>("0");
   const [likeNumber, setLikeNumber] = useState<string>("0");
@@ -62,7 +64,6 @@ export const ForumCard = ({
     if (!isActive) getAllComments();
   }
 
-  // console.log(id);
   const dateOnly = createdAt?.split("T")[0] || "N/A";
 
   const addComment = async () => {
@@ -309,52 +310,16 @@ export const ForumCard = ({
     console.log(result);
     setShowEdit(true);
   };
-  console.log(vote);
-  console.log(isVote);
+
   return (
-    // <div className="topic-card">
-    //   <div className="card-header">
-    //     <h4 className="card-title">
-    //       Practical: How to solve quadratic equations?
-    //     </h4>
-    //     <span className="card-meta">Posted by Student • 2 days ago</span>
-    //   </div>
-    //   {show && (
-    //     <div className="card-body">
-    //       <p>
+    //         Practical: How to solve quadratic equations?
     //         I&apos;m struggling with understanding the quadratic formula. Can
     //         someone explain how to apply it to solve 2x² + 5x - 3 = 0 step by
     //         step?
-    //       </p>
-    //     </div>
-    //   )}
-    //   {show && (
-    //     <div className="card-actions hidden">
-    //       <button className="icon-btn">
-    //         <Image src="./like.svg" width={20} height={20} alt="" /> 5
-    //       </button>
-    //       <button onClick={() => answer()} className="icon-btn">
-    //         <Image src="./comment.svg" width={21} height={21} alt="" /> 3
-    //       </button>
-    //     </div>
-    //   )}
 
-    //   <div className={`answer-section ${isActive ? "active" : ""}`}>
-    //     <div className="answer-input">
-    //       <textarea placeholder="Write your answer..."></textarea>
-    //       <button className="primary-btn">Post Answer</button>
-    //     </div>
-    //     <div className="answers-list">
-    //       <div className="answer">
-    //         <strong>Teacher:</strong> Let&apos;s break it down: 1) Identify a=2,
-    //         b=5, c=-3...
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div
       className={`topic-card2 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow bg-white ${
-        deleted ? "hid" : ""
+        deleted ? "hidden" : ""
       }`}
     >
       <div className="card-header">
@@ -411,7 +376,7 @@ export const ForumCard = ({
         </div>
       )}
 
-      <div className={`answer-section ${isActive ? "active" : ""}`}>
+      <div className={`answer-section ${isActive ? "" : "hidden"}`}>
         <div className="answer-input">
           <textarea
             value={comment}
@@ -419,7 +384,7 @@ export const ForumCard = ({
             onChange={(e) => setComment(e.target.value)}
           ></textarea>
           <button
-            className="primary-btn"
+            className="add-comment"
             onClick={handelAddComment}
             disabled={comment == ""}
           >

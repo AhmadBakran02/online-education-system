@@ -1,12 +1,12 @@
 "use client";
 import "./style.css";
 import Image from "next/image";
-import { SIDEBAR_ITEMS, NavItem } from "@/types/navigaton"; // Assuming you have these types defined
-import { UserRole } from "@/types/user";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { SIDEBAR_ITEMS, NavItem } from "@/types/navigaton"
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { UserRole } from "@/types/user";
+import Cookies from "js-cookie";
+import Link from "next/link";
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);

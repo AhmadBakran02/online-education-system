@@ -45,25 +45,6 @@ export default function Settings() {
     setPhotoID(localStorage.getItem("photoID") || "");
   }, []);
 
-  // const handleChangeImageApi = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await EditName(newName);
-
-  //     if (response.success) {
-  //       setMessage(true);
-  //       localStorage.setItem("name", newName);
-  //       window.location.reload();
-  //       console.log("Success:", response.message);
-  //     } else {
-  //       console.error("Error:", response.message);
-  //     }
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const handleEditNameApi = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -82,21 +63,6 @@ export default function Settings() {
       setIsLoading(false);
     }
   };
-
-  // const handlePasswordChange = useCallback(
-  //   (e: FormEvent) => {
-  //     e.preventDefault();
-  //     if (newPassword !== confirmPassword) {
-  //       setMessage("Passwords do not match!");
-  //       return;
-  //     }
-  //     setMessage("Password updated successfully!");
-  //     setCurrentPassword("");
-  //     setNewPassword("");
-  //     setConfirmPassword("");
-  //   },
-  //   [newPassword, confirmPassword]
-  // );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -363,6 +329,7 @@ export default function Settings() {
 
         {message && <div className="message">{message}</div>}
         {success && <></>}
+        
         <div className="settings-section">
           <div className="settings-card">
             <h3 className=" text-[#2c3e50] mb-20">Change Profile Picture</h3>
@@ -438,8 +405,8 @@ export default function Settings() {
 
             {changePassword && (
               <div className="formAndResend">
-                <form onSubmit={handleSubmit} className="">
-                  <label className="text-gray-600 text-xs">
+                <form onSubmit={handleSubmit}>
+                  <label className="text-gray-600 text-sm">
                     Enter the 6-digit code sent to {emailValue}
                   </label>
                   <div className={styles.codeContainer}>
@@ -490,7 +457,7 @@ export default function Settings() {
                     disabled={loading || isSubmitDisabled || !newPassword}
                   >
                     {loading ? (
-                      <div className="mt-1.5">
+                      <div className="mt-1.5 text-sm">
                         <Loading4 />
                       </div>
                     ) : (
@@ -504,7 +471,7 @@ export default function Settings() {
                   </div>
                 )}
                 {error && (
-                  <div className="profile-message  error-message">
+                  <div className="profile-message  error-message text-xs">
                     Something went wrong. Please try again later.
                   </div>
                 )}

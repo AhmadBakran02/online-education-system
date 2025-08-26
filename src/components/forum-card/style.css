@@ -1,80 +1,30 @@
 @import "tailwindcss";
 
-.forum-container {
-  /* max-width: 800px; */
-  margin: 20px auto;
-  font-family: "Segoe UI", sans-serif;
-  /* background-color: #fff; */
-}
-
-/* Empty state styling */
-.empty-state {
-  text-align: center;
-  padding: 40px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px dashed #dee2e6;
-}
-
-.empty-icon {
-  width: 60px;
-  height: 60px;
-  color: #6c757d;
-  margin-bottom: 16px;
-}
-
-.empty-state h3 {
-  font-size: 1.5rem;
-  color: #343a40;
-  margin-bottom: 8px;
-}
-
-.empty-state p {
-  color: #6c757d;
-  margin-bottom: 24px;
-}
-
-/* Topic cards styling */
-.topics-list {
-  display: grid;
-  gap: 20px;
-}
-
 .topic-card {
   background-color: #480606;
   border-radius: 8px;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); */
   overflow: hidden;
   transition: transform 0.2s;
   width: 100%;
   max-width: 600px;
 }
 
-.topic-card:hover {
-  /* transform: translateY(-2px); */
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); */
-}
-
 .card-header {
   padding: 16px;
   border-bottom: 1px solid #e9ecef;
   display: flex;
-  /* justify-content: space-between; */
 }
 
 .card-title {
-  /* margin: 0; */
   color: #212529;
   font-size: 1.1rem;
   text-align: left;
-  /* max-width: 90%; */
-  /* background-color: salmon; */
 }
+
 .edit-delete {
   display: flex;
   gap: 5px;
   width: 60px;
-  /* background-color: saddlebrown; */
 }
 
 .card-meta {
@@ -111,17 +61,10 @@
 
 /* Answer section */
 .answer-section {
-  /* transform: scale(5); */
-  display: none;
-
   background: #f8f9fa;
   padding: 16px;
   border-top: 1px solid #e9ecef;
   transition: 2s;
-}
-.active {
-  display: block;
-  /* height: 100px; */
 }
 
 .answer-input {
@@ -139,12 +82,8 @@
   font-family: inherit;
 }
 
-.answers-list {
-  /* margin-top: -10px; */
-}
-
 /* Buttons */
-.primary-btn {
+.add-comment {
   background: #4351af;
   color: white;
   border: none;
@@ -162,17 +101,13 @@
   transition: background 0.2s;
 }
 
-.primary-btn:hover {
+.add-comment:hover {
   background: #3b489a;
 }
 
 .edit-blog {
   cursor: pointer;
   align-self: flex-start;
-}
-
-.hid {
-  display: none;
 }
 
 .no-comments {
@@ -182,8 +117,6 @@
   border-top: 1px solid #ced4da;
   padding-top: 5px;
   width: 80%;
-  /* border-radius: 6px; */
-  /* background-color: #e9ecef; */
 }
 
 .modal-overlay {
@@ -232,23 +165,11 @@
 }
 
 .form-group {
-  /* background-color: saddlebrown; */
   margin: 15px;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-/* .form-group label {
-  color: #343a40;
-  font-size: 18px;
-}
-
-.form-group input {
-  background-color: #6c757d;
-  height: 45px;
-  border-radius: 6px;
-  padding: 5px;
-} */
 
 .form-group label {
   display: block;
@@ -277,12 +198,12 @@
 }
 
 .button-group-blog {
-  /* background-color: saddlebrown; */
   width: 95%;
   margin: 10px auto 0;
   display: flex;
   gap: 10px;
 }
+
 .button-group-blog button {
   color: #454545;
   background-color: #f0f0f0;
@@ -295,6 +216,7 @@
   transition: 0.3s background-color;
   cursor: pointer;
 }
+
 .modal-overlay .button-group-blog button:hover {
   background-color: #e6e6e6;
 }

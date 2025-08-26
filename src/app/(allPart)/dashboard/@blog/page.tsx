@@ -83,6 +83,7 @@ export default function BlogDash() {
                 role={item.role}
                 edit={false}
                 vote={""}
+                showComment={false}
               />
             </div>
           ))

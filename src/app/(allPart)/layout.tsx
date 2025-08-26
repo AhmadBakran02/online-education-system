@@ -37,7 +37,7 @@ export default function RootLayout({
             <Sidebar />
             <div className="x-container">{children}</div>
             <footer className="bg-gray-800 text-white py-6 text-center">
-              <p>
+              <p className="text-sm">
                 &copy; {new Date().getFullYear()} Educational Academy. All
                 rights reserved.
               </p>

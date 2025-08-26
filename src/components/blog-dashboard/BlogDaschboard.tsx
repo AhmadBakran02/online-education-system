@@ -72,6 +72,7 @@ export default function BlogDashboard() {
               role={item.role}
               edit={false}
               vote={""} // commentNumber={"4"}
+              showComment={false}
             />
           ))
         : !loading && (
