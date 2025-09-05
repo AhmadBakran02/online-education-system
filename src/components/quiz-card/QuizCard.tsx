@@ -9,7 +9,6 @@ import RemoveFromList from "../RemoveFromList";
 import ModalPortal from "../ModalPortal";
 import Loading4 from "../loading4/Loading4";
 import SuccessCard from "../success-card/SuccessCard";
-import { Link } from "lucide-react";
 
 interface QuizCradType {
   id: string;

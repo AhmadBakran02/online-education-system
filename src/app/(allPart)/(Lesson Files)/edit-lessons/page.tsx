@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import "./style.css";
 import { Card } from "../../../../components/lessons-card/lessons-card";
 import Loading from "../../../../components/loading/Loading";
-import { NumPage } from "../../../../types/type";
 import { getAllLessons } from "@/app/api/lesson-get-my";
 import { AuthGuard } from "@/components/AuthGuard";
 // import { getAllLessons } from "../../api/lesson-get-my";
@@ -36,11 +35,6 @@ export default function Edit() {
   const [loading, setLoading] = useState<boolean>(true);
   const [lessonsItems, setLessonsItems] = useState<Lesson[]>([]);
 
-  const [numPage] = useState<NumPage>({
-    page: "1",
-    limit: "300",
-  });
-
   const handleGetAlllessons = useCallback(async () => {
     setLoading(true);
     try {
@@ -53,7 +47,7 @@ export default function Edit() {
     } finally {
       setLoading(false);
     }
-  }, [numPage]); // Now properly includes all dependencies
+  }, []);
 
   useEffect(() => {
     handleGetAlllessons();
