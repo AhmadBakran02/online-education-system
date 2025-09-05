@@ -38,3 +38,11 @@
   justify-content: space-between;
   align-items: start;
 }
+
+.subject-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; /* Number of lines before truncation */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

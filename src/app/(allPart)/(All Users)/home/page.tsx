@@ -14,6 +14,7 @@ import { PostCard } from "@/components/post-card/post-card";
 import { apiUrl } from "@/components/url";
 import Cookies from "js-cookie";
 import LoadingCard from "@/components/loadingCard/loadingCard";
+
 export default function HomePage() {
   const [postItems, setPostItems] = useState<GetPost[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

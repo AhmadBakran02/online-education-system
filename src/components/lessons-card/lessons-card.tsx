@@ -114,18 +114,6 @@ export const Card = ({
 
   return (
     <div key={id} className={`card ${deleted ? "hid" : ""}`}>
-      {/* {action === "add" && (
-        <div className="header-card">
-          <Link href={`/lessons/${id}`}>
-            <p className={`level level-${colorlevel}`}></p>
-            <p className="title">{title}</p>
-          </Link>
-          <p className={`success ${message ? "" : "hid"}`}>
-            Lesson Added Successfully
-          </p>
-        </div>
-      )} */}
-
       {action !== "remove" && (
         <div className="header-card">
           <Link href={`/lessons/${id}`}>

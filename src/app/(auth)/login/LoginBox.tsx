@@ -195,6 +195,7 @@ export default function LoginBox() {
       {/* ---------- Google ---------- */}
       <div className="google-form border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
         <Link href="https://online-education-system-quch.onrender.com/auth/google">
+          {/* <Link href="https://online-education-system-quch.onrender.com/auth/google"> */}
           <Image
             src={"/images/google.webp"}
             alt="google"

@@ -22,13 +22,16 @@ export default function QuizHistory() {
     setLoading(true);
     try {
       const token = Cookies.get("token") || "";
-      const response = await fetch(apiUrl + `/quiz/AI/submission`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token,
-        },
-      });
+      const response = await fetch(
+        apiUrl + `/quiz/AI/submission/all/my?page=1&limit=1000`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token,
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -122,7 +125,7 @@ export default function QuizHistory() {
         {loading && <Loading />}
         {!loading && filteredTasks?.length > 0
           ? filteredTasks.map((task) => (
-              <Link key={task.quizID} href={`AI-history/${task.quizID}`}>
+              <Link key={task.quizID} href={`AI-history/${task._id}`}>
                 <div className={`task-card completed medium `}>
                   <div className="task-content">
                     <div className="quiz-header">

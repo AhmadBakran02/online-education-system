@@ -1,29 +1,24 @@
 "use client";
-import "../../../../globals.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { QuizAiHistory } from "@/types/quiz";
+import { QuizHistoryInfo, QuizHistorySub } from "@/types/quiz";
 import { apiUrl } from "@/components/url";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
 import QuizError from "../../quizzes/[quizId]/QuizError";
 import Cookies from "js-cookie";
+import "./style.css";
 
 export default function QuizPage() {
-  const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
-  const [userAnswers2, setUserAnswers2] = useState<Record<string, number>>({});
-  const [quiz, setQuiz] = useState<QuizAiHistory | null>(null);
+  // const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<boolean>();
-  const [submitted, setSubmitted] = useState<boolean>();
-  const [submiting, setSubmiting] = useState<boolean>();
-  const [score, setScore] = useState<number>(0);
+  const [quizInfo, setQuizInfo] = useState<QuizHistoryInfo | null>(null);
+  const [quizSub, setQuizSub] = useState<QuizHistorySub | null>(null);
+  const [id, setId] = useState<string>("");
+  const [message] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
-  const [id, setId] = useState<string>("");
-  const [answers, setAnswers] = useState<boolean[]>([]);
-  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     const newId = pathname.split("/")[2];
@@ -34,102 +29,40 @@ export default function QuizPage() {
     const fetchQuiz = async () => {
       try {
         if (!id) return;
+        console.log(id);
         const token = Cookies.get("token") || "";
 
-        const response = await fetch(apiUrl + `/quiz?quizID=${id}`, {
-          method: "GET", // Changed to POST since you're sending body
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-        });
+        const response = await fetch(
+          apiUrl + `/quiz/submission?submissionID=${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          }
+        );
 
         if (!response.ok) throw new Error("Failed to fetch quiz");
 
         const data = await response.json();
-        // console.log(data.quiz)
-        setQuiz(data.quiz);
+        setQuizInfo(data.quizInfo);
+        setQuizSub(data.submission);
+        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchQuiz();
   }, [id]);
 
-  const answersArray: number[] = Object.keys(userAnswers)
-    .sort((a, b) => parseInt(a) - parseInt(b))
-    .map((key) => userAnswers[key]);
-
-  const submitSolution = async () => {
-    setSubmiting(true);
-    console.log(answersArray);
-    try {
-      console.log("start-2");
-      console.log(answersArray);
-      const response = await fetch(apiUrl + `/quiz/submit-solution`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          token: Cookies.get("token") || "",
-        },
-        body: JSON.stringify({
-          answers: answersArray,
-          quizID: id,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed");
-      }
-
-      // Handle successful login
-      setSuccess(true);
-      console.log("successful ");
-      // console.log(data.score);
-      setUserAnswers2(userAnswers);
-      setUserAnswers({});
-      setScore(data.score);
-      setAnswers(data.isCorrect);
-      setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign up failed");
-      console.log(error);
-    } finally {
-      // setLoading(false);
-      setSubmiting(false);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    console.log(Object.keys(userAnswers).length);
-    console.log(quiz?.questions.length);
-
-    if (Object.keys(userAnswers).length != quiz?.questions.length) {
-      setMessage("Please answer all questions before submitting");
-    } else {
-      setMessage("");
-      submitSolution();
-    }
-  };
-
-  const handleAnswerSelect = (questionId: number, optionIndex: number) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionIndex,
-    }));
-  };
-
-  if (loading) return <Loading />;
+  if (loading && !error) return <Loading />;
   // if (error)
   //   return <div className="text-red-500 text-center py-8">Error: {error}</div>;
   // if (!quiz) return <div className="text-center py-8">Quiz not found</div>;
   if (error) return <QuizError />;
+
   return (
     <div className="quiz-container mx-auto p-4 max-w-2xl">
       <button onClick={() => router.push("/quizzes")} className="back-button">
@@ -138,29 +71,36 @@ export default function QuizPage() {
       </button>
       <div className="quiz-header">
         <div className="title-and-score">
-          <h1 className="text-2xl font-bold mb-2 capitalize">{quiz?.title}</h1>
-          {success && (
-            <div
-              className={`result ${score > 59 ? "good-result" : "bad-result"}`}
+          <h1 className="text-2xl font-bold mb-2 capitalize">
+            {quizInfo?.title}
+          </h1>
+
+          <div
+            className={`result ${
+              (quizSub?.score || 0) > 59 ? "good-result" : "bad-result"
+            }`}
+          >
+            <p
+              className={`score ${
+                (quizSub?.score || 0) > 59 ? "good-score" : "bad-score"
+              }`}
             >
-              <p className={`score ${score > 59 ? "good-score" : "bad-score"}`}>
-                {score}%
-              </p>
-              <p className="score-message">
-                {score > 89
-                  ? "Perfect score! 🎉"
-                  : score > 59
-                  ? "Good job! 👍"
-                  : "Keep practicing! 💪"}
-              </p>
-            </div>
-          )}
+              {quizSub?.score}%
+            </p>
+            <p className="score-message">
+              {(quizSub?.score || 0) > 89
+                ? "Perfect score! 🎉"
+                : (quizSub?.score || 0) > 59
+                ? "Good job! 👍"
+                : "Keep practicing! 💪"}
+            </p>
+          </div>
         </div>
-        <p className="text-gray-600 mb-6 capitalize">{quiz?.description}</p>
+        <p className="text-gray-600 mb-6 capitalize">{quizInfo?.description}</p>
       </div>
 
       <div className="all-questions">
-        {quiz?.questions.map((question, index2) => (
+        {quizInfo?.questions.map((question, index2) => (
           <div className="question-box" key={question._id}>
             <h3 className="question">{question.text}</h3>
             <div className="answer">
@@ -170,24 +110,16 @@ export default function QuizPage() {
                     type="radio"
                     id={`${question._id}-${index}`}
                     name={question._id}
-                    onChange={() => handleAnswerSelect(index2, index)}
-                    disabled={submitted}
+                    disabled={true}
                     className="input-choice radio-modern"
+                    checked={quizSub?.answers[index2] == index}
                   />
                   <label
                     htmlFor={`${question._id}-${index}`}
-                    className={`${
-                      success &&
-                      !answers[index2] &&
-                      userAnswers2[index2] == index
-                        ? "text-red-400"
-                        : ""
+                    className={` cursor-pointer capitalize ${
+                      quizSub?.answers[index2] == index ? "text-red-400" : ""
                     } ${
-                      success &&
-                      answers[index2] &&
-                      userAnswers2[index2] == index
-                        ? "text-green-400"
-                        : ""
+                      question.correctAnswer == index ? "text-green-400!" : ""
                     }`}
                   >
                     {option}
@@ -199,9 +131,6 @@ export default function QuizPage() {
         ))}
       </div>
 
-      <button onClick={handleSubmit} className="submitted-button">
-        {!submiting ? "Submit Answers" : "Submiting..."}
-      </button>
       {message && <div className="select-all">{message}</div>}
     </div>
   );

@@ -41,8 +41,8 @@ export default function Settings() {
   }
 
   useEffect(() => {
-    setNewName(localStorage.getItem("name") || "");
-    setPhotoID(localStorage.getItem("photoID") || "");
+    setNewName(Cookies.get("name") || "");
+    setPhotoID(Cookies.get("photoID") || "");
   }, []);
 
   const handleEditNameApi = async (e: React.FormEvent) => {
@@ -53,7 +53,7 @@ export default function Settings() {
 
       if (response.success) {
         setMessage("Username updated successfully!");
-        localStorage.setItem("name", newName);
+        Cookies.set("name", newName);
         window.location.reload();
         console.log("Success:", response.message);
       } else {
@@ -95,7 +95,7 @@ export default function Settings() {
 
       setMessage("successfully");
       console.log("successfully");
-      localStorage.setItem("photoID", data.fileID);
+      Cookies.set("photoID", data.fileID);
       return data.fileID;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -144,12 +144,12 @@ export default function Settings() {
       try {
         const token = Cookies.get("token") || "";
 
-        if (!localStorage.getItem("photoID")) {
+        if (!Cookies.get("photoID")) {
           throw new Error("No photo ID provided");
         }
 
         const response = await fetch(
-          apiUrl + `/file?fileID=${localStorage.getItem("photoID")}`,
+          apiUrl + `/file?fileID=${Cookies.get("photoID")}`,
           {
             method: "GET",
             headers: {
@@ -194,7 +194,7 @@ export default function Settings() {
 
   // Initialize email from localStorage
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
+    const storedEmail = Cookies.get("email");
     if (storedEmail) {
       setEmailValue(storedEmail);
     }
@@ -275,7 +275,7 @@ export default function Settings() {
 
         setSuccess(true);
         if (data.token) {
-          localStorage.setItem("token", data.token);
+          Cookies.set("token", data.token);
         }
         setPasswordMessage("Reset Password Successfully!");
         // window.location.href = "/login";
@@ -329,7 +329,7 @@ export default function Settings() {
 
         {message && <div className="message">{message}</div>}
         {success && <></>}
-        
+
         <div className="settings-section">
           <div className="settings-card">
             <h3 className=" text-[#2c3e50] mb-20">Change Profile Picture</h3>
@@ -470,11 +470,7 @@ export default function Settings() {
                     {passwordMessage}
                   </div>
                 )}
-                {error && (
-                  <div className="profile-message  error-message text-xs">
-                    Something went wrong. Please try again later.
-                  </div>
-                )}
+                {error && <></>}
               </div>
             )}
           </div>

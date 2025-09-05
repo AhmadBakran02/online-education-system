@@ -38,14 +38,15 @@ export default function Edit() {
 
   const [numPage] = useState<NumPage>({
     page: "1",
-    limit: "30",
+    limit: "300",
   });
 
   const handleGetAlllessons = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getAllLessons(numPage);
+      const data = await getAllLessons();
       setLessonsItems(data.lessons);
+      console.log(data.lessons);
       return data;
     } catch (error) {
       console.error("Failed to fetch lessons:", error);
@@ -81,6 +82,7 @@ export default function Edit() {
               </div>
             </div>
           )}
+
           {lessonsItems.length > 0 && (
             <div className="lesson-cards">
               <ul className="lessons-list">

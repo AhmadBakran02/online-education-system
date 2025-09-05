@@ -22,13 +22,16 @@ export default function QuizHistory() {
     setLoading(true);
     try {
       const token = Cookies.get("token") || "";
-      const response = await fetch(apiUrl + `/quiz/submission`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token,
-        },
-      });
+      const response = await fetch(
+        apiUrl + `/quiz/submission/all/my?page=1&limit=1000`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            token,
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -128,7 +131,7 @@ export default function QuizHistory() {
                   <div className="history-content">
                     <div className="history-header">
                       <h3 className="!text-black font-medium capitalize">
-                        asdas
+                        {task.title}
                       </h3>
 
                       {task.score >= 0 && (
@@ -144,7 +147,7 @@ export default function QuizHistory() {
                       )}
                     </div>
 
-                    <p className="history-course capitalize">math</p>
+                    <p className="history-course capitalize">{task.category}</p>
                   </div>
                 </div>
               </Link>

@@ -46,7 +46,13 @@ export default function RemoveFromList({
   };
 
   return (
-    <button className={`todo-quiz`} onClick={handleRmove}>
+    <button
+      className={`todo-quiz`}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleRmove();
+      }}
+    >
       {loading ? (
         <Loading4 />
       ) : (

@@ -23,7 +23,7 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       <div className="dashboard-section">
-        <h1>Track your progress and catch up with today&apos;s tasks.</h1>
+        {/* <h1>Track your progress and catch up with today&apos;s tasks.</h1> */}
 
         <div className="all-quizzes">
           <Link href="/quiz-history" className="quiz">
@@ -40,7 +40,7 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        <p>View Assignments</p>
+        {/* <p>View Assignments</p> */}
         <Statistics />
         {/* <h2>Your Progress</h2>
 

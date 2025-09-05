@@ -9,6 +9,7 @@ import RemoveFromList from "../RemoveFromList";
 import ModalPortal from "../ModalPortal";
 import Loading4 from "../loading4/Loading4";
 import SuccessCard from "../success-card/SuccessCard";
+import { Link } from "lucide-react";
 
 interface QuizCradType {
   id: string;
@@ -42,17 +43,18 @@ export default function QuizCard({
   const [message, setMessage] = useState<boolean>(false);
   const [quizDate, setQuizDate] = useState<string>("");
 
-  // const handleEnterQuiz = (quizid: string) => {
-  //   window.location.href = `/quizzes/${quizid}`;
-  // };
+  const handleEnterQuiz = (quizid: string) => {
+    window.location.href = `/quizzes/${quizid}`;
+  };
 
   const handelDeleteQuiz = async () => {
     setDeleting(true);
     const success = await DeleteQuiz(id);
     if (success) {
-      console.log("succccc");
+      console.log(success);
       setDeleted(true);
       setDeleting(false);
+      console.log(deleting);
     }
   };
 
@@ -90,10 +92,16 @@ export default function QuizCard({
       }`}
     >
       <div className="task-content">
-        <div className="quiz-header">
+        <div className="quiz-header" onClick={() => handleEnterQuiz(id)}>
           <h3 className="!text-black font-medium capitalize">{title}</h3>
           {edit && (
-            <button className="delete-quiz" onClick={() => handelDeleteQuiz()}>
+            <button
+              className="delete-quiz"
+              onClick={(e) => {
+                e.stopPropagation();
+                handelDeleteQuiz();
+              }}
+            >
               {deleting ? <p>Delete Quiz</p> : <p>Deleting Quiz...</p>}
               <Image src={"./delete-white.svg"} width={20} height={20} alt="" />
             </button>
@@ -152,6 +160,9 @@ export default function QuizCard({
               </div>
               <input
                 type="date"
+                className="text-center"
+                value={quizDate}
+                placeholder="YYYY-MM-DD"
                 onChange={(e) => setQuizDate(e.target.value)}
               />
 

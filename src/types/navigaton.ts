@@ -31,7 +31,7 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     title: "Dashboard",
     href: "/dashboard",
     icon: "/dashboard.svg",
-    roles: ["admin", "teacher", "student"],
+    roles: ["student"],
   },
   {
     title: "Users",
@@ -55,19 +55,19 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     title: "Lessons",
     href: "/lessons",
     icon: "/books7.svg",
-    roles: ["admin", "student"],
+    roles: ["admin", "teacher", "student"],
   },
   {
     title: "Add Lessons",
     href: "/add-lessons",
     icon: "/book3.svg",
-    roles: ["admin", "teacher"],
+    roles: ["teacher"],
   },
   {
     title: "Edit Lessons",
     href: "/edit-lessons",
     icon: "/edit.svg",
-    roles: ["admin", "teacher"],
+    roles: ["teacher"],
   },
   {
     title: "Quizzes",
@@ -79,13 +79,13 @@ export const SIDEBAR_ITEMS: NavItem[] = [
     title: "Add Quiz",
     href: "/add-quiz",
     icon: "/task-add.svg",
-    roles: ["admin", "teacher"],
+    roles: ["teacher"],
   },
   {
     title: "Edit Quiz",
     href: "/edit-quizzes",
     icon: "/quiz-edit.svg",
-    roles: ["admin", "teacher"],
+    roles: ["teacher"],
   },
   {
     title: "Discussions",

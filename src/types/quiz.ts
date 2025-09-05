@@ -58,7 +58,17 @@ export interface Quiz {
   category: string;
 }
 
-export interface QuizAiHistory {
+export interface QuizHistorySub {
+  _id: string;
+  quizID: string;
+  studentID: string;
+  answers: number[];
+  score: 100;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+export interface QuizHistoryInfo {
   _id: string;
   title: string;
   description: string;
@@ -67,7 +77,6 @@ export interface QuizAiHistory {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  // score: number;
 }
 
 export interface QuizResponse {

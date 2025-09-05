@@ -9,7 +9,6 @@ import Loading from "@/components/loading/Loading";
 import QuizCard from "@/components/quiz-card/QuizCard";
 import QuizzesError from "./QuizzesError";
 import Cookies from "js-cookie";
-import Link from "next/link";
 
 export default function QuizListPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -91,20 +90,18 @@ export default function QuizListPage() {
         {loading && <Loading />}
         {!loading && filteredTasks.length > 0
           ? filteredTasks.map((task) => (
-              <Link key={task._id} href={`/quizzes/${task._id}`}>
-                <QuizCard
-                  key={task._id}
-                  id={task._id}
-                  title={task.title}
-                  description={task.description}
-                  createdAt={task.createdAt}
-                  category={task.category}
-                  edit={false}
-                  student={true}
-                  list={false}
-                  isAt={task.isAtTodoList}
-                />
-              </Link>
+              <QuizCard
+                key={task._id}
+                id={task._id}
+                title={task.title}
+                description={task.description}
+                createdAt={task.createdAt}
+                category={task.category}
+                edit={false}
+                student={true}
+                list={false}
+                isAt={task.isAtTodoList}
+              />
             ))
           : !loading && (
               <div className="no-tasks">

@@ -1,6 +1,7 @@
 // services/lessonService.ts
 
 import { apiUrl } from "@/components/url";
+import Cookies from "js-cookie";
 
 // Define proper interfaces for your lesson data
 interface Lesson {
@@ -21,34 +22,23 @@ interface Lesson {
 
 interface LessonResponse {
   lessons: Lesson[];
-  totalCount?: number;
   // Add other pagination/response properties if needed
 }
 
-interface NumPage {
-  page: string;
-  limit: string;
-}
-
-export const getAllLessons = async (
-  numPage: NumPage
-): Promise<LessonResponse> => {
+export const getAllLessons = async (): Promise<LessonResponse> => {
   try {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       throw new Error("Authentication token not found");
     }
 
-    const response = await fetch(
-      apiUrl + `/lesson/my/all?page=${numPage.page}&limit=${numPage.limit}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token,
-        },
-      }
-    );
+    const response = await fetch(apiUrl + `/lesson/my/all?page=1&limit=1000`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

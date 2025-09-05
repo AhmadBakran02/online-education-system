@@ -28,6 +28,7 @@ export default function FindEmail() {
 
   const handleResend = async (e: React.FormEvent) => {
     setLoading(true);
+    console.log(loginData.email);
     e.preventDefault();
 
     try {
@@ -38,7 +39,7 @@ export default function FindEmail() {
         },
         body: JSON.stringify({
           email: loginData.email || "",
-          typeCode: "reset-password",
+          codeType: "reset-password",
         }),
       });
 

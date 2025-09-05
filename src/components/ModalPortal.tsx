@@ -1,15 +1,20 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 export default function ModalPortal({ children }: { children: ReactNode }) {
-  const el = document.createElement("div");
+  const elRef = useRef<HTMLDivElement | null>(null);
+
+  if (!elRef.current) {
+    elRef.current = document.createElement("div");
+  }
 
   useEffect(() => {
+    const el = elRef.current!;
     document.body.appendChild(el);
     return () => {
       document.body.removeChild(el);
     };
-  }, [el]);
+  }, []);
 
-  return createPortal(children, el);
+  return createPortal(children, elRef.current);
 }
