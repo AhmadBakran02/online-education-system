@@ -29,6 +29,7 @@ export default function Settings() {
   const [emailValue, setEmailValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [changeImage, setChangeImage] = useState<boolean>(false);
 
   function showPass() {
     if (showIcon === faEye) {
@@ -75,6 +76,7 @@ export default function Settings() {
       setMessage("Select Image First");
       return "";
     }
+    setChangeImage(true);
 
     try {
       const formData = new FormData();
@@ -123,13 +125,14 @@ export default function Settings() {
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
       }
-
+      Cookies.set("photoID", photoUploadSuccess);
       console.log("successful");
       window.location.reload();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed");
       console.log(error);
     }
+    setChangeImage(false);
   }, [uploadPhoto, error]);
 
   useEffect(() => {
@@ -179,7 +182,7 @@ export default function Settings() {
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch photo");
         console.error("Error fetching photo:", err);
-        setPhotoUrl("/images/pic2.jpg");
+        setPhotoUrl("/user.svg");
       }
     };
 
@@ -290,6 +293,7 @@ export default function Settings() {
 
   //Resend verification code
   const handleResend = useCallback(async () => {
+    console.log(emailValue);
     try {
       const response = await fetch(apiUrl + `/auth/send-code`, {
         method: "POST",
@@ -307,9 +311,11 @@ export default function Settings() {
       if (!response.ok) {
         throw new Error(data.error || "Failed to resend code");
       }
+      console.log("true");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to resend code");
     }
+    console.log("false");
   }, [emailValue]);
 
   const [changePassword, setChangePassword] = useState<boolean>(false);
@@ -348,7 +354,13 @@ export default function Settings() {
                   htmlFor="profile-upload"
                   className="bg-[#4251ad] hover:bg-[#3b489a] text-white px-5 py-2.5 rounded-md text-md cursor-pointer inline-block"
                 >
-                  Choose Image
+                  {changeImage ? (
+                    <div className="mt-1.5 text-sm">
+                      <Loading5 />
+                    </div>
+                  ) : (
+                    "Choose Image"
+                  )}
                 </label>
                 <input
                   id="profile-upload"

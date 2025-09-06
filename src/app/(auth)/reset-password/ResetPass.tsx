@@ -7,6 +7,7 @@ import Image from "next/image";
 import { apiUrl } from "@/components/url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
 
 export default function ResetPass() {
   const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
@@ -45,7 +46,7 @@ export default function ResetPass() {
     setResendLoading(true);
     setResendError(null);
     setIsResendDisabled(true);
-    setResendTimer(30);
+    setResendTimer(15);
 
     try {
       // console.log(emailValue)
@@ -55,8 +56,8 @@ export default function ResetPass() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: localStorage.getItem("email") || "",
-          typeCode: "reset-password",
+          email: Cookies.get("email") || "",
+          codeType: "reset-password",
         }),
       });
 
@@ -75,7 +76,7 @@ export default function ResetPass() {
   };
   // Initialize email from localStorage
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
+    const storedEmail = Cookies.get("email");
     if (storedEmail) {
       setEmailValue(storedEmail);
     }
@@ -154,6 +155,8 @@ export default function ResetPass() {
       setLoading(true);
       setError(null);
       setSuccess(false);
+      console.log(emailValue);
+      console.log(newPassword.password);
 
       try {
         const verificationCode = code.join("");
@@ -163,8 +166,9 @@ export default function ResetPass() {
           setLoading(false);
           return;
         }
+        console.log(verificationCode);
 
-        const response = await fetch(`${apiUrl}/auth/reset-password`, {
+        const response = await fetch(apiUrl + `/auth/reset-password`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

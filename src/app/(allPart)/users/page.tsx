@@ -60,7 +60,7 @@ export default function UsersPage() {
             urls[user.photoID] = URL.createObjectURL(blob);
           } catch (err) {
             console.error(`Error fetching photo:`, err);
-            urls[user.photoID] = "/images/pic2.jpg";
+            urls[user.photoID] = "/images/user.png";
           }
         })
       );

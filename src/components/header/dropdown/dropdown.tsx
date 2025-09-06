@@ -17,14 +17,14 @@ export default function UserDropdown({ smallSize }: Screen) {
   const [userName, setUserName] = useState<string>("name");
   const [email, setEmail] = useState<string>("email");
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [photoUrl, setPhotoUrl] = useState<string>("/images/user.svg");
+  const [photoUrl, setPhotoUrl] = useState<string>("/user.svg");
   const [error, setError] = useState<string>("");
   const router = useRouter();
   // Set default value
   useEffect(() => {
-    setPhotoID(localStorage.getItem("photoID") || "");
-    setUserName(localStorage.getItem("name") || "loading..");
-    setEmail(localStorage.getItem("email") || "email");
+    setPhotoID(Cookies.get("photoID") || "");
+    setUserName(Cookies.get("name") || "loading..");
+    setEmail(Cookies.get("email") || "email");
   }, []);
 
   useEffect(() => {
@@ -96,15 +96,10 @@ export default function UserDropdown({ smallSize }: Screen) {
     };
   }, []);
 
-  // const handleLogOut = () => {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("role");
-  // };
-
   const handleLogout = () => {
-    localStorage.removeItem("name");
-    localStorage.removeItem("email");
-    localStorage.removeItem("photoID");
+    Cookies.remove("name");
+    Cookies.remove("email");
+    Cookies.remove("photoID");
     ["token", "name", "email", "role", "photoID"].forEach((cookie) => {
       Cookies.remove(cookie);
     });

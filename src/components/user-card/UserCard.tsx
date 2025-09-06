@@ -70,7 +70,7 @@ export default function UserCard({
       console.log(err);
     }
   };
-  
+
   const handleShowUser = () => {
     if (showUser) setShowUser(false);
     else setShowUser(true);
@@ -82,7 +82,7 @@ export default function UserCard({
         <div className="user-image w-32 h-32 rounded-full overflow-hidden">
           <Image
             className="w-full h-full object-cover"
-            src={photoID && isValidUrl(photoID) ? photoID : "/images/pic2.jpg"}
+            src={photoID && isValidUrl(photoID) ? photoID : "/user.svg"}
             alt={""}
             width={100}
             height={100}

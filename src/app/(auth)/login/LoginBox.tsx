@@ -78,6 +78,8 @@ export default function LoginBox() {
     }
   };
 
+  console.log(error);
+  console.log(message);
   // Submit Function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,7 +105,11 @@ export default function LoginBox() {
         return;
       }
 
-      if (!response.ok) throw new Error(data.error || "Login failed");
+      if (!response.ok) {
+        setError(true);
+        setMessage("Login failed");
+        throw new Error(data.error || "Login failed");
+      }
 
       Cookies.set("token", data.token);
       Cookies.set("email", loginData.email);
@@ -111,6 +117,8 @@ export default function LoginBox() {
 
       router.push("/getinfo");
     } catch (err) {
+      setError(true);
+      setMessage("Login failed");
       setMessage(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
@@ -195,7 +203,6 @@ export default function LoginBox() {
       {/* ---------- Google ---------- */}
       <div className="google-form border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
         <Link href="https://online-education-system-quch.onrender.com/auth/google">
-          {/* <Link href="https://online-education-system-quch.onrender.com/auth/google"> */}
           <Image
             src={"/images/google.webp"}
             alt="google"
